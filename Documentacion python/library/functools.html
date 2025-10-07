@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="functools — Higher-order functions and operations on callable objects" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/functools.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/functools.py El módulo functools es para funciones de orden superior: funciones que actúan o retornan otras funciones. En general, cualquier objeto invocable puede ser tratado co..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_functools_ae8b90b2.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/functools.py El módulo functools es para funciones de orden superior: funciones que actúan o retornan otras funciones. En general, cualquier objeto invocable puede ser tratado co..." />
+<meta name="description" content="Código fuente: Lib/functools.py El módulo functools es para funciones de orden superior: funciones que actúan o retornan otras funciones. En general, cualquier objeto invocable puede ser tratado co..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>functools — Higher-order functions and operations on callable objects &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="operator — Standard operators as functions" href="operator.html" />
+    <link rel="prev" title="itertools — Functions creating iterators for efficient looping" href="itertools.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/functools.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Higher-order functions and operations on callable objects</a><ul>
+<li><a class="reference internal" href="#partial-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code> Objetos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="itertools.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">itertools</span></code> — Functions creating iterators for efficient looping</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="operator.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Standard operators as functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/functools.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="operator.html" title="operator — Standard operators as functions"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="itertools.html" title="itertools — Functions creating iterators for efficient looping"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="functional.html" accesskey="U">Módulos de programación funcional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Higher-order functions and operations on callable objects</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-functools">
+<span id="functools-higher-order-functions-and-operations-on-callable-objects"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Higher-order functions and operations on callable objects<a class="headerlink" href="#module-functools" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/functools.py">Lib/functools.py</a></p>
+<hr class="docutils" />
+<p class="translated">El módulo <a class="reference internal" href="#module-functools" title="functools: Higher-order functions and operations on callable objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code></a> es para funciones de orden superior: funciones que actúan o retornan otras funciones. En general, cualquier objeto invocable puede ser tratado como una función para los propósitos de este módulo.</p>
+<p class="translated">El módulo <a class="reference internal" href="#module-functools" title="functools: Higher-order functions and operations on callable objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code></a> define las siguientes funciones:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.cache">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.cache" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Caché de funciones ilimitado, ligero y simple. Aveces llamado <a class="reference external" href="https://es.wikipedia.org/wiki/Memoizaci%C3%B3n">«memoización»</a>.</p>
+<p class="untranslated">Returns the same as <code class="docutils literal notranslate"><span class="pre">lru_cache(maxsize=None)</span></code>, creating a thin
+wrapper around a dictionary lookup for the function arguments.  Because it
+never needs to evict old values, this is smaller and faster than
+<a class="reference internal" href="#functools.lru_cache" title="functools.lru_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">lru_cache()</span></code></a> with a size limit.</p>
+<p class="translated">Por ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="k">else</span> <span class="mi">1</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="c1"># no previously cached result, makes 11 recursive calls</span>
+<span class="mi">3628800</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>       <span class="c1"># just looks up cached value result</span>
+<span class="mi">120</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>      <span class="c1"># makes two new recursive calls, the other 10 are cached</span>
+<span class="mi">479001600</span>
+</pre></div>
+</div>
+<p class="untranslated">The cache is threadsafe so that the wrapped function can be used in
+multiple threads.  This means that the underlying data structure will
+remain coherent during concurrent updates.</p>
+<p class="untranslated">It is possible for the wrapped function to be called more than once if
+another thread makes an additional call before the initial call has been
+completed and cached.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.cached_property">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">cached_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.cached_property" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Transforma un método de una clase en una propiedad cuyo valor se computa una vez y luego se almacena como un atributo normal durante la vida de la instancia. Similar a <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code></a>, con la adición de caching. Útil para propiedades calculadas costosas de instancias que de otra manera son efectivamente inmutables.</p>
+<p class="translated">Ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DataSet</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_of_numbers</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sequence_of_numbers</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stdev</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">La mecánica de <a class="reference internal" href="#functools.cached_property" title="functools.cached_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">cached_property()</span></code></a> es algo diferente de <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code></a>. Un atributo de bloques de propiedad normal escribe a menos que se defina un establecedor. Por el contrario, <em>cached_property</em> permite escrituras.</p>
+<p class="translated">El decorador <em>cached_property</em> solo se ejecuta en búsquedas y solo cuando no existe un atributo con el mismo nombre. Cuando se ejecuta, <em>cached_property</em> escribe en el atributo con el mismo nombre. Las lecturas y escrituras de atributos posteriores tienen prioridad sobre el método <em>cached_property</em> y funciona como un atributo normal.</p>
+<p class="translated">El valor en caché se puede borrar eliminando el atributo. Esto permite que el método <em>cached_property</em> se ejecute nuevamente.</p>
+<p class="untranslated">The <em>cached_property</em> does not prevent a possible race condition in
+multi-threaded usage. The getter function could run more than once on the
+same instance, with the latest run setting the cached value. If the cached
+property is idempotent or otherwise not harmful to run more than once on an
+instance, this is fine. If synchronization is needed, implement the necessary
+locking inside the decorated getter function or around the cached property
+access.</p>
+<p class="translated">Tenga en cuenta que este decorador interfiere con el funcionamiento de diccionarios de intercambio de claves <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0412/"><strong>PEP 412</strong></a>. Esto significa que los diccionarios de instancias pueden ocupar más espacio de lo habitual.</p>
+<p class="translated">Además, este decorador requiere que el atributo <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> en cada instancia sea un mapeo mutable. Esto significa que no funcionará con algunos tipos, como las metaclases (ya que los atributos <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> en las instancias de tipos son proxies de solo lectura para el espacio de nombres de la clase) y aquellos que especifican <code class="docutils literal notranslate"><span class="pre">__slots__</span></code> sin incluir <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> como una de las ranuras definidas (ya que tales clases no proporcionan un atributo <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> en absoluto).</p>
+<p class="untranslated">If a mutable mapping is not available or if space-efficient key sharing is
+desired, an effect similar to <a class="reference internal" href="#functools.cached_property" title="functools.cached_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">cached_property()</span></code></a> can also be achieved by
+stacking <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code></a> on top of <a class="reference internal" href="#functools.lru_cache" title="functools.lru_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">lru_cache()</span></code></a>. See
+<a class="reference internal" href="../faq/programming.html#faq-cache-method-calls"><span class="std std-ref">¿Cómo cacheo llamadas de método?</span></a> for more details on how this differs from <a class="reference internal" href="#functools.cached_property" title="functools.cached_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">cached_property()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span>Prior to Python 3.12, <code class="docutils literal notranslate"><span class="pre">cached_property</span></code> included an undocumented lock to
+ensure that in multi-threaded usage the getter function was guaranteed to
+run only once per instance. However, the lock was per-property, not
+per-instance, which could result in unacceptably high lock contention. In
+Python 3.12+ this locking is removed.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.cmp_to_key">
+<span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">cmp_to_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.cmp_to_key" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Transformar una función de comparación de estilo antiguo en una <a class="reference internal" href="../glossary.html#term-key-function"><span class="xref std std-term">key function</span></a>.  Se utiliza con herramientas que aceptan funciones clave (como <a class="reference internal" href="functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a>, <a class="reference internal" href="functions.html#min" title="min"><code class="xref py py-func docutils literal notranslate"><span class="pre">min()</span></code></a>, <a class="reference internal" href="functions.html#max" title="max"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a>, <a class="reference internal" href="heapq.html#heapq.nlargest" title="heapq.nlargest"><code class="xref py py-func docutils literal notranslate"><span class="pre">heapq.nlargest()</span></code></a>, <a class="reference internal" href="heapq.html#heapq.nsmallest" title="heapq.nsmallest"><code class="xref py py-func docutils literal notranslate"><span class="pre">heapq.nsmallest()</span></code></a>, <a class="reference internal" href="itertools.html#itertools.groupby" title="itertools.groupby"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.groupby()</span></code></a>).  Esta función se utiliza principalmente como una herramienta de transición para los programas que se están convirtiendo a partir de Python 2, que soportaba el uso de funciones de comparación.</p>
+<p class="translated">Una función de comparación es cualquier invocable que acepta dos argumentos, los compara y devuelve un número negativo para menor que, cero para igualdad o un número positivo para mayor que. Una función clave es una función invocable que acepta un argumento y devuelve otro valor para usar como clave de ordenación.</p>
+<p class="translated">Ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cmp_to_key</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">strcoll</span><span class="p">))</span>  <span class="c1"># locale-aware sort order</span>
+</pre></div>
+</div>
+<p class="translated">Para ejemplos de clasificación y un breve tutorial de clasificación, ver <a class="reference internal" href="../howto/sorting.html#sortinghowto"><span class="std std-ref">Sorting Techniques</span></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.lru_cache">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">lru_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.lru_cache" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">lru_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">Decorador para envolver una función con un memorizador invocable que guarda hasta el <em>maxsize</em> de las llamadas más recientes.  Puede salvar el tiempo cuando una función costosa o de E/S es llamada periódicamente con los mismos argumentos.</p>
+<p class="untranslated">The cache is threadsafe so that the wrapped function can be used in
+multiple threads.  This means that the underlying data structure will
+remain coherent during concurrent updates.</p>
+<p class="untranslated">It is possible for the wrapped function to be called more than once if
+another thread makes an additional call before the initial call has been
+completed and cached.</p>
+<p class="untranslated">Since a dictionary is used to cache results, the positional and keyword
+arguments to the function must be <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a>.</p>
+<p class="translated">Los patrones de argumentos distintos pueden considerarse llamadas distintas con entradas de memoria caché separadas. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">f(a=1,</span> <span class="pre">b=2)</span></code> y <code class="docutils literal notranslate"><span class="pre">f(b=2,</span> <span class="pre">a=1)</span></code> difieren en el orden de sus argumentos de palabras clave y pueden tener dos entradas de caché separadas.</p>
+<p class="translated">Si se especifica <em>user_function</em>, debe ser una llamada. Esto permite que el decorador <em>lru_cache</em> se aplique directamente a una función de usuario, dejando el <em>maxsize</em> en su valor por defecto de 128:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@lru_cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_vowels</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sentence</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span> <span class="k">for</span> <span class="n">vowel</span> <span class="ow">in</span> <span class="s1">&#39;AEIOUaeiou&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Si <em>maxsize</em> está configurado como <code class="docutils literal notranslate"><span class="pre">None</span></code>, la función LRU está desactivada y la caché puede crecer sin límites.</p>
+<p class="translated">Si <em>typed</em> se establece en verdadero, los argumentos de función de diferentes tipos se almacenarán en caché por separado. Si <em>typed</em> es falso, la implementación generalmente las considerará como llamadas equivalentes y solo almacenará en caché un único resultado. (Algunos tipos como <em>str</em> y <em>int</em> pueden almacenarse en caché por separado incluso cuando <em>typed</em> es falso).</p>
+<p class="translated">Tenga en cuenta que la especificidad de tipo se aplica solo a los argumentos inmediatos de la función en lugar de a su contenido. Los argumentos escalares, <code class="docutils literal notranslate"><span class="pre">Decimal(42)</span></code> y <code class="docutils literal notranslate"><span class="pre">Fraction(42)</span></code> se tratan como llamadas distintas con resultados distintos. Por el contrario, los argumentos de tupla <code class="docutils literal notranslate"><span class="pre">('answer',</span> <span class="pre">Decimal(42))</span></code> y <code class="docutils literal notranslate"><span class="pre">('answer',</span> <span class="pre">Fraction(42))</span></code> se tratan como equivalentes.</p>
+<p class="untranslated">The wrapped function is instrumented with a <code class="xref py py-func docutils literal notranslate"><span class="pre">cache_parameters()</span></code>
+function that returns a new <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> showing the values for <em>maxsize</em>
+and <em>typed</em>.  This is for information purposes only.  Mutating the values
+has no effect.</p>
+<p class="untranslated" id="functools.lru_cache.cache_info">To help measure the effectiveness of the cache and tune the <em>maxsize</em>
+parameter, the wrapped function is instrumented with a <code class="xref py py-func docutils literal notranslate"><span class="pre">cache_info()</span></code>
+function that returns a <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a> showing <em>hits</em>, <em>misses</em>,
+<em>maxsize</em> and <em>currsize</em>.</p>
+<p class="untranslated" id="functools.lru_cache.cache_clear">The decorator also provides a <code class="xref py py-func docutils literal notranslate"><span class="pre">cache_clear()</span></code> function for clearing or
+invalidating the cache.</p>
+<p class="translated">La función subyacente original es accesible a través del atributo <code class="xref py py-attr docutils literal notranslate"><span class="pre">__wrapped__</span></code>.  Esto es útil para la introspección, para evitar el caché, o para volver a envolver la función con un caché diferente.</p>
+<p class="translated">La caché mantiene referencias de los argumentos y retorna los valores hasta que se caduquen de la caché o hasta que se borre la caché.</p>
+<p class="translated">Si un método se almacena en caché, el argumento de la instancia <code class="docutils literal notranslate"><span class="pre">self</span></code> se incluye en el caché. Ver <a class="reference internal" href="../faq/programming.html#faq-cache-method-calls"><span class="std std-ref">¿Cómo cacheo llamadas de método?</span></a></p>
+<p class="untranslated">An <a class="reference external" href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_(LRU)">LRU (least recently used) cache</a>
+works best when the most recent calls are the best predictors of upcoming
+calls (for example, the most popular articles on a news server tend to
+change each day).  The cache’s size limit assures that the cache does not
+grow without bound on long-running processes such as web servers.</p>
+<p class="untranslated">In general, the LRU cache should only be used when you want to reuse
+previously computed values.  Accordingly, it doesn’t make sense to cache
+functions with side-effects, functions that need to create
+distinct mutable objects on each call (such as generators and async functions),
+or impure functions such as time() or random().</p>
+<p class="translated">Ejemplo de un caché de la LRU para contenido web estático:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pep</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="s1">&#39;Retrieve text of a Python Enhancement Proposal&#39;</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://peps.python.org/pep-</span><span class="si">{</span><span class="n">num</span><span class="si">:</span><span class="s1">04d</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;Not Found&#39;</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">290</span><span class="p">,</span> <span class="mi">308</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">218</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">279</span><span class="p">,</span> <span class="mi">289</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">9991</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">pep</span> <span class="o">=</span> <span class="n">get_pep</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pep</span><span class="p">))</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">get_pep</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span>
+<span class="n">CacheInfo</span><span class="p">(</span><span class="n">hits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">misses</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">currsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Ejemplo de computar eficientemente los <a class="reference external" href="https://en.wikipedia.org/wiki/Fibonacci_number">números de Fibonacci</a> usando una memoria caché para implementar una técnica de <a class="reference external" href="https://en.wikipedia.org/wiki/Dynamic_programming">programación dinámica</a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">)]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">144</span><span class="p">,</span> <span class="mi">233</span><span class="p">,</span> <span class="mi">377</span><span class="p">,</span> <span class="mi">610</span><span class="p">]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fib</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span>
+<span class="n">CacheInfo</span><span class="p">(</span><span class="n">hits</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">misses</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">currsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.3: </span>Añadida la opción <em>typed</em> option.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.8: </span>Añadida la opción <em>user_function</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Added the function <code class="xref py py-func docutils literal notranslate"><span class="pre">cache_parameters()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.total_ordering">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">total_ordering</span></span><a class="headerlink" href="#functools.total_ordering" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Dada una clase que define uno o más métodos de ordenamiento de comparación ricos, este decorador de clase suministra el resto.  Esto simplifica el esfuerzo de especificar todas las posibles operaciones de comparación rica:</p>
+<p class="untranslated">The class must define one of <a class="reference internal" href="../reference/datamodel.html#object.__lt__" title="object.__lt__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__lt__()</span></code></a>, <a class="reference internal" href="../reference/datamodel.html#object.__le__" title="object.__le__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__le__()</span></code></a>,
+<a class="reference internal" href="../reference/datamodel.html#object.__gt__" title="object.__gt__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__gt__()</span></code></a>, or <a class="reference internal" href="../reference/datamodel.html#object.__ge__" title="object.__ge__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__ge__()</span></code></a>.
+In addition, the class should supply an <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a> method.</p>
+<p class="translated">Por ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@total_ordering</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_valid_operand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;lastname&quot;</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;firstname&quot;</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_valid_operand</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">lastname</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">firstname</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="o">==</span>
+                <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">lastname</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">other</span><span class="o">.</span><span class="n">firstname</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_valid_operand</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">lastname</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">firstname</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="o">&lt;</span>
+                <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">lastname</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">other</span><span class="o">.</span><span class="n">firstname</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Mientras que este decorador facilita la creación de tipos bien comportados y totalmente ordenados, <em>does</em> a costa de una ejecución más lenta y de trazos de pila (<em>stack traces</em>) más complejos para los métodos de comparación derivados. Si la evaluación comparativa del rendimiento indica que se trata de un cuello de botella para una aplicación determinada, la aplicación de los seis métodos de comparación ricos en su lugar es probable que proporcione un fácil aumento de la velocidad.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este decorador no intenta anular métodos que han sido declarados en la clase <em>sus superclases</em>. Lo que significa que si una superclase define un operador de comparación, <em>total_ordering</em> no lo implementará de nuevo, incluso si el método original es abstracto.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>Returning <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> from the underlying comparison function for
+unrecognised types is now supported.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="functools.Placeholder">
+<span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">Placeholder</span></span><a class="headerlink" href="#functools.Placeholder" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">A singleton object used as a sentinel to reserve a place
+for positional arguments when calling <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code></a>
+and <a class="reference internal" href="#functools.partialmethod" title="functools.partialmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">partialmethod()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.partial">
+<span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">partial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">keywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.partial" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna un nuevo <a class="reference internal" href="#partial-objects"><span class="std std-ref">partial object</span></a> que cuando sea llamado se comportará como <em>func</em> llamado con los argumentos posicionales <em>args</em> y los argumentos de palabras clave <em>keywords</em>. Si se suministran más argumentos a la llamada, se añaden a <em>args</em>. Si se suministran más argumentos de palabras clave, se extienden y anulan las <em>keywords</em>. Aproximadamente equivalente a:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newfunc</span><span class="p">(</span><span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">more_keywords</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">keywords</span> <span class="o">|</span> <span class="n">more_keywords</span><span class="p">))</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">keywords</span>
+    <span class="k">return</span> <span class="n">newfunc</span>
+</pre></div>
+</div>
+<p class="untranslated">The <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code> function is used for partial function application which «freezes»
+some portion of a function’s arguments and/or keywords resulting in a new object
+with a simplified signature.  For example, <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code></a> can be used to create
+a callable that behaves like the <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-func docutils literal notranslate"><span class="pre">int()</span></code></a> function where the <em>base</em> argument
+defaults to <code class="docutils literal notranslate"><span class="pre">2</span></code>:</p>
+<div class="untranslated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basetwo</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">basetwo</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s1">&#39;Convert base 2 string to an int.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">basetwo</span><span class="p">(</span><span class="s1">&#39;10010&#39;</span><span class="p">)</span>
+<span class="go">18</span>
+</pre></div>
+</div>
+<p class="untranslated">If <a class="reference internal" href="#functools.Placeholder" title="functools.Placeholder"><code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code></a> sentinels are present in <em>args</em>, they will be filled first
+when <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code> is called. This makes it possible to pre-fill any positional
+argument with a call to <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code>; without <code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code>,
+only the chosen number of leading positional arguments can be pre-filled.</p>
+<p class="untranslated">If any <code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code> sentinels are present, all must be filled at call time:</p>
+<div class="untranslated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">say_to_world</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">Placeholder</span><span class="p">,</span> <span class="n">Placeholder</span><span class="p">,</span> <span class="s2">&quot;world!&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">say_to_world</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;dear&#39;</span><span class="p">)</span>
+<span class="go">Hello dear world!</span>
+</pre></div>
+</div>
+<p class="untranslated">Calling <code class="docutils literal notranslate"><span class="pre">say_to_world('Hello')</span></code> raises a <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>, because
+only one positional argument is provided, but there are two placeholders
+that must be filled in.</p>
+<p class="untranslated">If <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code> is applied to an existing <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code> object,
+<code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code> sentinels of the input object are filled in with
+new positional arguments.
+A placeholder can be retained by inserting a new
+<code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code> sentinel to the place held by a previous <code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code>:</p>
+<div class="untranslated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">Placeholder</span> <span class="k">as</span> <span class="n">_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">replace</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Hello, dear dear world!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s1">&#39; dear&#39;</span><span class="p">)</span>
+<span class="go">&#39;Hello, world!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove_dear</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">remove</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="s1">&#39; dear&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove_dear</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="go">&#39;Hello, world!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove_first_dear</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">remove_dear</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove_first_dear</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="go">&#39;Hello, dear world!&#39;</span>
+</pre></div>
+</div>
+<p class="untranslated"><code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code> cannot be passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code> as a keyword argument.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.14: </span>Added support for <a class="reference internal" href="#functools.Placeholder" title="functools.Placeholder"><code class="xref py py-data docutils literal notranslate"><span class="pre">Placeholder</span></code></a> in positional arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="functools.partialmethod">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">partialmethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">keywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.partialmethod" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna un nuevo descriptor <a class="reference internal" href="#functools.partialmethod" title="functools.partialmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">partialmethod</span></code></a> que se comporta como <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a> excepto que está diseñado para ser usado como una definición de método en lugar de ser directamente invocable.</p>
+<p class="translated"><em>func</em> debe ser un <a class="reference internal" href="../glossary.html#term-descriptor"><span class="xref std std-term">descriptor</span></a> o un invocable (los objetos que son ambos, como las funciones normales, se manejan como descriptores).</p>
+<p class="untranslated">When <em>func</em> is a descriptor (such as a normal Python function,
+<a class="reference internal" href="functions.html#classmethod" title="classmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">classmethod()</span></code></a>, <a class="reference internal" href="functions.html#staticmethod" title="staticmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">staticmethod()</span></code></a>, <a class="reference internal" href="abc.html#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a> or
+another instance of <a class="reference internal" href="#functools.partialmethod" title="functools.partialmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">partialmethod</span></code></a>), calls to <code class="docutils literal notranslate"><span class="pre">__get__</span></code> are
+delegated to the underlying descriptor, and an appropriate
+<a class="reference internal" href="#partial-objects"><span class="std std-ref">partial object</span></a> returned as the result.</p>
+<p class="translated">Cuando <em>func</em> es una llamada no descriptiva, se crea dinámicamente un método de unión apropiado. Esto se comporta como una función Python normal cuando se usa como método: el argumento <em>self</em> se insertará como el primer argumento posicional, incluso antes de las <em>args</em> y <em>keywords</em> suministradas al constructor <a class="reference internal" href="#functools.partialmethod" title="functools.partialmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">partialmethod</span></code></a>.</p>
+<p class="translated">Ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">Cell</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_alive</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">... </span>    <span class="nd">@property</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alive</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">set_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">set_alive</span> <span class="o">=</span> <span class="n">partialmethod</span><span class="p">(</span><span class="n">set_state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">set_dead</span> <span class="o">=</span> <span class="n">partialmethod</span><span class="p">(</span><span class="n">set_state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">alive</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">set_alive</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">alive</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.reduce">
+<span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">reduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#functools.reduce" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Apply <em>function</em> of two arguments cumulatively to the items of <em>iterable</em>, from
+left to right, so as to reduce the iterable to a single value.  For example,
+<code class="docutils literal notranslate"><span class="pre">reduce(lambda</span> <span class="pre">x,</span> <span class="pre">y:</span> <span class="pre">x+y,</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5])</span></code> calculates <code class="docutils literal notranslate"><span class="pre">((((1+2)+3)+4)+5)</span></code>.
+The left argument, <em>x</em>, is the accumulated value and the right argument, <em>y</em>, is
+the update value from the <em>iterable</em>.  If the optional <em>initial</em> is present,
+it is placed before the items of the iterable in the calculation, and serves as
+a default when the iterable is empty.  If <em>initial</em> is not given and
+<em>iterable</em> contains only one item, the first item is returned.</p>
+<p class="translated">Aproximadamente equivalente a:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_missing</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">initial_missing</span><span class="p">):</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">initial</span> <span class="ow">is</span> <span class="n">initial_missing</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">initial</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p class="translated">Ver <a class="reference internal" href="itertools.html#itertools.accumulate" title="itertools.accumulate"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.accumulate()</span></code></a> para un iterador que produce todos los valores intermedios.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.14: </span><em>initial</em> is now supported as a keyword argument.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.singledispatch">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">singledispatch</span></span><a class="headerlink" href="#functools.singledispatch" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Transformar una función en una <a class="reference internal" href="../glossary.html#term-single-dispatch"><span class="xref std std-term">single-dispatch</span></a> <a class="reference internal" href="../glossary.html#term-generic-function"><span class="xref std std-term">generic function</span></a>.</p>
+<p class="translated">Para definir una función genérica, decórala con el decorador <code class="docutils literal notranslate"><span class="pre">&#64;singledispatch</span></code>. Al definir una función usando <code class="docutils literal notranslate"><span class="pre">&#64;singledispatch</span></code>, tenga en cuenta que el envío ocurre en el tipo del primer argumento:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">singledispatch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@singledispatch</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">fun</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Let me just say,&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="untranslated" id="functools.singledispatch.register">To add overloaded implementations to the function, use the <code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code>
+attribute of the generic function, which can be used as a decorator.  For
+functions annotated with types, the decorator will infer the type of the
+first argument automatically:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Strength in numbers, eh?&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enumerate this:&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="untranslated"><a class="reference internal" href="typing.html#typing.Union" title="typing.Union"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.Union</span></code></a> can also be used:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Strength in numbers, eh?&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enumerate this:&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p class="translated">Para el código que no utiliza anotaciones de tipo, el argumento de tipo apropiado puede ser pasado explícitamente al propio decorador:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Better than complicated.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">arg</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p class="untranslated">For code that dispatches on a collections type (e.g., <code class="docutils literal notranslate"><span class="pre">list</span></code>), but wants
+to typehint the items of the collection (e.g., <code class="docutils literal notranslate"><span class="pre">list[int]</span></code>), the
+dispatch type should be passed explicitly to the decorator itself with the
+typehint going into the function definition:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enumerate this:&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">At runtime the function will dispatch on an instance of a list regardless
+of the type contained within the list i.e. <code class="docutils literal notranslate"><span class="pre">[1,2,3]</span></code> will be
+dispatched the same as <code class="docutils literal notranslate"><span class="pre">[&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;,</span> <span class="pre">&quot;baz&quot;]</span></code>. The annotation
+provided in this example is for static type checkers only and has no
+runtime impact.</p>
+</div>
+<p class="untranslated">To enable registering <a class="reference internal" href="../glossary.html#term-lambda"><span class="xref std std-term">lambdas</span></a> and pre-existing functions,
+the <a class="reference internal" href="#functools.singledispatch.register" title="functools.singledispatch.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> attribute can also be used in a functional form:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">nothing</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing.&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">nothing</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="untranslated">The <a class="reference internal" href="#functools.singledispatch.register" title="functools.singledispatch.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> attribute returns the undecorated function. This
+enables decorator stacking, <a class="reference internal" href="pickle.html#module-pickle" title="pickle: Convert Python objects to streams of bytes and back."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickling</span></code></a>, and the creation
+of unit tests for each variant independently:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">... </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Decimal</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">fun_num</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Half of your number:&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun_num</span> <span class="ow">is</span> <span class="n">fun</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p class="translated">Cuando se llama, la función genérica despacha sobre el tipo del primer argumento:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">(</span><span class="s2">&quot;Hello, world.&quot;</span><span class="p">)</span>
+<span class="go">Hello, world.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">(</span><span class="s2">&quot;test.&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">Let me just say, test.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">Strength in numbers, eh? 42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">([</span><span class="s1">&#39;spam&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">Enumerate this:</span>
+<span class="go">0 spam</span>
+<span class="go">1 spam</span>
+<span class="go">2 eggs</span>
+<span class="go">3 spam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">Nothing.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">(</span><span class="mf">1.23</span><span class="p">)</span>
+<span class="go">0.615</span>
+</pre></div>
+</div>
+<p class="translated">Cuando no hay una implementación registrada para un tipo específico, se usa su orden de resolución de métodos para encontrar una implementación más genérica. La función original decorada con <code class="docutils literal notranslate"><span class="pre">&#64;singledispatch</span></code> está registrada para el tipo base <a class="reference internal" href="functions.html#object" title="object"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a>, lo que significa que se usa si no se encuentra una implementación mejor.</p>
+<p class="translated">Si una implementación está registrada en un <a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">abstract base class</span></a>, las subclases virtuales de la clase base se enviarán a esa implementación:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@fun</span><span class="o">.</span><span class="n">register</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Keys &amp; Values&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">arg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;=&gt;&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">})</span>
+<span class="go">a =&gt; b</span>
+</pre></div>
+</div>
+<p class="translated">Para verificar qué implementación elegirá la función genérica para un tipo dado, use el atributo <code class="docutils literal notranslate"><span class="pre">dispatch()</span></code>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="go">&lt;function fun_num at 0x1035a2840&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>    <span class="c1"># note: default implementation</span>
+<span class="go">&lt;function fun at 0x103fe0000&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Para acceder a todas las implementaciones registradas, utilice el atributo <code class="docutils literal notranslate"><span class="pre">registry</span></code> de sólo lectura:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&lt;class &#39;NoneType&#39;&gt;, &lt;class &#39;int&#39;&gt;, &lt;class &#39;object&#39;&gt;,</span>
+<span class="go">          &lt;class &#39;decimal.Decimal&#39;&gt;, &lt;class &#39;list&#39;&gt;,</span>
+<span class="go">          &lt;class &#39;float&#39;&gt;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+<span class="go">&lt;function fun_num at 0x1035a2840&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fun</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="nb">object</span><span class="p">]</span>
+<span class="go">&lt;function fun at 0x103fe0000&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span>The <a class="reference internal" href="#functools.singledispatch.register" title="functools.singledispatch.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> attribute now supports using type annotations.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.11: </span>The <a class="reference internal" href="#functools.singledispatch.register" title="functools.singledispatch.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> attribute now supports
+<a class="reference internal" href="typing.html#typing.Union" title="typing.Union"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.Union</span></code></a> as a type annotation.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="functools.singledispatchmethod">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">singledispatchmethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.singledispatchmethod" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Transformar un método en un  <a class="reference internal" href="../glossary.html#term-single-dispatch"><span class="xref std std-term">single-dispatch</span></a> <a class="reference internal" href="../glossary.html#term-generic-function"><span class="xref std std-term">generic function</span></a>.</p>
+<p class="translated">Para definir un método genérico, decóralo con el decorador <code class="docutils literal notranslate"><span class="pre">&#64;singledispatchmethod</span></code>. Al definir una función usando <code class="docutils literal notranslate"><span class="pre">&#64;singledispatchmethod</span></code>, tenga en cuenta que el envío ocurre en el tipo del primer argumento no <em>self</em> o no <em>cls</em>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Negator</span><span class="p">:</span>
+    <span class="nd">@singledispatchmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">neg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Cannot negate a&quot;</span><span class="p">)</span>
+
+    <span class="nd">@neg</span><span class="o">.</span><span class="n">register</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">arg</span>
+
+    <span class="nd">@neg</span><span class="o">.</span><span class="n">register</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">arg</span>
+</pre></div>
+</div>
+<p class="untranslated"><code class="docutils literal notranslate"><span class="pre">&#64;singledispatchmethod</span></code> supports nesting with other decorators such as
+<a class="reference internal" href="functions.html#classmethod" title="classmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;classmethod</span></code></a>. Note that to allow for
+<code class="docutils literal notranslate"><span class="pre">dispatcher.register</span></code>, <code class="docutils literal notranslate"><span class="pre">singledispatchmethod</span></code> must be the <em>outer most</em>
+decorator. Here is the <code class="docutils literal notranslate"><span class="pre">Negator</span></code> class with the <code class="docutils literal notranslate"><span class="pre">neg</span></code> methods bound to
+the class, rather than an instance of the class:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Negator</span><span class="p">:</span>
+    <span class="nd">@singledispatchmethod</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">neg</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Cannot negate a&quot;</span><span class="p">)</span>
+
+    <span class="nd">@neg</span><span class="o">.</span><span class="n">register</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">arg</span>
+
+    <span class="nd">@neg</span><span class="o">.</span><span class="n">register</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">arg</span>
+</pre></div>
+</div>
+<p class="untranslated">The same pattern can be used for other similar decorators:
+<a class="reference internal" href="functions.html#staticmethod" title="staticmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code></a>, <a class="reference internal" href="abc.html#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;~abc.abstractmethod</span></code></a>, and others.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.update_wrapper">
+<span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">update_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WRAPPER_ASSIGNMENTS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WRAPPER_UPDATES</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.update_wrapper" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Update a <em>wrapper</em> function to look like the <em>wrapped</em> function. The optional
+arguments are tuples to specify which attributes of the original function are
+assigned directly to the matching attributes on the wrapper function and which
+attributes of the wrapper function are updated with the corresponding attributes
+from the original function. The default values for these arguments are the
+module level constants <code class="docutils literal notranslate"><span class="pre">WRAPPER_ASSIGNMENTS</span></code> (which assigns to the wrapper
+function’s <a class="reference internal" href="../reference/datamodel.html#function.__module__" title="function.__module__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__module__</span></code></a>, <a class="reference internal" href="../reference/datamodel.html#function.__name__" title="function.__name__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__name__</span></code></a>,
+<a class="reference internal" href="../reference/datamodel.html#function.__qualname__" title="function.__qualname__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__qualname__</span></code></a>, <a class="reference internal" href="../reference/datamodel.html#function.__annotations__" title="function.__annotations__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__annotations__</span></code></a>,
+<a class="reference internal" href="../reference/datamodel.html#function.__type_params__" title="function.__type_params__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__type_params__</span></code></a>, and <a class="reference internal" href="../reference/datamodel.html#function.__doc__" title="function.__doc__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code></a>, the
+documentation string) and <code class="docutils literal notranslate"><span class="pre">WRAPPER_UPDATES</span></code> (which updates the wrapper
+function’s <a class="reference internal" href="../reference/datamodel.html#function.__dict__" title="function.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a>, i.e. the instance dictionary).</p>
+<p class="translated">Para permitir el acceso a la función original para la introspección y otros propósitos (por ejemplo, evitando un decorador de caché como <a class="reference internal" href="#functools.lru_cache" title="functools.lru_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">lru_cache()</span></code></a>), esta función añade automáticamente un atributo <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code> al envoltorio que se refiere a la función que se está envolviendo.</p>
+<p class="translated">El principal uso previsto para esta función es en <a class="reference internal" href="../glossary.html#term-decorator"><span class="xref std std-term">decorator</span></a> functions que envuelven la función decorada y retornan el envoltorio. Si la función de envoltura no se actualiza, los metadatos de la función retornada reflejarán la definición de la envoltura en lugar de la definición de la función original, lo que normalmente no es de gran ayuda.</p>
+<p class="translated"><a class="reference internal" href="#functools.update_wrapper" title="functools.update_wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_wrapper()</span></code></a> puede ser usado con otros invocables que no sean funciones. Cualquier atributo nombrado en <em>assigned</em> o <em>updated</em> que falte en el objeto que se está invoca se ignora (es decir, esta función no intentará establecerlos en la función de envoltura (<em>wrapper</em>)). <a class="reference internal" href="exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> sigue apareciendo si la propia función de envoltura no tiene ningún atributo nombrado en <em>updated</em>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.2: </span>The <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code> attribute is now automatically added.
+The <a class="reference internal" href="../reference/datamodel.html#function.__annotations__" title="function.__annotations__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__annotations__</span></code></a> attribute is now copied by default.
+Missing attributes no longer trigger an <a class="reference internal" href="exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>El atributo <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code> ahora siempre se refiere a la función envuelta, incluso si esa función definió un atributo <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code>. (see <a class="reference external" href="https://bugs.python.org/issue?&#64;action=redirect&amp;bpo=17482">bpo-17482</a>)</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span>The <a class="reference internal" href="../reference/datamodel.html#function.__type_params__" title="function.__type_params__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__type_params__</span></code></a> attribute is now copied by default.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functools.wraps">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">functools.</span></span><span class="sig-name descname"><span class="pre">wraps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WRAPPER_ASSIGNMENTS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WRAPPER_UPDATES</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#functools.wraps" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta es una función conveniente para invocar <a class="reference internal" href="#functools.update_wrapper" title="functools.update_wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_wrapper()</span></code></a> como decorador de la función cuando se define una función de envoltura (<em>wrapper</em>).  Es equivalente a <code class="docutils literal notranslate"><span class="pre">partial(update_wrapper,</span> <span class="pre">wrapped=wrapped,</span> <span class="pre">assigned=assigned,</span> <span class="pre">updated=updated)</span></code>. Por ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">my_decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calling decorated function&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">wrapper</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@my_decorator</span>
+<span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">example</span><span class="p">():</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Docstring&quot;&quot;&quot;</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Called example function&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example</span><span class="p">()</span>
+<span class="go">Calling decorated function</span>
+<span class="go">Called example function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">&#39;example&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="go">&#39;Docstring&#39;</span>
+</pre></div>
+</div>
+<p class="untranslated">Without the use of this decorator factory, the name of the example function
+would have been <code class="docutils literal notranslate"><span class="pre">'wrapper'</span></code>, and the docstring of the original <code class="xref py py-func docutils literal notranslate"><span class="pre">example()</span></code>
+would have been lost.</p>
+</dd></dl>
+
+<section id="partial-objects">
+<span id="id1"></span><h2 class="translated"><a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a> Objetos<a class="headerlink" href="#partial-objects" title="Link to this heading">¶</a></h2>
+<p class="translated">Los objetos <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a> son objetos invocables creados por <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">partial()</span></code></a>. Tienen tres atributos de sólo lectura:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="functools.partial.func">
+<span class="sig-prename descclassname"><span class="pre">partial.</span></span><span class="sig-name descname"><span class="pre">func</span></span><a class="headerlink" href="#functools.partial.func" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto o función invocable.  Las llamadas al objeto <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a> serán reenviadas a <a class="reference internal" href="#functools.partial.func" title="functools.partial.func"><code class="xref py py-attr docutils literal notranslate"><span class="pre">func</span></code></a> con nuevos argumentos y palabras clave.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="functools.partial.args">
+<span class="sig-prename descclassname"><span class="pre">partial.</span></span><span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#functools.partial.args" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Los argumentos posicionales de la izquierda que se prepararán para los argumentos posicionales proporcionados un llamado al objeto <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="functools.partial.keywords">
+<span class="sig-prename descclassname"><span class="pre">partial.</span></span><span class="sig-name descname"><span class="pre">keywords</span></span><a class="headerlink" href="#functools.partial.keywords" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Los argumentos de la palabra clave que se suministrarán cuando se llame al objeto <a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a>.</p>
+</dd></dl>
+
+<p class="untranslated"><a class="reference internal" href="#functools.partial" title="functools.partial"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code></a> objects are like <a class="reference internal" href="../reference/datamodel.html#user-defined-funcs"><span class="std std-ref">function objects</span></a> in that they are
+callable, weak referenceable, and can have attributes.  There are some important
+differences.  For instance, the <a class="reference internal" href="stdtypes.html#definition.__name__" title="definition.__name__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__name__</span></code></a> and <a class="reference internal" href="stdtypes.html#definition.__doc__" title="definition.__doc__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code></a> attributes
+are not created automatically.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Higher-order functions and operations on callable objects</a><ul>
+<li><a class="reference internal" href="#partial-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">partial</span></code> Objetos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="itertools.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">itertools</span></code> — Functions creating iterators for efficient looping</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="operator.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Standard operators as functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/functools.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="operator.html" title="operator — Standard operators as functions"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="itertools.html" title="itertools — Functions creating iterators for efficient looping"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="functional.html" >Módulos de programación funcional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Higher-order functions and operations on callable objects</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

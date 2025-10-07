@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="http.server — HTTP servers" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/http.server.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/http/server.py Este módulo define clases para implementar servidores HTTP. Availability: not WASI. This module does not work or is not available on WebAssembly. See Plataformas W..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_http.server_284045ba.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/http/server.py Este módulo define clases para implementar servidores HTTP. Availability: not WASI. This module does not work or is not available on WebAssembly. See Plataformas W..." />
+<meta name="description" content="Código fuente: Lib/http/server.py Este módulo define clases para implementar servidores HTTP. Availability: not WASI. This module does not work or is not available on WebAssembly. See Plataformas W..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>http.server — HTTP servers &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="http.cookies — HTTP state management" href="http.cookies.html" />
+    <link rel="prev" title="socketserver — A framework for network servers" href="socketserver.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/http.server.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code> — HTTP servers</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Command-line interface</a></li>
+<li><a class="reference internal" href="#security-considerations">Security considerations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="socketserver.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketserver</span></code> — A framework for network servers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="http.cookies.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.cookies</span></code> — HTTP state management</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/http.server.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="http.cookies.html" title="http.cookies — HTTP state management"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="socketserver.html" title="socketserver — A framework for network servers"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" accesskey="U">Protocolos y soporte de Internet</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code> — HTTP servers</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-http.server">
+<span id="http-server-http-servers"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code> — HTTP servers<a class="headerlink" href="#module-http.server" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/http/server.py">Lib/http/server.py</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo define clases para implementar servidores HTTP.</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p class="translated"><a class="reference internal" href="#module-http.server" title="http.server: HTTP server and request handlers."><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code></a> no se recomienda para producción. Sólo implementa <a class="reference internal" href="#http-server-security"><span class="std std-ref">controles de seguridad básicos</span></a>.</p>
+</div>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not WASI.</p>
+<p class="untranslated">This module does not work or is not available on WebAssembly. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">Plataformas WebAssembly</span></a> for more information.</p>
+</div>
+<p class="translated">Una clase, <a class="reference internal" href="#http.server.HTTPServer" title="http.server.HTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPServer</span></code></a>, es una subclase <a class="reference internal" href="socketserver.html#socketserver.TCPServer" title="socketserver.TCPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">socketserver.TCPServer</span></code></a>. Crea y escucha en el socket HTTP, enviando las peticiones a un handler.  El código para crear y ejecutar el servidor se ve así:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">server_class</span><span class="o">=</span><span class="n">HTTPServer</span><span class="p">,</span> <span class="n">handler_class</span><span class="o">=</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">httpd</span> <span class="o">=</span> <span class="n">server_class</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">handler_class</span><span class="p">)</span>
+    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.HTTPServer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">HTTPServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RequestHandlerClass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.HTTPServer" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase se basa en la clase <a class="reference internal" href="socketserver.html#socketserver.TCPServer" title="socketserver.TCPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TCPServer</span></code></a> almacenando la dirección del servidor como variables de instancia llamadas <code class="xref py py-attr docutils literal notranslate"><span class="pre">nombre_del_servidor</span></code> y <code class="xref py py-attr docutils literal notranslate"><span class="pre">puerto_del_servidor</span></code>. El servidor es accesible por el handler, típicamente a través de la variable de instancia <code class="xref py py-attr docutils literal notranslate"><span class="pre">servidor</span></code> del handler.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.ThreadingHTTPServer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">ThreadingHTTPServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RequestHandlerClass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.ThreadingHTTPServer" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase es idéntica a HTTPServer, pero utiliza subprocesos para controlar las solicitudes mediante el uso de <a class="reference internal" href="socketserver.html#socketserver.ThreadingMixIn" title="socketserver.ThreadingMixIn"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadingMixIn</span></code></a>. Esto es útil para controlar los sockets de pre-apertura de los navegadores web, en los que <a class="reference internal" href="#http.server.HTTPServer" title="http.server.HTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPServer</span></code></a> esperaría indefinidamente.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.HTTPSServer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">HTTPSServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RequestHandlerClass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bind_and_activate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">certfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpn_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.HTTPSServer" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Subclass of <a class="reference internal" href="#http.server.HTTPServer" title="http.server.HTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPServer</span></code></a> with a wrapped socket using the <a class="reference internal" href="ssl.html#module-ssl" title="ssl: TLS/SSL wrapper for socket objects"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ssl</span></code></a> module.
+If the <a class="reference internal" href="ssl.html#module-ssl" title="ssl: TLS/SSL wrapper for socket objects"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ssl</span></code></a> module is not available, instantiating a <code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPSServer</span></code>
+object fails with a <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+<p class="untranslated">The <em>certfile</em> argument is the path to the SSL certificate chain file,
+and the <em>keyfile</em> is the path to file containing the private key.</p>
+<p class="untranslated">A <em>password</em> can be specified for files protected and wrapped with PKCS#8,
+but beware that this could possibly expose hardcoded passwords in clear.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="untranslated">See <a class="reference internal" href="ssl.html#ssl.SSLContext.load_cert_chain" title="ssl.SSLContext.load_cert_chain"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ssl.SSLContext.load_cert_chain()</span></code></a> for additional
+information on the accepted values for <em>certfile</em>, <em>keyfile</em>
+and <em>password</em>.</p>
+</div>
+<p class="untranslated">When specified, the <em>alpn_protocols</em> argument must be a sequence of strings
+specifying the «Application-Layer Protocol Negotiation» (ALPN) protocols
+supported by the server. ALPN allows the server and the client to negotiate
+the application protocol during the TLS handshake.</p>
+<p class="untranslated">By default, it is set to <code class="docutils literal notranslate"><span class="pre">[&quot;http/1.1&quot;]</span></code>, meaning the server supports HTTP/1.1.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.ThreadingHTTPSServer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">ThreadingHTTPSServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RequestHandlerClass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bind_and_activate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">certfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpn_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.ThreadingHTTPSServer" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">This class is identical to <a class="reference internal" href="#http.server.HTTPSServer" title="http.server.HTTPSServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPSServer</span></code></a> but uses threads to handle
+requests by inheriting from <a class="reference internal" href="socketserver.html#socketserver.ThreadingMixIn" title="socketserver.ThreadingMixIn"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadingMixIn</span></code></a>. This is
+analogous to <a class="reference internal" href="#http.server.ThreadingHTTPServer" title="http.server.ThreadingHTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadingHTTPServer</span></code></a> only using <a class="reference internal" href="#http.server.HTTPSServer" title="http.server.HTTPSServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPSServer</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+<p class="untranslated">The <a class="reference internal" href="#http.server.HTTPServer" title="http.server.HTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPServer</span></code></a>, <a class="reference internal" href="#http.server.ThreadingHTTPServer" title="http.server.ThreadingHTTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadingHTTPServer</span></code></a>, <a class="reference internal" href="#http.server.HTTPSServer" title="http.server.HTTPSServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPSServer</span></code></a> and
+<a class="reference internal" href="#http.server.ThreadingHTTPSServer" title="http.server.ThreadingHTTPSServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadingHTTPSServer</span></code></a> must be given a <em>RequestHandlerClass</em> on
+instantiation, of which this module provides three different variants:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">BaseHTTPRequestHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase se utiliza para controlar las solicitudes HTTP que llegan al servidor.  Por sí mismo, no puede responder a ninguna solicitud HTTP real; debe ser subclase para manejar cada método de solicitud (por ejemplo, GET o POST). <a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a> proporciona una serie de variables de clase e instancia, y métodos para su uso por subclases.</p>
+<p class="untranslated">The handler will parse the request and the headers, then call a method
+specific to the request type. The method name is constructed from the
+request. For example, for the request method <code class="docutils literal notranslate"><span class="pre">SPAM</span></code>, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_SPAM()</span></code>
+method will be called with no arguments. All of the relevant information is
+stored in instance variables of the handler.  Subclasses should not need to
+override or extend the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> method.</p>
+<p class="translated"><a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a> tiene las siguientes variables de instancia:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.client_address">
+<span class="sig-name descname"><span class="pre">client_address</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.client_address" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene una tupla con el formato <code class="docutils literal notranslate"><span class="pre">(host,</span> <span class="pre">port)</span></code> que hace referencia a la dirección del cliente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.server">
+<span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.server" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene la instancia del servidor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.close_connection">
+<span class="sig-name descname"><span class="pre">close_connection</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.close_connection" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Booleano que se debe establecer antes de <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.handle_one_request" title="http.server.BaseHTTPRequestHandler.handle_one_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle_one_request()</span></code></a> retorna, que indica si se puede esperar otra solicitud o si la conexión debe cerrarse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.requestline">
+<span class="sig-name descname"><span class="pre">requestline</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.requestline" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene la representación de cadena de la línea de solicitud HTTP. Se elimina el CRLF de terminación. Este atributo debe establecerse mediante <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.handle_one_request" title="http.server.BaseHTTPRequestHandler.handle_one_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle_one_request()</span></code></a>. Si no se ha procesado ninguna línea de solicitud válida, debe establecerse en la cadena vacía.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.command">
+<span class="sig-name descname"><span class="pre">command</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.command" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene el comando (tipo de petición). Por ejemplo, <code class="docutils literal notranslate"><span class="pre">'GET'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.path" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene la ruta de la solicitud. Si el componente de consulta de la URL está presente, <code class="docutils literal notranslate"><span class="pre">path</span></code> incluye la consulta. Usando la terminología de: rfc: <cite>3986</cite>, <code class="docutils literal notranslate"><span class="pre">path</span></code> aquí incluye <code class="docutils literal notranslate"><span class="pre">hier-part</span></code> y <code class="docutils literal notranslate"><span class="pre">query</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.request_version">
+<span class="sig-name descname"><span class="pre">request_version</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.request_version" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene la versión de la cadena de caracteres para la petición. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">HTTP/1.0'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.headers">
+<span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.headers" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene una instancia de la clase especificada por la variable de clase <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.MessageClass" title="http.server.BaseHTTPRequestHandler.MessageClass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">MessageClass</span></code></a>. Esta instancia analiza y gestiona las cabeceras de la petición HTTP. La función <a class="reference internal" href="http.client.html#http.client.parse_headers" title="http.client.parse_headers"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_headers()</span></code></a> de <a class="reference internal" href="http.client.html#module-http.client" title="http.client: HTTP and HTTPS protocol client (requires sockets)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.client</span></code></a> se usa para parsear las cabeceras y requiere que la petición HTTP proporcione una cabecera válida de estilo <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2822.html"><strong>RFC 2822</strong></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.rfile">
+<span class="sig-name descname"><span class="pre">rfile</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.rfile" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un flujo de entrada <a class="reference internal" href="io.html#io.BufferedIOBase" title="io.BufferedIOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BufferedIOBase</span></code></a>, listo para leer desde el inicio de los datos de entrada opcionales.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.wfile">
+<span class="sig-name descname"><span class="pre">wfile</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.wfile" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene el flujo de salida para escribir una respuesta al cliente. Se debe utilizar la adherencia apropiada al protocolo HTTP cuando se escribe en este flujo para lograr una interoperación exitosa con los clientes HTTP.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.6: </span>Este es un flujo de <a class="reference internal" href="io.html#io.BufferedIOBase" title="io.BufferedIOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BufferedIOBase</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<p class="translated"><a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a> tiene los siguientes atributos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.server_version">
+<span class="sig-name descname"><span class="pre">server_version</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.server_version" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Especifica la versión del software del servidor. Es posible que desee anular esto. El formato es de múltiples cadenas separadas por espacio en blanco, donde cada cadena es de la forma nombre[/versión]. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">BaseHTTP/0.2'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.sys_version">
+<span class="sig-name descname"><span class="pre">sys_version</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.sys_version" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Contiene la versión del sistema Python, en una forma utilizable por el método <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.version_string" title="http.server.BaseHTTPRequestHandler.version_string"><code class="xref py py-attr docutils literal notranslate"><span class="pre">version_string</span></code></a> y la variable de clase <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.server_version" title="http.server.BaseHTTPRequestHandler.server_version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">server_version</span></code></a>. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">Python/1.4'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.error_message_format">
+<span class="sig-name descname"><span class="pre">error_message_format</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.error_message_format" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Especifica una cadena de formato que debe ser usada por el método <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_error" title="http.server.BaseHTTPRequestHandler.send_error"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_error()</span></code></a> para construir una respuesta de error al cliente. La cadena se rellena por defecto con variables de <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.responses" title="http.server.BaseHTTPRequestHandler.responses"><code class="xref py py-attr docutils literal notranslate"><span class="pre">responses</span></code></a> basadas en el código de estado que pasó a <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_error" title="http.server.BaseHTTPRequestHandler.send_error"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_error()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.error_content_type">
+<span class="sig-name descname"><span class="pre">error_content_type</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.error_content_type" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Especifica el encabezado <em>HTTP Content-Type</em> de las respuestas de error enviadas al cliente.  El valor predeterminado es <code class="docutils literal notranslate"><span class="pre">'text/html'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.protocol_version">
+<span class="sig-name descname"><span class="pre">protocol_version</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.protocol_version" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Especifica la versión de HTTP con la cual el servidor es conforme. Es enviada como respuesta para informarle al cliente sobre las capacidades de comunicación del servidor para siguientes peticiones. Si se establece en <code class="docutils literal notranslate"><span class="pre">'HTTP/1.1'</span></code>, el servidor permitirá conexiones persistentes HTTP; sin embargo, el servidor <em>debe</em> incluir un encabezado exacto <code class="docutils literal notranslate"><span class="pre">Content-Length</span></code> (usando <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_header" title="http.server.BaseHTTPRequestHandler.send_header"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_header()</span></code></a>) en todas sus respuestas a los clientes. Para la compatibilidad con versiones anteriores, el valor predeterminado es <code class="docutils literal notranslate"><span class="pre">'HTTP/1.0'</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.MessageClass">
+<span class="sig-name descname"><span class="pre">MessageClass</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.MessageClass" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Especifica una <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a>-como clase para analizar los encabezados HTTP.  Típicamente, esto no es anulado, y por defecto es <a class="reference internal" href="http.client.html#http.client.HTTPMessage" title="http.client.HTTPMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">http.client.HTTPMessage</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.responses">
+<span class="sig-name descname"><span class="pre">responses</span></span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.responses" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Este atributo contiene una asignación de enteros de código de error a tuplas de dos elementos que contienen un mensaje corto y largo. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">{code</span> <span class="pre">(shortmessage,</span> <span class="pre">longmessage)}</span></code>. El <em>shortmessage</em> se utiliza normalmente como la clave <em>message</em> en una respuesta de error, y <em>longmessage</em> como la clave <em>explain</em>.  Es utilizado por <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_response_only" title="http.server.BaseHTTPRequestHandler.send_response_only"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response_only()</span></code></a> y <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_error" title="http.server.BaseHTTPRequestHandler.send_error"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_error()</span></code></a> métodos.</p>
+</dd></dl>
+
+<p class="translated">Una instancia <a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a> tiene los siguientes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.handle" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Calls <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.handle_one_request" title="http.server.BaseHTTPRequestHandler.handle_one_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle_one_request()</span></code></a> once (or, if persistent connections are
+enabled, multiple times) to handle incoming HTTP requests. You should
+never need to override it; instead, implement appropriate <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code>
+methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.handle_one_request">
+<span class="sig-name descname"><span class="pre">handle_one_request</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.handle_one_request" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">This method will parse and dispatch the request to the appropriate
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> method.  You should never need to override it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.handle_expect_100">
+<span class="sig-name descname"><span class="pre">handle_expect_100</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.handle_expect_100" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Cuando un servidor compatible con HTTP/1.1 recibe un encabezado de solicitud <code class="docutils literal notranslate"><span class="pre">Expect:</span> <span class="pre">100-continue</span></code>, responde con un <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">Continue</span></code> seguido de encabezados <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">OK</span></code>. Este método se puede anular para generar un error si el servidor no desea que el cliente continúe. Por ejemplo, el servidor puede optar por enviar <code class="docutils literal notranslate"><span class="pre">417</span> <span class="pre">Expectation</span> <span class="pre">Failed</span></code> como encabezado de respuesta y <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">False</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.send_error">
+<span class="sig-name descname"><span class="pre">send_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.send_error" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Sends and logs a complete error reply to the client. The numeric <em>code</em>
+specifies the HTTP error code, with <em>message</em> as an optional, short, human
+readable description of the error.  The <em>explain</em> argument can be used to
+provide more detailed information about the error; it will be formatted
+using the <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.error_message_format" title="http.server.BaseHTTPRequestHandler.error_message_format"><code class="xref py py-attr docutils literal notranslate"><span class="pre">error_message_format</span></code></a> attribute and emitted, after
+a complete set of headers, as the response body.  The <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.responses" title="http.server.BaseHTTPRequestHandler.responses"><code class="xref py py-attr docutils literal notranslate"><span class="pre">responses</span></code></a>
+attribute holds the default values for <em>message</em> and <em>explain</em> that
+will be used if no value is provided; for unknown codes the default value
+for both is the string <code class="docutils literal notranslate"><span class="pre">???</span></code>. The body will be empty if the method is
+HEAD or the response code is one of the following: <code class="samp docutils literal notranslate"><span class="pre">1</span><em><span class="pre">xx</span></em></code>,
+<code class="docutils literal notranslate"><span class="pre">204</span> <span class="pre">No</span> <span class="pre">Content</span></code>, <code class="docutils literal notranslate"><span class="pre">205</span> <span class="pre">Reset</span> <span class="pre">Content</span></code>, <code class="docutils literal notranslate"><span class="pre">304</span> <span class="pre">Not</span> <span class="pre">Modified</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>La respuesta de error incluye un encabezado de longitud de contenido. Añadido el argumento <em>explain</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.send_response">
+<span class="sig-name descname"><span class="pre">send_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.send_response" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Agrega un encabezado de respuesta al búfer de encabezados y registra la solicitud aceptada. La línea de respuesta HTTP se escribe en el búfer interno, seguido de los encabezados <em>Server</em> y <em>Date</em>. Los valores de estos dos encabezados se recogen de los métodos <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.version_string" title="http.server.BaseHTTPRequestHandler.version_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">version_string()</span></code></a> y <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.date_time_string" title="http.server.BaseHTTPRequestHandler.date_time_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">date_time_string()</span></code></a>, respectivamente. Si el servidor no tiene la intención de enviar ningún otro encabezado utilizando el método <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_header" title="http.server.BaseHTTPRequestHandler.send_header"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_header()</span></code></a>, entonces <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.send_response" title="http.server.BaseHTTPRequestHandler.send_response"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response()</span></code></a> debe ir seguido de una llamada <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.end_headers" title="http.server.BaseHTTPRequestHandler.end_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">end_headers()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.3: </span>Los encabezados se almacenan en un búfer interno y <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.end_headers" title="http.server.BaseHTTPRequestHandler.end_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">end_headers()</span></code></a> debe llamarse explícitamente.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.send_header">
+<span class="sig-name descname"><span class="pre">send_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.send_header" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Agrega el encabezado HTTP a un búfer interno que se escribirá en la secuencia de salida cuando se invoca <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.end_headers" title="http.server.BaseHTTPRequestHandler.end_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">end_headers()</span></code></a> o <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.flush_headers" title="http.server.BaseHTTPRequestHandler.flush_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush_headers()</span></code></a>. <em>keyword</em> debe especificar la palabra clave <em>header</em>, con <em>value</em> especificando su valor. Tenga en cuenta que, después de que se realizan las llamadas <em>send_header</em>, <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.end_headers" title="http.server.BaseHTTPRequestHandler.end_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">end_headers()</span></code></a> DEBE llamarse para completar la operación.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.2: </span>Los encabezados se almacenan en un búfer interno.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.send_response_only">
+<span class="sig-name descname"><span class="pre">send_response_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.send_response_only" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Envía el encabezado de respuesta solamente, usado para los propósitos cuando la respuesta <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">Continue</span></code> es enviada por el servidor al cliente. Los encabezados no se almacenan en el buffer y envían directamente el flujo de salida. Si no se especifica el <em>message</em>, se envía el mensaje HTTP correspondiente al <em>code</em> de respuesta.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.end_headers">
+<span class="sig-name descname"><span class="pre">end_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.end_headers" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Adds a blank line
+(indicating the end of the HTTP headers in the response)
+to the headers buffer and calls <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.flush_headers" title="http.server.BaseHTTPRequestHandler.flush_headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush_headers()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.2: </span>Los encabezados del buffer se escriben en el flujo de salida.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.flush_headers">
+<span class="sig-name descname"><span class="pre">flush_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.flush_headers" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Finalmente envía los encabezados al flujo de salida y limpia el buffer interno de los cabezales.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.log_request">
+<span class="sig-name descname"><span class="pre">log_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.log_request" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Registra una solicitud aceptada (exitosa). El <em>code</em> debe especificar el código numérico HTTP asociado a la respuesta. Si un tamaño de la respuesta está disponible, entonces debe ser pasado como el parámetro <em>size</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.log_error">
+<span class="sig-name descname"><span class="pre">log_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.log_error" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Registra un error cuando una solicitud no puede ser cumplida. Por defecto, pasa el mensaje a <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.log_message" title="http.server.BaseHTTPRequestHandler.log_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_message()</span></code></a>, por lo que toma los mismos argumentos (<em>format</em> y valores adicionales).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.log_message">
+<span class="sig-name descname"><span class="pre">log_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.log_message" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Registra un mensaje arbitrario en <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>. Normalmente se anula para crear mecanismos personalizados de registro de errores. El argumento <em>format</em> es una cadena de formato estándar de estilo de impresión, donde los argumentos adicionales a <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.log_message" title="http.server.BaseHTTPRequestHandler.log_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_message()</span></code></a> se aplican como entradas al formato. La dirección ip del cliente y la fecha y hora actual son prefijadas a cada mensaje registrado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.version_string">
+<span class="sig-name descname"><span class="pre">version_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.version_string" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna la cadena de versiones del software del servidor. Esta es una combinación de los atributos <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.server_version" title="http.server.BaseHTTPRequestHandler.server_version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">server_version</span></code></a> y <a class="reference internal" href="#http.server.BaseHTTPRequestHandler.sys_version" title="http.server.BaseHTTPRequestHandler.sys_version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sys_version</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.date_time_string">
+<span class="sig-name descname"><span class="pre">date_time_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.date_time_string" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna la fecha y la hora dadas por <em>timestamp</em> (que debe ser <code class="docutils literal notranslate"><span class="pre">None</span></code> o en el formato retornado por <code class="xref py py-func docutils literal notranslate"><span class="pre">time.time`()</span></code>), formateado para un encabezado de mensaje. Si se omite <em>timestamp</em>, utiliza la fecha y la hora actuales.</p>
+<p class="translated">El resultado se muestra como <code class="docutils literal notranslate"><span class="pre">Sun,</span> <span class="pre">06</span> <span class="pre">Nov</span> <span class="pre">1994</span> <span class="pre">08:49:37</span> <span class="pre">GMT'</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.log_date_time_string">
+<span class="sig-name descname"><span class="pre">log_date_time_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.log_date_time_string" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna la fecha y la hora actuales, formateadas para el registro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.BaseHTTPRequestHandler.address_string">
+<span class="sig-name descname"><span class="pre">address_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.BaseHTTPRequestHandler.address_string" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna la dirección del cliente.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.3: </span>Anteriormente, se realizó una búsqueda de nombres. Para evitar retrasos en la resolución del nombre, ahora siempre retorna la dirección IP.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="http.server.SimpleHTTPRequestHandler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">http.server.</span></span><span class="sig-name descname"><span class="pre">SimpleHTTPRequestHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#http.server.SimpleHTTPRequestHandler" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase sirve archivos del directorio <em>directory</em> e inferior, o del directorio actual si no se proporciona <em>directory</em>, mapeando directamente la estructura del directorio a las solicitudes HTTP.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span>Added the <em>directory</em> parameter.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>El parámetro <em>directory</em> acepta un <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>.</p>
+</div>
+<p class="translated">La carga de trabajo, como el análisis de la solicitud, lo hace la clase base <a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a>.  Esta clase implementa las funciones <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler.do_GET" title="http.server.SimpleHTTPRequestHandler.do_GET"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_GET()</span></code></a> y <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler.do_HEAD" title="http.server.SimpleHTTPRequestHandler.do_HEAD"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_HEAD()</span></code></a>.</p>
+<p class="translated">Los siguientes se definen como atributos de clase de <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler" title="http.server.SimpleHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleHTTPRequestHandler</span></code></a>:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.SimpleHTTPRequestHandler.server_version">
+<span class="sig-name descname"><span class="pre">server_version</span></span><a class="headerlink" href="#http.server.SimpleHTTPRequestHandler.server_version" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esto sería <code class="docutils literal notranslate"><span class="pre">&quot;SimpleHTTP/&quot;</span> <span class="pre">+</span> <span class="pre">__version__</span></code>, donde <code class="docutils literal notranslate"><span class="pre">__version__</span></code> se define a nivel de módulo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="http.server.SimpleHTTPRequestHandler.extensions_map">
+<span class="sig-name descname"><span class="pre">extensions_map</span></span><a class="headerlink" href="#http.server.SimpleHTTPRequestHandler.extensions_map" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un diccionario que asigna sufijos a tipos MIME contiene sobreescrituras personalizadas para las asignaciones predeterminadas del sistema. El mapeo se usa sin distinción entre mayúsculas y minúsculas, por lo que solo debe contener claves en minúsculas.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Este diccionario ya no contiene las asignaciones predeterminadas del sistema, sino que solo contiene anulaciones.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Una instancia <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler" title="http.server.SimpleHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleHTTPRequestHandler</span></code></a> tiene los siguientes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.SimpleHTTPRequestHandler.do_HEAD">
+<span class="sig-name descname"><span class="pre">do_HEAD</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.SimpleHTTPRequestHandler.do_HEAD" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Este método sirve para el tipo de petición: <code class="docutils literal notranslate"><span class="pre">'HEAD'</span></code> envía los encabezados que enviaría para la petición equivalente <code class="docutils literal notranslate"><span class="pre">GET</span></code>. Ver el método <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler.do_GET" title="http.server.SimpleHTTPRequestHandler.do_GET"><code class="xref py py-meth docutils literal notranslate"><span class="pre">do_GET()</span></code></a> para una explicación más completa de los posibles encabezados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="http.server.SimpleHTTPRequestHandler.do_GET">
+<span class="sig-name descname"><span class="pre">do_GET</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http.server.SimpleHTTPRequestHandler.do_GET" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La solicitud se asigna a un archivo local interpretando la solicitud como una ruta relativa al directorio de trabajo actual.</p>
+<p class="translated">Si la solicitud fue mapeada a un directorio, el directorio se comprueba para un archivo llamado <code class="docutils literal notranslate"><span class="pre">index.html</span></code> or <code class="docutils literal notranslate"><span class="pre">index.htm</span></code> (en ese orden). Si se encuentra, se retorna el contenido del archivo; de lo contrario, se genera un listado del directorio llamando al método <code class="xref py py-meth docutils literal notranslate"><span class="pre">list_directory()</span></code>. Este método utiliza <a class="reference internal" href="os.html#os.listdir" title="os.listdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.listdir()</span></code></a> para escanear el directorio, y retorna una respuesta de error <code class="docutils literal notranslate"><span class="pre">404</span></code> si falla el <a class="reference internal" href="os.html#os.listdir" title="os.listdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">listdir()</span></code></a>.</p>
+<p class="untranslated">If the request was mapped to a file, it is opened. Any <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>
+exception in opening the requested file is mapped to a <code class="docutils literal notranslate"><span class="pre">404</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'File</span> <span class="pre">not</span> <span class="pre">found'</span></code> error. If there was an <code class="docutils literal notranslate"><span class="pre">'If-Modified-Since'</span></code>
+header in the request, and the file was not modified after this time,
+a <code class="docutils literal notranslate"><span class="pre">304</span></code>, <code class="docutils literal notranslate"><span class="pre">'Not</span> <span class="pre">Modified'</span></code> response is sent. Otherwise, the content
+type is guessed by calling the <code class="xref py py-meth docutils literal notranslate"><span class="pre">guess_type()</span></code> method, which in turn
+uses the <em>extensions_map</em> variable, and the file contents are returned.</p>
+<p class="translated">Un encabezado de <code class="docutils literal notranslate"><span class="pre">'Content-type:'</span></code> con el tipo de contenido adivinado, seguido de un encabezado de <code class="docutils literal notranslate"><span class="pre">'Content-Length:'</span></code> con el tamaño del archivo y un encabezado de <code class="docutils literal notranslate"><span class="pre">'Last-Modified:'</span></code> con el tiempo de modificación del archivo.</p>
+<p class="untranslated">Then follows a blank line signifying the end of the headers, and then the
+contents of the file are output.</p>
+<p class="translated">Por ejemplo, ver la implementación de la función <code class="docutils literal notranslate"><span class="pre">test</span></code> en <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/http/server.py">Lib/http/server.py</a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span>Soporta la cabecera <code class="docutils literal notranslate"><span class="pre">'If-Modified-Since'</span></code>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">La clase <a class="reference internal" href="#http.server.SimpleHTTPRequestHandler" title="http.server.SimpleHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleHTTPRequestHandler</span></code></a> puede ser usada de la siguiente manera para crear un servidor web muy básico que sirva archivos relativos al directorio actual:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">http.server</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socketserver</span>
+
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8000</span>
+
+<span class="n">Handler</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">SimpleHTTPRequestHandler</span>
+
+<span class="k">with</span> <span class="n">socketserver</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">((</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">PORT</span><span class="p">),</span> <span class="n">Handler</span><span class="p">)</span> <span class="k">as</span> <span class="n">httpd</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;serving at port&quot;</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="untranslated"><a class="reference internal" href="#http.server.SimpleHTTPRequestHandler" title="http.server.SimpleHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleHTTPRequestHandler</span></code></a> can also be subclassed to enhance behavior,
+such as using different index file names by overriding the class attribute
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">index_pages</span></code>.</p>
+<section id="command-line-interface">
+<span id="http-server-cli"></span><h2 class="untranslated">Command-line interface<a class="headerlink" href="#command-line-interface" title="Link to this heading">¶</a></h2>
+<p class="untranslated"><a class="reference internal" href="#module-http.server" title="http.server: HTTP server and request handlers."><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code></a> can also be invoked directly using the <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">-m</span></code></a>
+switch of the interpreter.  The following example illustrates how to serve
+files relative to the current directory:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="p">[</span><span class="n">port</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="untranslated">The following options are accepted:</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-arg-port">
+<span class="sig-name descname"><span class="pre">port</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-http.server-arg-port" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Por defecto, el servidor escucha en el puerto 8000. El valor predeterminado se puede anular pasando el número de puerto deseado como argumento:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="mi">9000</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-b">
+<span id="cmdoption-http.server-bind"></span><span class="sig-name descname"><span class="pre">-b</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--bind</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;address&gt;</span></span><a class="headerlink" href="#cmdoption-http.server-b" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies a specific address to which it should bind. Both IPv4 and IPv6
+addresses are supported. By default, the server binds itself to all
+interfaces. For example, the following command causes the server to bind
+to localhost only:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">bind</span> <span class="mf">127.0.0.1</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.8: </span>Support IPv6 in the <code class="docutils literal notranslate"><span class="pre">--bind</span></code> option.</p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-d">
+<span id="cmdoption-http.server-directory"></span><span class="sig-name descname"><span class="pre">-d</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--directory</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;dir&gt;</span></span><a class="headerlink" href="#cmdoption-http.server-d" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies a directory to which it should serve the files. By default,
+the server uses the current directory. For example, the following command
+uses a specific directory:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">directory</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-p">
+<span id="cmdoption-http.server-protocol"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--protocol</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;version&gt;</span></span><a class="headerlink" href="#cmdoption-http.server-p" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies the HTTP version to which the server is conformant. By default,
+the server is conformant to HTTP/1.0. For example, the following command
+runs an HTTP/1.1 conformant server:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">protocol</span> <span class="n">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-tls-cert">
+<span class="sig-name descname"><span class="pre">--tls-cert</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-http.server-tls-cert" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies a TLS certificate chain for HTTPS connections:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">tls</span><span class="o">-</span><span class="n">cert</span> <span class="n">fullchain</span><span class="o">.</span><span class="n">pem</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-tls-key">
+<span class="sig-name descname"><span class="pre">--tls-key</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-http.server-tls-key" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies a private key file for HTTPS connections.</p>
+<p class="untranslated">This option requires <code class="docutils literal notranslate"><span class="pre">--tls-cert</span></code> to be specified.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-http.server-tls-password-file">
+<span class="sig-name descname"><span class="pre">--tls-password-file</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-http.server-tls-password-file" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Specifies the password file for password-protected private keys:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> \
+       <span class="o">--</span><span class="n">tls</span><span class="o">-</span><span class="n">cert</span> <span class="n">cert</span><span class="o">.</span><span class="n">pem</span> \
+       <span class="o">--</span><span class="n">tls</span><span class="o">-</span><span class="n">key</span> <span class="n">key</span><span class="o">.</span><span class="n">pem</span> \
+       <span class="o">--</span><span class="n">tls</span><span class="o">-</span><span class="n">password</span><span class="o">-</span><span class="n">file</span> <span class="n">password</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p class="untranslated">This option requires <cite>–tls-cert`</cite> to be specified.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="security-considerations">
+<span id="http-server-security"></span><h2 class="untranslated">Security considerations<a class="headerlink" href="#security-considerations" title="Link to this heading">¶</a></h2>
+<p class="translated" id="index-3"><a class="reference internal" href="#http.server.SimpleHTTPRequestHandler" title="http.server.SimpleHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleHTTPRequestHandler</span></code></a> seguirá los enlaces simbólicos cuando gestione peticiones, esto hace posible que se sirvan ficheros fuera del directorio especificado.</p>
+<p class="untranslated">Earlier versions of Python did not scrub control characters from the
+log messages emitted to stderr from <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">http.server</span></code> or the
+default <a class="reference internal" href="#http.server.BaseHTTPRequestHandler" title="http.server.BaseHTTPRequestHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code></a> <code class="docutils literal notranslate"><span class="pre">.log_message</span></code>
+implementation. This could allow remote clients connecting to your
+server to send nefarious control codes to your terminal.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span>Control characters are scrubbed in stderr logs.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code> — HTTP servers</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Command-line interface</a></li>
+<li><a class="reference internal" href="#security-considerations">Security considerations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="socketserver.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketserver</span></code> — A framework for network servers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="http.cookies.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.cookies</span></code> — HTTP state management</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/http.server.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="http.cookies.html" title="http.cookies — HTTP state management"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="socketserver.html" title="socketserver — A framework for network servers"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" >Protocolos y soporte de Internet</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">http.server</span></code> — HTTP servers</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

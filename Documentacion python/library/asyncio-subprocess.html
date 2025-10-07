@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Sub-procesos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/asyncio-subprocess.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/asyncio/subprocess.py, Lib/asyncio/base_subprocess.py Esta sección describe APIs de alto nivel de async/await de asyncio para crear y gestionar sub-procesos. Aquí podemos encontr..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_asyncio-subprocess_fd975bb3.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/asyncio/subprocess.py, Lib/asyncio/base_subprocess.py Esta sección describe APIs de alto nivel de async/await de asyncio para crear y gestionar sub-procesos. Aquí podemos encontr..." />
+<meta name="description" content="Código fuente: Lib/asyncio/subprocess.py, Lib/asyncio/base_subprocess.py Esta sección describe APIs de alto nivel de async/await de asyncio para crear y gestionar sub-procesos. Aquí podemos encontr..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Sub-procesos &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="Colas" href="asyncio-queue.html" />
+    <link rel="prev" title="Primitivas de sincronización" href="asyncio-sync.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/asyncio-subprocess.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sub-procesos</a><ul>
+<li><a class="reference internal" href="#creating-subprocesses">Creando sub-procesos</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a></li>
+<li><a class="reference internal" href="#interacting-with-subprocesses">Interactuando con Subprocesos</a><ul>
+<li><a class="reference internal" href="#subprocess-and-threads">Subprocesos y Hilos</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-sync.html"
+                          title="capítulo anterior">Primitivas de sincronización</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-queue.html"
+                          title="próximo capítulo">Colas</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-subprocess.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-queue.html" title="Colas"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-sync.html" title="Primitivas de sincronización"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Sub-procesos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="subprocesses">
+<span id="asyncio-subprocess"></span><h1 class="translated">Sub-procesos<a class="headerlink" href="#subprocesses" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/asyncio/subprocess.py">Lib/asyncio/subprocess.py</a>, <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/asyncio/base_subprocess.py">Lib/asyncio/base_subprocess.py</a></p>
+<hr class="docutils" />
+<p class="translated">Esta sección describe APIs de alto nivel de <em>async/await</em> de asyncio para crear y gestionar sub-procesos.</p>
+<p class="translated" id="asyncio-example-subprocess-shell">Aquí podemos encontrar un ejemplo de cómo asyncio puede ejecutar un comando de <em>shell</em> y obtener su resultado:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_shell</span><span class="p">(</span>
+        <span class="n">cmd</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="k">await</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">cmd</span><span class="si">!r}</span><span class="s1"> exited with </span><span class="si">{</span><span class="n">proc</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stdout</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[stdout]</span><span class="se">\n</span><span class="si">{</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stderr</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[stderr]</span><span class="se">\n</span><span class="si">{</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;ls /zzz&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">mostrará en pantalla:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;ls /zzz&#39;</span> <span class="n">exited</span> <span class="k">with</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="n">stderr</span><span class="p">]</span>
+<span class="n">ls</span><span class="p">:</span> <span class="o">/</span><span class="n">zzz</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<p class="translated">Ya que todos las funciones de sub-procesos de asyncio son asíncronas y asyncio proporciona herramientas para trabajar con tales funciones, es fácil ejecutar y monitorear múltiples subprocesos en paralelo.  De hecho es trivial modificar los ejemplos de arriba para ejecutar varios comandos simultáneamente:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;ls /zzz&#39;</span><span class="p">),</span>
+        <span class="n">run</span><span class="p">(</span><span class="s1">&#39;sleep 1; echo &quot;hello&quot;&#39;</span><span class="p">))</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated">Véase también la subsección <a class="reference internal" href="#examples">Examples</a>.</p>
+<section id="creating-subprocesses">
+<h2 class="translated">Creando sub-procesos<a class="headerlink" href="#creating-subprocesses" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio.create_subprocess_exec">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">create_subprocess_exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">program</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.create_subprocess_exec" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crea un sub-proceso.</p>
+<p class="untranslated">The <em>limit</em> argument sets the buffer limit for <a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a>
+wrappers for <a class="reference internal" href="#asyncio.subprocess.Process.stdout" title="asyncio.subprocess.Process.stdout"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stdout</span></code></a> and <a class="reference internal" href="#asyncio.subprocess.Process.stderr" title="asyncio.subprocess.Process.stderr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stderr</span></code></a>
+(if <a class="reference internal" href="subprocess.html#subprocess.PIPE" title="subprocess.PIPE"><code class="xref py py-const docutils literal notranslate"><span class="pre">subprocess.PIPE</span></code></a> is passed to <em>stdout</em> and <em>stderr</em> arguments).</p>
+<p class="translated">Retorna una instancia de <a class="reference internal" href="#asyncio.subprocess.Process" title="asyncio.subprocess.Process"><code class="xref py py-class docutils literal notranslate"><span class="pre">Process</span></code></a>.</p>
+<p class="translated">Véase la documentación de <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.subprocess_exec" title="asyncio.loop.subprocess_exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.subprocess_exec()</span></code></a> para los otros parámetros.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Se eliminó el parámetro <em>loop</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio.create_subprocess_shell">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">create_subprocess_shell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.create_subprocess_shell" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Ejecuta el comando de shell <em>cmd</em>.</p>
+<p class="untranslated">The <em>limit</em> argument sets the buffer limit for <a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a>
+wrappers for <a class="reference internal" href="#asyncio.subprocess.Process.stdout" title="asyncio.subprocess.Process.stdout"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stdout</span></code></a> and <a class="reference internal" href="#asyncio.subprocess.Process.stderr" title="asyncio.subprocess.Process.stderr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stderr</span></code></a>
+(if <a class="reference internal" href="subprocess.html#subprocess.PIPE" title="subprocess.PIPE"><code class="xref py py-const docutils literal notranslate"><span class="pre">subprocess.PIPE</span></code></a> is passed to <em>stdout</em> and <em>stderr</em> arguments).</p>
+<p class="translated">Retorna una instancia de <a class="reference internal" href="#asyncio.subprocess.Process" title="asyncio.subprocess.Process"><code class="xref py py-class docutils literal notranslate"><span class="pre">Process</span></code></a>.</p>
+<p class="translated">Véase la documentación de <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.subprocess_shell" title="asyncio.loop.subprocess_shell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.subprocess_shell()</span></code></a> para los otros parámetros.</p>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p class="translated">Es la responsabilidad de la aplicación asegurarse que todos los espacios en blanco y caracteres especiales estén citados apropiadamente para evitar vulnerabilidades de <a class="reference external" href="https://es.wikipedia.org/wiki/Inyecci%C3%B3n_de_c%C3%B3digo#Inyecci%C3%B3n_de_instrucciones">inyección de instrucciones</a>. La función <a class="reference internal" href="shlex.html#shlex.quote" title="shlex.quote"><code class="xref py py-func docutils literal notranslate"><span class="pre">shlex.quote()</span></code></a> puede ser usada para escapar caracteres en blanco y caracteres especiales de <em>shell</em> en cadenas de caracteres a ser usadas para construir comandos de <em>shell</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Se eliminó el parámetro <em>loop</em>.</p>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Los subprocesos están disponibles para Windows si se utiliza un <a class="reference internal" href="asyncio-eventloop.html#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a>. Consulte <a class="reference internal" href="asyncio-platforms.html#asyncio-windows-subprocess"><span class="std std-ref">Soporte de subprocesos en Windows</span></a> para obtener más detalles.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="translated">asyncio también tiene las siguientes APIs de <em>bajo nivel</em> para trabajar con sub-procesos: <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.subprocess_exec" title="asyncio.loop.subprocess_exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.subprocess_exec()</span></code></a>, <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.subprocess_shell" title="asyncio.loop.subprocess_shell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.subprocess_shell()</span></code></a>, <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.connect_read_pipe" title="asyncio.loop.connect_read_pipe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.connect_read_pipe()</span></code></a>, <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.connect_write_pipe" title="asyncio.loop.connect_write_pipe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.connect_write_pipe()</span></code></a>, así como también los <a class="reference internal" href="asyncio-protocol.html#asyncio-subprocess-transports"><span class="std std-ref">Sub-procesos de Transportes</span></a> y los <a class="reference internal" href="asyncio-protocol.html#asyncio-subprocess-protocols"><span class="std std-ref">Sub-procesos de Protocolos</span></a>.</p>
+</div>
+</section>
+<section id="constants">
+<h2 class="translated">Constantes<a class="headerlink" href="#constants" title="Link to this heading">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="asyncio.subprocess.PIPE">
+<span class="sig-prename descclassname"><span class="pre">asyncio.subprocess.</span></span><span class="sig-name descname"><span class="pre">PIPE</span></span><a class="headerlink" href="#asyncio.subprocess.PIPE" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Se le puede pasar a los parámetros <em>stding</em>, <em>stdout</em> o <em>stderr</em>.</p>
+<p class="untranslated">If <em>PIPE</em> is passed to <em>stdin</em> argument, the
+<a class="reference internal" href="#asyncio.subprocess.Process.stdin" title="asyncio.subprocess.Process.stdin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Process.stdin</span></code></a> attribute
+will point to a <a class="reference internal" href="asyncio-stream.html#asyncio.StreamWriter" title="asyncio.StreamWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamWriter</span></code></a> instance.</p>
+<p class="untranslated">If <em>PIPE</em> is passed to <em>stdout</em> or <em>stderr</em> arguments, the
+<a class="reference internal" href="#asyncio.subprocess.Process.stdout" title="asyncio.subprocess.Process.stdout"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Process.stdout</span></code></a> and
+<a class="reference internal" href="#asyncio.subprocess.Process.stderr" title="asyncio.subprocess.Process.stderr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Process.stderr</span></code></a>
+attributes will point to <a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a> instances.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="asyncio.subprocess.STDOUT">
+<span class="sig-prename descclassname"><span class="pre">asyncio.subprocess.</span></span><span class="sig-name descname"><span class="pre">STDOUT</span></span><a class="headerlink" href="#asyncio.subprocess.STDOUT" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un valor especial que puede ser usado como el argumento de <em>stderr</em> e indica que los errores estándar deben ser redireccionados en la salida estándar.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="asyncio.subprocess.DEVNULL">
+<span class="sig-prename descclassname"><span class="pre">asyncio.subprocess.</span></span><span class="sig-name descname"><span class="pre">DEVNULL</span></span><a class="headerlink" href="#asyncio.subprocess.DEVNULL" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un valor especial que puede ser usado como el argumento de <em>stdin</em>, <em>stdout</em>, <em>stderr</em> para procesar funciones de creación.  Indica que el archivo especial <a class="reference internal" href="os.html#os.devnull" title="os.devnull"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.devnull</span></code></a> será usado para la correspondiente transmisión del sub-proceso.</p>
+</dd></dl>
+
+</section>
+<section id="interacting-with-subprocesses">
+<h2 class="translated">Interactuando con Subprocesos<a class="headerlink" href="#interacting-with-subprocesses" title="Link to this heading">¶</a></h2>
+<p class="translated">Las dos funciones <a class="reference internal" href="#asyncio.create_subprocess_exec" title="asyncio.create_subprocess_exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_exec()</span></code></a> y <a class="reference internal" href="#asyncio.create_subprocess_shell" title="asyncio.create_subprocess_shell"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_shell()</span></code></a> retornan instancias de la clase <em>Process</em>. <em>Process</em> es un envoltorio de alto nivel que permite comunicarse con los subprocesos y estar atento a sus términos.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.subprocess.</span></span><span class="sig-name descname"><span class="pre">Process</span></span><a class="headerlink" href="#asyncio.subprocess.Process" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">An object that wraps OS processes created by the
+<a class="reference internal" href="#asyncio.create_subprocess_exec" title="asyncio.create_subprocess_exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_exec()</span></code></a> and <a class="reference internal" href="#asyncio.create_subprocess_shell" title="asyncio.create_subprocess_shell"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_shell()</span></code></a>
+functions.</p>
+<p class="translated">Esta clase está diseñada para tener un API similar a la clase <a class="reference internal" href="subprocess.html#subprocess.Popen" title="subprocess.Popen"><code class="xref py py-class docutils literal notranslate"><span class="pre">subprocess.Popen</span></code></a>, pero hay algunas diferencias notables:</p>
+<ul class="simple">
+<li><p class="translated">a diferencia de Popen, las instancias de Process no tiene un equivalente del método <a class="reference internal" href="subprocess.html#subprocess.Popen.poll" title="subprocess.Popen.poll"><code class="xref py py-meth docutils literal notranslate"><span class="pre">poll()</span></code></a>;</p></li>
+<li><p class="translated">los métodos <a class="reference internal" href="#asyncio.subprocess.Process.communicate" title="asyncio.subprocess.Process.communicate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">communicate()</span></code></a> y <a class="reference internal" href="#asyncio.subprocess.Process.wait" title="asyncio.subprocess.Process.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> no tienen un parámetro <em>timeout</em>: use la función <a class="reference internal" href="asyncio-task.html#asyncio.wait_for" title="asyncio.wait_for"><code class="xref py py-func docutils literal notranslate"><span class="pre">wait_for()</span></code></a>;</p></li>
+<li><p class="translated">el método <a class="reference internal" href="#asyncio.subprocess.Process.wait" title="asyncio.subprocess.Process.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Process.wait()</span></code></a> es asíncrono, mientras que el método <a class="reference internal" href="subprocess.html#subprocess.Popen.wait" title="subprocess.Popen.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subprocess.Popen.wait()</span></code></a> es implementado como un bucle de espera activa;</p></li>
+<li><p class="translated">el parámetro <em>universal_newlines</em> no es compatible.</p></li>
+</ul>
+<p class="translated">Esta clase no es segura para subprocesos (<a class="reference internal" href="asyncio-dev.html#asyncio-multithreading"><span class="std std-ref">not thread safe</span></a>).</p>
+<p class="translated">Véase también la sección <a class="reference internal" href="#asyncio-subprocess-threads"><span class="std std-ref">Subprocesos e Hilos</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.wait">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.subprocess.Process.wait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Espera a que el proceso hijo termine.</p>
+<p class="translated">Define y retorna el atributo <a class="reference internal" href="#asyncio.subprocess.Process.returncode" title="asyncio.subprocess.Process.returncode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">returncode</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este método puede bloquearse cuando usa <code class="docutils literal notranslate"><span class="pre">stdout=PIPE</span></code> o <code class="docutils literal notranslate"><span class="pre">stderr=PIPE</span></code> y el proceso hijo genera tanta salida que se bloquea esperando a que la tubería de búfer del SO acepte más datos. Use el método <a class="reference internal" href="#asyncio.subprocess.Process.communicate" title="asyncio.subprocess.Process.communicate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">communicate()</span></code></a> cuando use tuberías para evitar esta condición.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.communicate">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.subprocess.Process.communicate" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Interactuar con el proceso:</p>
+<ol class="arabic simple">
+<li><p class="translated">envía datos a <em>stdin</em> (si <em>input</em> no es <code class="docutils literal notranslate"><span class="pre">None</span></code>);</p></li>
+<li><p class="translated">cierra <em>stdin</em>;</p></li>
+<li><p class="translated">lee datos desde <em>stdout</em> y <em>stderr</em>, hasta que el llegue al EOF;</p></li>
+<li><p class="translated">espera a que el proceso termine.</p></li>
+</ol>
+<p class="translated">El argumento opcional <em>input</em> son los datos (objetos <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) que serán enviados a los procesos hijos.</p>
+<p class="translated">Retorna una tupla <code class="docutils literal notranslate"><span class="pre">(stdout_data,</span> <span class="pre">stderr_data)</span></code>.</p>
+<p class="translated">Si se lanza la excepción <a class="reference internal" href="exceptions.html#BrokenPipeError" title="BrokenPipeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BrokenPipeError</span></code></a> o <a class="reference internal" href="exceptions.html#ConnectionResetError" title="ConnectionResetError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionResetError</span></code></a> cuando se escribe <em>input</em> en <em>stdin</em>, la excepción es ignorada. Esta condición ocurre cuando el proceso finaliza antes de que todos los datos sean escritos en <em>stdin</em>.</p>
+<p class="translated">Si se desea enviar datos al <em>stdin</em> del proceso, el proceso necesita ser creado con <code class="docutils literal notranslate"><span class="pre">stdin=PIPE</span></code>. De manera similar, para obtener cualquier cosa excepto <code class="docutils literal notranslate"><span class="pre">None</span></code> en la tupla del resultado, el proceso tiene que ser creado con los argumentos <code class="docutils literal notranslate"><span class="pre">stdout=PIPE</span></code> y/o <code class="docutils literal notranslate"><span class="pre">stderr=PIPE</span></code>.</p>
+<p class="translated">Tenga en cuenta que los datos leídos son almacenados en memoria, por lo que no utilice este método si el tamaño de los datos es más grande o ilimitado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span><em>stdin</em> gets closed when <code class="docutils literal notranslate"><span class="pre">input=None</span></code> too.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.send_signal">
+<span class="sig-name descname"><span class="pre">send_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.subprocess.Process.send_signal" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Envíe la señal <em>signal</em> al proceso hijo.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">On Windows, <a class="reference internal" href="signal.html#signal.SIGTERM" title="signal.SIGTERM"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGTERM</span></code></a> is an alias for <a class="reference internal" href="#asyncio.subprocess.Process.terminate" title="asyncio.subprocess.Process.terminate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">terminate()</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">CTRL_C_EVENT</span></code> and <code class="docutils literal notranslate"><span class="pre">CTRL_BREAK_EVENT</span></code> can be sent to processes
+started with a <em>creationflags</em> parameter which includes
+<code class="docutils literal notranslate"><span class="pre">CREATE_NEW_PROCESS_GROUP</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.terminate">
+<span class="sig-name descname"><span class="pre">terminate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.subprocess.Process.terminate" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Para al proceso hijo.</p>
+<p class="untranslated">On POSIX systems this method sends <a class="reference internal" href="signal.html#signal.SIGTERM" title="signal.SIGTERM"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGTERM</span></code></a> to the
+child process.</p>
+<p class="untranslated">On Windows the Win32 API function <code class="xref c c-func docutils literal notranslate"><span class="pre">TerminateProcess()</span></code> is
+called to stop the child process.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.kill">
+<span class="sig-name descname"><span class="pre">kill</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.subprocess.Process.kill" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Mata el proceso hijo.</p>
+<p class="untranslated">On POSIX systems this method sends <a class="reference internal" href="signal.html#signal.SIGKILL" title="signal.SIGKILL"><code class="xref py py-data docutils literal notranslate"><span class="pre">SIGKILL</span></code></a> to the child
+process.</p>
+<p class="translated">En Windows este método es un alias para <a class="reference internal" href="#asyncio.subprocess.Process.terminate" title="asyncio.subprocess.Process.terminate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">terminate()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.stdin">
+<span class="sig-name descname"><span class="pre">stdin</span></span><a class="headerlink" href="#asyncio.subprocess.Process.stdin" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Standard input stream (<a class="reference internal" href="asyncio-stream.html#asyncio.StreamWriter" title="asyncio.StreamWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamWriter</span></code></a>) or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the process was created with <code class="docutils literal notranslate"><span class="pre">stdin=None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.stdout">
+<span class="sig-name descname"><span class="pre">stdout</span></span><a class="headerlink" href="#asyncio.subprocess.Process.stdout" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Standard output stream (<a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a>) or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the process was created with <code class="docutils literal notranslate"><span class="pre">stdout=None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.stderr">
+<span class="sig-name descname"><span class="pre">stderr</span></span><a class="headerlink" href="#asyncio.subprocess.Process.stderr" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Standard error stream (<a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a>) or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the process was created with <code class="docutils literal notranslate"><span class="pre">stderr=None</span></code>.</p>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p class="translated">Utilice el método <a class="reference internal" href="#asyncio.subprocess.Process.communicate" title="asyncio.subprocess.Process.communicate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">communicate()</span></code></a> en vez de <a class="reference internal" href="#asyncio.subprocess.Process.stdin" title="asyncio.subprocess.Process.stdin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">process.stdin.write()</span></code></a>, <a class="reference internal" href="#asyncio.subprocess.Process.stdout" title="asyncio.subprocess.Process.stdout"><code class="xref py py-attr docutils literal notranslate"><span class="pre">await</span> <span class="pre">process.stdout.read()</span></code></a> o <a class="reference internal" href="#asyncio.subprocess.Process.stderr" title="asyncio.subprocess.Process.stderr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">await</span> <span class="pre">process.stderr.read</span></code></a>. Esto evita bloqueos debido a que los flujos pausan la lectura o escritura y bloqueando al proceso hijo.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.pid">
+<span class="sig-name descname"><span class="pre">pid</span></span><a class="headerlink" href="#asyncio.subprocess.Process.pid" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Número de identificación del Proceso (PID por sus siglas en inglés).</p>
+<p class="untranslated">Note that for processes created by the <a class="reference internal" href="#asyncio.create_subprocess_shell" title="asyncio.create_subprocess_shell"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_shell()</span></code></a>
+function, this attribute is the PID of the spawned shell.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.subprocess.Process.returncode">
+<span class="sig-name descname"><span class="pre">returncode</span></span><a class="headerlink" href="#asyncio.subprocess.Process.returncode" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Código de retorno del proceso cuando finaliza.</p>
+<p class="translated">Un valor <code class="docutils literal notranslate"><span class="pre">None</span></code> indica que el proceso todavía no ha finalizado.</p>
+<p class="translated">Un valor negativo <code class="docutils literal notranslate"><span class="pre">-N</span></code> indica que el hijo ha finalizado por la señal <code class="docutils literal notranslate"><span class="pre">N</span></code> (sólo para POSIX).</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="subprocess-and-threads">
+<span id="asyncio-subprocess-threads"></span><h3 class="translated">Subprocesos y Hilos<a class="headerlink" href="#subprocess-and-threads" title="Link to this heading">¶</a></h3>
+<p class="translated">Por defecto el bucle de eventos de asyncio estándar permite correr subprocesos desde hilos diferentes.</p>
+<p class="translated">En Windows, sólo <a class="reference internal" href="asyncio-eventloop.html#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a> proporciona subprocesos (por defecto), <a class="reference internal" href="asyncio-eventloop.html#asyncio.SelectorEventLoop" title="asyncio.SelectorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorEventLoop</span></code></a> no es compatible con subprocesos.</p>
+<p class="translated">Tenga en cuenta que implementaciones alternativas del bucle de eventos pueden tener limitaciones propias; por favor consulte su documentación.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="translated">La sección <a class="reference internal" href="asyncio-dev.html#asyncio-multithreading"><span class="std std-ref">Concurrencia y multihilos en asyncio</span></a>.</p>
+</div>
+</section>
+<section id="examples">
+<h3 class="translated">Ejemplos<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h3>
+<p class="translated">Un ejemplo usando la clase <a class="reference internal" href="#asyncio.subprocess.Process" title="asyncio.subprocess.Process"><code class="xref py py-class docutils literal notranslate"><span class="pre">Process</span></code></a> para controlar un subproceso y la clase <a class="reference internal" href="asyncio-stream.html#asyncio.StreamReader" title="asyncio.StreamReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamReader</span></code></a> para leer de su salida estándar.</p>
+<p class="translated" id="asyncio-example-create-subprocess-exec">El subproceso es creado por la función <a class="reference internal" href="#asyncio.create_subprocess_exec" title="asyncio.create_subprocess_exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_subprocess_exec()</span></code></a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_date</span><span class="p">():</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;import datetime; print(datetime.datetime.now())&#39;</span>
+
+    <span class="c1"># Create the subprocess; redirect the standard output</span>
+    <span class="c1"># into a pipe.</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+
+    <span class="c1"># Read one line of output.</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+    <span class="c1"># Wait for the subprocess exit.</span>
+    <span class="k">await</span> <span class="n">proc</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">line</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">get_date</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current date: </span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Véase también los <a class="reference internal" href="asyncio-protocol.html#asyncio-example-subprocess-proto"><span class="std std-ref">ejemplos de prueba</span></a> escritos usando APIs de bajo nivel.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sub-procesos</a><ul>
+<li><a class="reference internal" href="#creating-subprocesses">Creando sub-procesos</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a></li>
+<li><a class="reference internal" href="#interacting-with-subprocesses">Interactuando con Subprocesos</a><ul>
+<li><a class="reference internal" href="#subprocess-and-threads">Subprocesos y Hilos</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-sync.html"
+                          title="capítulo anterior">Primitivas de sincronización</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-queue.html"
+                          title="próximo capítulo">Colas</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-subprocess.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-queue.html" title="Colas"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-sync.html" title="Primitivas de sincronización"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Sub-procesos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

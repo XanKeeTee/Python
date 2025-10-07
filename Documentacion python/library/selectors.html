@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="selectors — High-level I/O multiplexing" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/selectors.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/selectors.py Introducción: Este módulo permite multiplexación de E/S eficiente y de alto nivel, basada en los primitivos del módulo select. Se recomienda a los usuarios utilizar ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_selectors_c4322350.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/selectors.py Introducción: Este módulo permite multiplexación de E/S eficiente y de alto nivel, basada en los primitivos del módulo select. Se recomienda a los usuarios utilizar ..." />
+<meta name="description" content="Código fuente: Lib/selectors.py Introducción: Este módulo permite multiplexación de E/S eficiente y de alto nivel, basada en los primitivos del módulo select. Se recomienda a los usuarios utilizar ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>selectors — High-level I/O multiplexing &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="signal — Set handlers for asynchronous events" href="signal.html" />
+    <link rel="prev" title="select — Waiting for I/O completion" href="select.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/selectors.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code> — High-level I/O multiplexing</a><ul>
+<li><a class="reference internal" href="#introduction">Introducción</a></li>
+<li><a class="reference internal" href="#classes">Clases</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="select.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">select</span></code> — Waiting for I/O completion</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="signal.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">signal</span></code> — Set handlers for asynchronous events</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/selectors.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="signal.html" title="signal — Set handlers for asynchronous events"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="select.html" title="select — Waiting for I/O completion"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" accesskey="U">Comunicación en redes y entre procesos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code> — High-level I/O multiplexing</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-selectors">
+<span id="selectors-high-level-i-o-multiplexing"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code> — High-level I/O multiplexing<a class="headerlink" href="#module-selectors" title="Link to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/selectors.py">Lib/selectors.py</a></p>
+<hr class="docutils" />
+<section id="introduction">
+<h2 class="translated">Introducción<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p class="translated">Este módulo permite multiplexación de E/S eficiente y de alto nivel, basada en los primitivos del módulo <a class="reference internal" href="select.html#module-select" title="select: Wait for I/O completion on multiple streams."><code class="xref py py-mod docutils literal notranslate"><span class="pre">select</span></code></a>. Se recomienda a los usuarios utilizar este módulo en su lugar, a menos que deseen un control preciso sobre los primitivos a nivel de sistema operativo utilizados.</p>
+<p class="untranslated">It defines a <a class="reference internal" href="#selectors.BaseSelector" title="selectors.BaseSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSelector</span></code></a> abstract base class, along with several
+concrete implementations (<a class="reference internal" href="#selectors.KqueueSelector" title="selectors.KqueueSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">KqueueSelector</span></code></a>, <a class="reference internal" href="#selectors.EpollSelector" title="selectors.EpollSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpollSelector</span></code></a>…),
+that can be used to wait for I/O readiness notification on multiple file
+objects. In the following, «file object» refers to any object with a
+<a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> method, or a raw file descriptor. See <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">file object</span></a>.</p>
+<p class="translated"><a class="reference internal" href="#selectors.DefaultSelector" title="selectors.DefaultSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultSelector</span></code></a> es un alias de la implementación más eficiente disponible en la plataforma actual: esta debería ser la opción predeterminada para la mayoría de los usuarios.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">El tipo de objetos de archivo admitidos depende de la plataforma: en Windows, se admiten sockets, pero no <em>pipes</em>, mientras que en Unix, ambos son compatibles (también se pueden admitir algunos otros tipos, como FIFOs o dispositivos de archivo especiales).</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<dl class="simple">
+<dt class="translated"><a class="reference internal" href="select.html#module-select" title="select: Wait for I/O completion on multiple streams."><code class="xref py py-mod docutils literal notranslate"><span class="pre">select</span></code></a></dt><dd><p class="translated">Módulo de multiplexación de E/S de bajo nivel.</p>
+</dd>
+</dl>
+</div>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not WASI.</p>
+<p class="untranslated">This module does not work or is not available on WebAssembly. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">Plataformas WebAssembly</span></a> for more information.</p>
+</div>
+</section>
+<section id="classes">
+<h2 class="translated">Clases<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<p class="translated">Jerarquía de clases:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">BaseSelector</span>
+<span class="o">+--</span> <span class="n">SelectSelector</span>
+<span class="o">+--</span> <span class="n">PollSelector</span>
+<span class="o">+--</span> <span class="n">EpollSelector</span>
+<span class="o">+--</span> <span class="n">DevpollSelector</span>
+<span class="o">+--</span> <span class="n">KqueueSelector</span>
+</pre></div>
+</div>
+<p class="translated">De aquí en adelante, <em>events</em> es una máscara bit a bit que indica qué eventos de E/S se deben esperar en un objeto de archivo determinado. Puede ser cualquier combinación de las siguientes constantes de módulo:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Constante</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><dl class="py data">
+<dt class="sig sig-object py" id="selectors.EVENT_READ">
+<span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">EVENT_READ</span></span><a class="headerlink" href="#selectors.EVENT_READ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">Disponible para lectura</p></td>
+</tr>
+<tr class="row-odd"><td><dl class="py data">
+<dt class="sig sig-object py" id="selectors.EVENT_WRITE">
+<span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">EVENT_WRITE</span></span><a class="headerlink" href="#selectors.EVENT_WRITE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">Disponible para escritura</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.SelectorKey">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">SelectorKey</span></span><a class="headerlink" href="#selectors.SelectorKey" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La clase <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a> es una <a class="reference internal" href="collections.html#collections.namedtuple" title="collections.namedtuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">namedtuple</span></code></a> que se utiliza para asociar un objeto de archivo a su descriptor de archivo subyacente, máscara de evento seleccionada y datos adjuntos. Es retornada por varios métodos <a class="reference internal" href="#selectors.BaseSelector" title="selectors.BaseSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSelector</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="selectors.SelectorKey.fileobj">
+<span class="sig-name descname"><span class="pre">fileobj</span></span><a class="headerlink" href="#selectors.SelectorKey.fileobj" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Objeto de archivo registrado.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="selectors.SelectorKey.fd">
+<span class="sig-name descname"><span class="pre">fd</span></span><a class="headerlink" href="#selectors.SelectorKey.fd" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Descriptor de archivo subyacente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="selectors.SelectorKey.events">
+<span class="sig-name descname"><span class="pre">events</span></span><a class="headerlink" href="#selectors.SelectorKey.events" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Eventos que se deben esperar en este objeto de archivo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="selectors.SelectorKey.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#selectors.SelectorKey.data" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Datos opacos opcionales asociados a este objeto de archivo: por ejemplo, podría usarse para almacenar un ID de sesión por cliente.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.BaseSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">BaseSelector</span></span><a class="headerlink" href="#selectors.BaseSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un <a class="reference internal" href="#selectors.BaseSelector" title="selectors.BaseSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSelector</span></code></a> se usa para esperar a que el evento de E/S esté listo en varios objetos de archivo. Admite el registro y la cancelación del registro de secuencias de archivos y un método para esperar eventos de E/S en esas secuencias, con un tiempo de espera opcional. Es una clase base abstracta, por lo que no se puede crear una instancia. Use <a class="reference internal" href="#selectors.DefaultSelector" title="selectors.DefaultSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultSelector</span></code></a> en su lugar, o un <a class="reference internal" href="#selectors.SelectSelector" title="selectors.SelectSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectSelector</span></code></a>, <a class="reference internal" href="#selectors.KqueueSelector" title="selectors.KqueueSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">KqueueSelector</span></code></a>, etc. si deseas usar específicamente una implementación y su plataforma la admite. <a class="reference internal" href="#selectors.BaseSelector" title="selectors.BaseSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSelector</span></code></a> y sus implementaciones concretas soportan el protocolo <a class="reference internal" href="../glossary.html#term-context-manager"><span class="xref std std-term">context manager</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.register">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.register" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Registra un objeto de archivo para su selección y lo monitoriza en busca de eventos de E/S.</p>
+<p class="translated"><em>fileobj</em> es el objeto de archivo a monitorear.  Puede ser un descriptor de archivo de tipo entero o un objeto con un método <code class="docutils literal notranslate"><span class="pre">fileno()</span></code>. <em>events</em> es una máscara bit a bit de eventos para monitorear. <em>data</em> es un objeto opaco.</p>
+<p class="translated">Esto retorna una nueva instancia <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a>, o lanza un <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> en caso de una máscara de evento o un descriptor de archivo no válidos, o <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> si el objeto de archivo ya está registrado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.unregister">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unregister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.unregister" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Anula el registro de un objeto de archivo de la selección y lo elimina del monitoreo. Se anulará el registro de un objeto de archivo antes de cerrarlo.</p>
+<p class="translated"><em>fileobj</em> debe ser un objeto de archivo previamente registrado.</p>
+<p class="translated">Esto retorna la instancia <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a> asociada, o lanza un <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> si <em>fileobj</em> no está registrado. Se lanzará un <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> si <em>fileobj</em> no es válido (por ejemplo, no tiene el método <code class="docutils literal notranslate"><span class="pre">fileno</span> <span class="pre">()</span></code> o su método <code class="docutils literal notranslate"><span class="pre">fileno</span> <span class="pre">()</span></code> tiene un valor de retorno no válido).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.modify">
+<span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.modify" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Cambia los eventos monitorizados de un objeto de archivo registrado o los datos adjuntos.</p>
+<p class="translated">Esto es equivalente a <cite>BaseSelector.unregister(fileobj)</cite> seguido de <cite>BaseSelector.register(fileobj, events, data)</cite>, excepto que se puede implementar de manera más eficiente.</p>
+<p class="translated">Esto retorna una nueva instancia de <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a>, o lanza un <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> en caso de una máscara de evento o un descriptor de archivo no válidos, o <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> si el objeto de archivo no está registrado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.select">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.select" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Espera hasta que algunos objetos de archivo registrados estén listos o el tiempo de espera expire.</p>
+<p class="translated">Si <code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, esto especifica el tiempo máximo de espera, en segundos. Si <code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&lt;=</span> <span class="pre">0</span></code>, la llamada no se bloqueará y reportará los objetos de archivo actualmente listos. Si <em>timeout</em> es <code class="docutils literal notranslate"><span class="pre">None</span></code>, la llamada se bloqueará hasta que un objeto de archivo monitorizado esté listo.</p>
+<p class="translated">Retorna una lista de tuplas <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">events)</span></code>, una por cada objeto de archivo listo.</p>
+<p class="translated"><em>key</em> es la instancia <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a> correspondiente a un objeto de archivo listo. <em>events</em> es una máscara de bits de eventos listos en este objeto de archivo.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este método puede regresar antes de que cualquier objeto de archivo esté listo o haya transcurrido el tiempo de espera si el proceso actual recibe una señal: en este caso, se retornará una lista vacía.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>El selector ahora se reintenta con un tiempo de espera recalculado cuando es interrumpido por una señal si el gestor de señales no lanzó una excepción (ver <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0475/"><strong>PEP 475</strong></a> para la justificación), en lugar de retornar una lista vacía de eventos antes del tiempo de espera.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.close" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Cierra el selector.</p>
+<p class="translated">Se debe llamar para asegurarse de que se libera cualquier recurso subyacente. El selector no se utilizará una vez cerrado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.get_key">
+<span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.get_key" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna la clave asociada con un objeto de archivo registrado.</p>
+<p class="translated">Esto retorna la instancia <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a> asociada a este objeto de archivo, o lanza un <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> si el objeto de archivo no está registrado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.BaseSelector.get_map">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectors.BaseSelector.get_map" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna un mapeo asociando objetos de archivo a las llaves del selector.</p>
+<p class="translated">Retorna una instancia de <a class="reference internal" href="collections.abc.html#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a> mapeando objetos de archivo registrados a su instancia <a class="reference internal" href="#selectors.SelectorKey" title="selectors.SelectorKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorKey</span></code></a> asociada.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.DefaultSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">DefaultSelector</span></span><a class="headerlink" href="#selectors.DefaultSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La clase de selector predeterminada, utiliza la implementación más eficiente disponible en la plataforma actual. Esta debería ser la opción predeterminada para la mayoría de los usuarios.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.SelectSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">SelectSelector</span></span><a class="headerlink" href="#selectors.SelectSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Selector basado en <a class="reference internal" href="select.html#select.select" title="select.select"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.select()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.PollSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">PollSelector</span></span><a class="headerlink" href="#selectors.PollSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Selector basado en <a class="reference internal" href="select.html#select.poll" title="select.poll"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.poll()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.EpollSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">EpollSelector</span></span><a class="headerlink" href="#selectors.EpollSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Selector basado en <a class="reference internal" href="select.html#select.epoll" title="select.epoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.epoll()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.EpollSelector.fileno">
+<span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectors.EpollSelector.fileno" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esto retorna el descriptor de archivo utilizado por el objeto <a class="reference internal" href="select.html#select.epoll" title="select.epoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.epoll()</span></code></a> subyacente.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.DevpollSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">DevpollSelector</span></span><a class="headerlink" href="#selectors.DevpollSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Selector basado en <a class="reference internal" href="select.html#select.devpoll" title="select.devpoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.devpoll()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.DevpollSelector.fileno">
+<span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectors.DevpollSelector.fileno" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esto retorna el descriptor de archivo utilizado por el objeto <a class="reference internal" href="select.html#select.devpoll" title="select.devpoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.devpoll()</span></code></a> subyacente.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="selectors.KqueueSelector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">selectors.</span></span><span class="sig-name descname"><span class="pre">KqueueSelector</span></span><a class="headerlink" href="#selectors.KqueueSelector" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Selector basado en <a class="reference internal" href="select.html#select.kqueue" title="select.kqueue"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.kqueue()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="selectors.KqueueSelector.fileno">
+<span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectors.KqueueSelector.fileno" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esto retorna el descriptor de archivo utilizado por el objeto <a class="reference internal" href="select.html#select.kqueue" title="select.kqueue"><code class="xref py py-func docutils literal notranslate"><span class="pre">select.kqueue()</span></code></a> subyacente.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2 class="translated">Ejemplos<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p class="translated">Aquí hay una implementación simple de un servidor de eco:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">selectors</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="n">sel</span> <span class="o">=</span> <span class="n">selectors</span><span class="o">.</span><span class="n">DefaultSelector</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>  <span class="c1"># Should be ready</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sel</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Should be ready</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;echoing&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Hope it won&#39;t block</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;closing&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+        <span class="n">sel</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">))</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sel</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">,</span> <span class="n">accept</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">callback</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">fileobj</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code> — High-level I/O multiplexing</a><ul>
+<li><a class="reference internal" href="#introduction">Introducción</a></li>
+<li><a class="reference internal" href="#classes">Clases</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="select.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">select</span></code> — Waiting for I/O completion</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="signal.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">signal</span></code> — Set handlers for asynchronous events</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/selectors.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="signal.html" title="signal — Set handlers for asynchronous events"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="select.html" title="select — Waiting for I/O completion"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code> — High-level I/O multiplexing</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

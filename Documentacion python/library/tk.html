@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Graphical user interfaces with Tk" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/tk.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Tk/Tcl has long been an integral part of Python. It provides a robust and platform independent windowing toolkit, that is available to Python programmers using the tkinter package, and its extensio..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_tk_512318b4.png" />
+<meta property="og:image:alt" content="Tk/Tcl has long been an integral part of Python. It provides a robust and platform independent windowing toolkit, that is available to Python programmers using the tkinter package, and its extensio..." />
+<meta name="description" content="Tk/Tcl has long been an integral part of Python. It provides a robust and platform independent windowing toolkit, that is available to Python programmers using the tkinter package, and its extensio..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Graphical user interfaces with Tk &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="tkinter — Python interface to Tcl/Tk" href="tkinter.html" />
+    <link rel="prev" title="locale — Internationalization services" href="locale.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/tk.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="locale.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code> — Internationalization services</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="tkinter.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code> — Python interface to Tcl/Tk</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/tk.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tkinter.html" title="tkinter — Python interface to Tcl/Tk"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="locale.html" title="locale — Internationalization services"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">La biblioteca estándar de Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Graphical user interfaces with Tk</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="graphical-user-interfaces-with-tk">
+<span id="tkinter"></span><h1 class="untranslated">Graphical user interfaces with Tk<a class="headerlink" href="#graphical-user-interfaces-with-tk" title="Link to this heading">¶</a></h1>
+<p class="untranslated" id="index-0">Tk/Tcl has long been an integral part of Python.  It provides a robust and
+platform independent windowing toolkit, that is available to Python programmers
+using the <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a> package, and its extension, the <a class="reference internal" href="tkinter.ttk.html#module-tkinter.ttk" title="tkinter.ttk: Tk themed widget set"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code></a> module.</p>
+<p class="translated">El paquete <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a> es una fina capa orientada a objetos encima de Tcl/Tk. Para usar <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a>, no necesita escribir código Tcl, pero deberá consultar la documentación de Tk y, ocasionalmente, la documentación de Tcl. <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a> es un conjunto de envoltorios que implementan los widgets Tk como clases de Python.</p>
+<p class="translated">Las principales virtudes de <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a> son que es rápido y que generalmente viene incluido con Python. Aunque su documentación estándar es débil, se dispone de buen material, que incluye: referencias, tutoriales, un libro y otros. <a class="reference internal" href="tkinter.html#module-tkinter" title="tkinter: Interface to Tcl/Tk for graphical user interfaces"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code></a> también es famoso por tener un aspecto y una sensación obsoletos, que se ha mejorado enormemente en Tk 8.5. Sin embargo, hay muchas otras bibliotecas GUI en las que podría estar interesado. La wiki de Python enumera varias <a class="reference external" href="https://wiki.python.org/moin/GuiProgramming">GUI frameworks and tools</a> alternativas.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code> — Python interface to Tcl/Tk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#architecture">Arquitectura</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#tkinter-modules">Módulos Tkinter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#tkinter-life-preserver">Guía de supervivencia de Tkinter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#a-hello-world-program">Un programa simple de Hola Mundo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#important-tk-concepts">Conceptos importantes de Tk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#understanding-how-tkinter-wraps-tcl-tk">Entendiendo como funcionan los empaquetadores de Tcl/Tk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#how-do-i-what-option-does">¿Cómo lo hago?, ¿Cómo funciona?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#navigating-the-tcl-tk-reference-manual">Navegando en el manual de referencia de Tcl/Tk</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#threading-model">Modelo de subprocesamiento</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#handy-reference">Guía práctica</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#setting-options">Configuración de opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#the-packer">El empaquetador</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#packer-options">Opciones del empaquetador</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#coupling-widget-variables">Asociación de variables de widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#the-window-manager">El gestor de ventanas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#tk-option-data-types">Tipos de datos de opciones Tk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#bindings-and-events">Enlaces y eventos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#the-index-parameter">El parámetro índice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.html#images">Imágenes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.html#file-handlers">Gestor de archivos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.colorchooser.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.colorchooser</span></code> — Color choosing dialog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.font.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.font</span></code> — Tkinter font wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialog.html">Diálogos tkinter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dialog.html#module-tkinter.simpledialog"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.simpledialog</span></code> —Diálogos de entrada estándar de Tkinter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dialog.html#module-tkinter.filedialog">Diálogos de selección de archivos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dialog.html#native-load-save-dialogs">Diálogos nativos de carga/guardado</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dialog.html#module-tkinter.commondialog"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.commondialog</span></code> — Plantillas de ventanas de diálogo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.messagebox.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.messagebox</span></code> — Tkinter message prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.scrolledtext.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.scrolledtext</span></code> — Scrolled Text Widget</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.dnd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.dnd</span></code> — Drag and drop support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tkinter.ttk.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code> — Tk themed widgets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#using-ttk">Uso de Ttk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#ttk-widgets">Ttk widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#widget">Widget</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#standard-options">Opciones estándar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#scrollable-widget-options">Opciones de widgets desplegables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#label-options">Opciones de etiqueta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#compatibility-options">Opciones de compatibilidad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#widget-states">Estados del widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-widget">ttk.Widget</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#combobox">Combobox</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#options">Opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#virtual-events">Eventos virtuales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-combobox">ttk.Combobox</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#spinbox">Spinbox</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id1">Opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id2">Eventos virtuales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-spinbox">ttk.Spinbox</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#notebook">Notebook</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id3">Opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#tab-options">Opciones de pestañas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#tab-identifiers">Identificadores de pestañas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id4">Eventos virtuales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-notebook">ttk.Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#progressbar">Progressbar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id5">Opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-progressbar">ttk.Progressbar</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#separator">Separator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id6">Opciones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#sizegrip">Sizegrip</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#platform-specific-notes">Notas específicas por plataforma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#bugs">Errores detectados</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#treeview">Treeview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id7">Opciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#item-options">Opciones de elementos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#tag-options">Opciones de etiqueta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#column-identifiers">Identificadores de columna</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#id8">Eventos virtuales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#ttk-treeview">ttk.Treeview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tkinter.ttk.html#ttk-styling">Ttk Styling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tkinter.ttk.html#layouts">Diseños</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="idle.html">IDLE — Python editor and shell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="idle.html#menus">Menús</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#file-menu-shell-and-editor">Menú de archivo (Shell y Editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#edit-menu-shell-and-editor">Menú editar (Shell y Editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#format-menu-editor-window-only">Menú de formato (solo ventana del Editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#run-menu-editor-window-only">Menú ejecutar (solo ventana Editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#shell-menu-shell-window-only">Menú de shell (solo ventana de shell)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#debug-menu-shell-window-only">Menú de depuración (solo ventana de shell)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#options-menu-shell-and-editor">Menú de opciones (Shell y editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#window-menu-shell-and-editor">Menú de ventana (shell y editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#help-menu-shell-and-editor">Menú de ayuda (shell y editor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#context-menus">Menús contextuales</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="idle.html#editing-and-navigation">Edición y navegación</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#editor-windows">Ventana del editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#key-bindings">Atajos de teclado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#automatic-indentation">Indentación automática</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#search-and-replace">Buscar y reemplazar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#completions">Terminaciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#calltips">Sugerencias de llamada</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#code-context">Contexto del código</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#shell-window">Ventana de Shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#text-colors">Colores del texto</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="idle.html#startup-and-code-execution">Inicio y ejecución de código</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#command-line-usage">Uso de línea de comando</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#startup-failure">Error de inicio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#running-user-code">Ejecutando código del usuario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#user-output-in-shell">Salida del usuario en consola</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#developing-tkinter-applications">Desarrollando aplicaciones tkinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#running-without-a-subprocess">Ejecutando sin un subproceso</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="idle.html#help-and-preferences">Ayuda y preferencias</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#help-sources">Recursos de ayuda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#setting-preferences">Preferencias de configuración</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#idle-on-macos">IDLE en macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="idle.html#extensions">Extensiones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="idle.html#module-idlelib">idlelib — implementation of IDLE application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="turtle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtle</span></code> — Turtle graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#introduction">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#get-started">Get started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#starting-a-turtle-environment">Starting a turtle environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#basic-drawing">Basic drawing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#pen-control">Control del lápiz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#the-turtle-s-position">The turtle’s position</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#making-algorithmic-patterns">Making algorithmic patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#how-to">How to…</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#get-started-as-quickly-as-possible">Get started as quickly as possible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#automatically-begin-and-end-filling">Automatically begin and end filling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#use-the-turtle-module-namespace">Use the <code class="docutils literal notranslate"><span class="pre">turtle</span></code> module namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#use-turtle-graphics-in-a-script">Use turtle graphics in a script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#use-object-oriented-turtle-graphics">Use object-oriented turtle graphics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#turtle-graphics-reference">Turtle graphics reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#turtle-methods">Métodos Turtle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#methods-of-turtlescreen-screen">Métodos de TurtleScreen/Screen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#methods-of-rawturtle-turtle-and-corresponding-functions">Métodos de <em>RawTurtle/Turtle</em> Y sus correspondientes funciones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#turtle-motion">Movimiento de Turtle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#tell-turtle-s-state">Mostrar el estado de la tortuga</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#settings-for-measurement">Configuración de las medidas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#id1">Control del lápiz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#drawing-state">Estado de dibujo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#color-control">Control del color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#filling">Relleno</a></li>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#more-drawing-control">Más controles de dibujo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#turtle-state">Estado de la Tortuga</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#visibility">Visibilidad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="turtle.html#appearance">Apariencia</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#using-events">Usando eventos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#special-turtle-methods">Métodos especiales de <em>Turtle</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#compound-shapes">Formas compuestas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#methods-of-turtlescreen-screen-and-corresponding-functions">Métodos de <em>TurtleScreen/Screen</em> y sus correspondientes funciones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#window-control">Control de ventana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#animation-control">Control de animación</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#using-screen-events">Usando eventos de pantalla</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#input-methods">Métodos de entrada</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#settings-and-special-methods">Configuración y métodos especiales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#methods-specific-to-screen-not-inherited-from-turtlescreen">Métodos específicos de <em>Screen</em>, no heredados de <em>TurtleScreen</em></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#public-classes">Clases públicas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#explanation">Explanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#help-and-configuration">Ayuda y configuración</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#how-to-use-help">Cómo usar la ayuda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#translation-of-docstrings-into-different-languages">Traducción de cadenas de documentos a diferentes idiomas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turtle.html#how-to-configure-screen-and-turtles">Cómo configurar Screen and Turtles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#module-turtledemo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtledemo</span></code> — Scripts de demostración</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#changes-since-python-2-6">Cambios desde Python 2.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="turtle.html#changes-since-python-3-0">Cambios desde Python 3.0</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="locale.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code> — Internationalization services</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="tkinter.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter</span></code> — Python interface to Tcl/Tk</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/tk.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tkinter.html" title="tkinter — Python interface to Tcl/Tk"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="locale.html" title="locale — Internationalization services"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Graphical user interfaces with Tk</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

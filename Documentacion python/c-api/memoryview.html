@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Objetos de vista de memoria (MemoryView)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/c-api/memoryview.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Un objeto memoryview expone la interfaz de búfer a nivel de C como un objeto Python que luego puede pasarse como cualquier otro objeto." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_c-api_memoryview_f4c5cb17.png" />
+<meta property="og:image:alt" content="Un objeto memoryview expone la interfaz de búfer a nivel de C como un objeto Python que luego puede pasarse como cualquier otro objeto." />
+<meta name="description" content="Un objeto memoryview expone la interfaz de búfer a nivel de C como un objeto Python que luego puede pasarse como cualquier otro objeto." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Objetos de vista de memoria (MemoryView) &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="Objetos de referencia débil" href="weakref.html" />
+    <link rel="prev" title="Objetos rebanada (slice)" href="slice.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/c-api/memoryview.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="slice.html"
+                          title="capítulo anterior">Objetos rebanada (<em>slice</em>)</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="weakref.html"
+                          title="próximo capítulo">Objetos de referencia débil</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/memoryview.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="weakref.html" title="Objetos de referencia débil"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="slice.html" title="Objetos rebanada (slice)"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referencia de la API en C de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">Capa de objetos concretos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Objetos de vista de memoria (<em>MemoryView</em>)</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="index-0">
+<span id="memoryview-objects"></span><span id="id1"></span><h1 class="translated">Objetos de vista de memoria (<em>MemoryView</em>)<a class="headerlink" href="#index-0" title="Link to this heading">¶</a></h1>
+<p class="translated">Un objeto <a class="reference internal" href="../library/stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a> expone la <a class="reference internal" href="buffer.html#bufferobjects"><span class="std std-ref">interfaz de búfer</span></a> a nivel de C como un objeto Python que luego puede pasarse como cualquier otro objeto.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_FromObject">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_FromObject</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_FromObject" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Crea un objeto de vista de memoria <em>memoryview</em> a partir de un objeto que proporciona la interfaz del búfer. Si <em>obj</em> admite exportaciones de búfer de escritura, el objeto de vista de memoria será de lectura/escritura, de lo contrario puede ser de solo lectura o de lectura/escritura a discreción del exportador.</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.PyBUF_READ">
+<span class="sig-name descname"><span class="n"><span class="pre">PyBUF_READ</span></span></span><a class="headerlink" href="#c.PyBUF_READ" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Indicador para solicitar un búfer de solo lectura.</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.PyBUF_WRITE">
+<span class="sig-name descname"><span class="n"><span class="pre">PyBUF_WRITE</span></span></span><a class="headerlink" href="#c.PyBUF_WRITE" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Indicador para solicitar un búfer escribible.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_FromMemory">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_FromMemory</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mem</span></span>, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_FromMemory" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><p class="translated">Crea un objeto de vista de memoria usando <em>mem</em> como el búfer subyacente. <em>flags</em> pueden ser uno de <a class="reference internal" href="#c.PyBUF_READ" title="PyBUF_READ"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyBUF_READ</span></code></a> o <a class="reference internal" href="#c.PyBUF_WRITE" title="PyBUF_WRITE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyBUF_WRITE</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_FromBuffer">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_FromBuffer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><span class="n"><span class="pre">Py_buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">view</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_FromBuffer" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.11.</em><p class="translated">Crea un objeto de vista de memoria que ajuste la estructura de búfer dada <em>view</em>. Para memorias intermedias de bytes simples, <a class="reference internal" href="#c.PyMemoryView_FromMemory" title="PyMemoryView_FromMemory"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMemoryView_FromMemory()</span></code></a> es la función preferida.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_GetContiguous">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_GetContiguous</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">buffertype</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">order</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_GetContiguous" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Crea un objeto de vista de memoria <em>memoryview</em> para un fragmento de memoria contiguo (<a class="reference internal" href="../glossary.html#term-contiguous"><span class="xref std std-term">contiguous</span></a>, en <em>order</em> “C” o “F” de Fortran) desde un objeto que define la interfaz del búfer. Si la memoria es contigua, el objeto de vista de memoria apunta a la memoria original. De lo contrario, se realiza una copia y la vista de memoria apunta a un nuevo objeto de bytes.</p>
+<p class="translated"><em>buffertype</em> puede ser uno de <a class="reference internal" href="#c.PyBUF_READ" title="PyBUF_READ"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyBUF_READ</span></code></a> o <a class="reference internal" href="#c.PyBUF_WRITE" title="PyBUF_WRITE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyBUF_WRITE</span></code></a>.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_Check">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_Check</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_Check" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Retorna verdadero si el objeto <em>obj</em> es un objeto de vista de memoria. Actualmente no está permitido crear subclases de <a class="reference internal" href="../library/stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a>. Esta función siempre finaliza con éxito.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_GET_BUFFER">
+<a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><span class="n"><span class="pre">Py_buffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_GET_BUFFER</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mview</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_GET_BUFFER" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Retorna un puntero a la copia privada de la vista de memoria del búfer del exportador. <em>mview</em> <strong>debe</strong> ser una instancia de <em>memoryview</em>; este macro no verifica su tipo, debe hacerlo usted mismo o correrá el riesgo de fallas.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyMemoryView_GET_BASE">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyMemoryView_GET_BASE</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mview</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyMemoryView_GET_BASE" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Retorna un puntero al objeto de exportación en el que se basa la vista de memoria o <code class="docutils literal notranslate"><span class="pre">NULL</span></code> si la vista de memoria ha sido creada por una de las funciones <a class="reference internal" href="#c.PyMemoryView_FromMemory" title="PyMemoryView_FromMemory"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMemoryView_FromMemory()</span></code></a> o <a class="reference internal" href="#c.PyMemoryView_FromBuffer" title="PyMemoryView_FromBuffer"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMemoryView_FromBuffer()</span></code></a>. <em>mview</em> <strong>debe</strong> ser una instancia de <em>memoryview</em>.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="slice.html"
+                          title="capítulo anterior">Objetos rebanada (<em>slice</em>)</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="weakref.html"
+                          title="próximo capítulo">Objetos de referencia débil</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/memoryview.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="weakref.html" title="Objetos de referencia débil"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="slice.html" title="Objetos rebanada (slice)"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referencia de la API en C de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >Capa de objetos concretos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Objetos de vista de memoria (<em>MemoryView</em>)</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Módulos numéricos y matemáticos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/numeric.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Los módulos descritos en este capítulo proporcionan funciones y tipos de datos numéricos y relacionados con las matemáticas. El módulo numbers define una jerarquía abstracta de tipos numéricos. Los..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_numeric_6fe8aac3.png" />
+<meta property="og:image:alt" content="Los módulos descritos en este capítulo proporcionan funciones y tipos de datos numéricos y relacionados con las matemáticas. El módulo numbers define una jerarquía abstracta de tipos numéricos. Los..." />
+<meta name="description" content="Los módulos descritos en este capítulo proporcionan funciones y tipos de datos numéricos y relacionados con las matemáticas. El módulo numbers define una jerarquía abstracta de tipos numéricos. Los..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Módulos numéricos y matemáticos &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="numbers — Numeric abstract base classes" href="numbers.html" />
+    <link rel="prev" title="graphlib — Functionality to operate with graph-like structures" href="graphlib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/numeric.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="graphlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Functionality to operate with graph-like structures</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="numbers.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code> — Numeric abstract base classes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/numeric.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="numbers.html" title="numbers — Numeric abstract base classes"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="graphlib.html" title="graphlib — Functionality to operate with graph-like structures"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">La biblioteca estándar de Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Módulos numéricos y matemáticos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="numeric-and-mathematical-modules">
+<span id="numeric"></span><h1 class="translated">Módulos numéricos y matemáticos<a class="headerlink" href="#numeric-and-mathematical-modules" title="Link to this heading">¶</a></h1>
+<p class="translated">Los módulos descritos en este capítulo proporcionan funciones y tipos de datos numéricos y relacionados con las matemáticas. El módulo <a class="reference internal" href="numbers.html#module-numbers" title="numbers: Numeric abstract base classes (Complex, Real, Integral, etc.)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code></a> define una jerarquía abstracta de tipos numéricos. Los módulos <a class="reference internal" href="math.html#module-math" title="math: Mathematical functions (sin() etc.)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">math</span></code></a> y <a class="reference internal" href="cmath.html#module-cmath" title="cmath: Mathematical functions for complex numbers."><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmath</span></code></a> contienen varias funciones matemáticas para números complejos y de punto flotante. El módulo <a class="reference internal" href="decimal.html#module-decimal" title="decimal: Implementation of the General Decimal Arithmetic Specification."><code class="xref py py-mod docutils literal notranslate"><span class="pre">decimal</span></code></a> admite representaciones exactas de números decimales, utilizando aritmética de precisión arbitraria.</p>
+<p class="translated">En este capítulo se documentan los siguientes módulos:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="numbers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code> — Numeric abstract base classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="numbers.html#the-numeric-tower">La torre numérica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numbers.html#notes-for-type-implementers">Notes for type implementers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html#adding-more-numeric-abcs">Agregar más <em>ABCs</em> numéricos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html#implementing-the-arithmetic-operations">Implementar operaciones aritméticas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="math.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">math</span></code> — Mathematical functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="math.html#number-theoretic-functions">Number-theoretic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#floating-point-arithmetic">Floating point arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#floating-point-manipulation-functions">Floating point manipulation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#power-exponential-and-logarithmic-functions">Power, exponential and logarithmic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#summation-and-product-functions">Summation and product functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#angular-conversion">Conversión angular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#trigonometric-functions">Funciones trigonométricas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#hyperbolic-functions">Funciones hiperbólicas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#special-functions">Funciones especiales</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#constants">Constantes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cmath.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmath</span></code> — Mathematical functions for complex numbers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#conversions-to-and-from-polar-coordinates">Conversión a y desde coordenadas polares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#power-and-logarithmic-functions">Funciones logarítmicas y de potencias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#trigonometric-functions">Funciones trigonométricas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#hyperbolic-functions">Funciones hiperbólicas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#classification-functions">Funciones de clasificación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmath.html#constants">Constantes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="decimal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">decimal</span></code> — Decimal fixed-point and floating-point arithmetic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#quick-start-tutorial">Quick-start tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#decimal-objects">Objetos Decimal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="decimal.html#logical-operands">Operandos lógicos</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#context-objects">Objetos context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#constants">Constantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#rounding-modes">Modos de redondeo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#signals">Señales</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#floating-point-notes">Floating-point notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="decimal.html#mitigating-round-off-error-with-increased-precision">Mitigación del error de redondeo usando mayor precisión</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decimal.html#special-values">Valores especiales</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#working-with-threads">Trabajando con hilos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#recipes">Casos prácticos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decimal.html#decimal-faq">Preguntas frecuentes sobre decimal</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fractions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fractions</span></code> — Rational numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="random.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">random</span></code> — Generate pseudo-random numbers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="random.html#bookkeeping-functions">Funciones de contabilidad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#functions-for-bytes">Funciones para los bytes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#functions-for-integers">Funciones para enteros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#functions-for-sequences">Funciones para secuencias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#discrete-distributions">Discrete distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#real-valued-distributions">Distribuciones para los nombres reales</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#alternative-generator">Generador alternativo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#notes-on-reproducibility">Notas sobre la Reproducibilidad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#examples">Ejemplos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#recipes">Recetas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#command-line-usage">Command-line usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random.html#command-line-example">Command-line example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code> — Mathematical statistics functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#averages-and-measures-of-central-location">Promedios y medidas de tendencia central</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#measures-of-spread">Medidas de dispersión</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#statistics-for-relations-between-two-inputs">Estadísticas para relaciones entre dos entradas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#function-details">Detalles de las funciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#exceptions">Excepciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#normaldist-objects">Objetos <code class="xref py py-class docutils literal notranslate"><span class="pre">NormalDist</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#examples-and-recipes">Examples and Recipes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="statistics.html#classic-probability-problems">Problemas de probabilidad clásicos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics.html#monte-carlo-inputs-for-simulations">Entradas de Monte Carlo para simulaciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics.html#approximating-binomial-distributions">Aproximación de la distribución binomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics.html#naive-bayesian-classifier">Clasificador bayesiano ingenuo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="graphlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Functionality to operate with graph-like structures</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="numbers.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code> — Numeric abstract base classes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/numeric.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="numbers.html" title="numbers — Numeric abstract base classes"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="graphlib.html" title="graphlib — Functionality to operate with graph-like structures"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Módulos numéricos y matemáticos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

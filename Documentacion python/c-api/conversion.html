@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Conversión y formato de cadenas de caracteres" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/c-api/conversion.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Funciones para conversión de números y salida de cadena de caracteres formateadas. PyOS_snprintf() y PyOS_vsnprintf() envuelven las funciones estándar de la biblioteca C snprintf() y vsnprintf(). S..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_c-api_conversion_774ddaf0.png" />
+<meta property="og:image:alt" content="Funciones para conversión de números y salida de cadena de caracteres formateadas. PyOS_snprintf() y PyOS_vsnprintf() envuelven las funciones estándar de la biblioteca C snprintf() y vsnprintf(). S..." />
+<meta name="description" content="Funciones para conversión de números y salida de cadena de caracteres formateadas. PyOS_snprintf() y PyOS_vsnprintf() envuelven las funciones estándar de la biblioteca C snprintf() y vsnprintf(). S..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Conversión y formato de cadenas de caracteres &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="PyHash API" href="hash.html" />
+    <link rel="prev" title="Analizando argumentos y construyendo valores" href="arg.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/c-api/conversion.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="arg.html"
+                          title="capítulo anterior">Analizando argumentos y construyendo valores</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="hash.html"
+                          title="próximo capítulo">PyHash API</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/conversion.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="hash.html" title="PyHash API"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="arg.html" title="Analizando argumentos y construyendo valores"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referencia de la API en C de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" accesskey="U">Utilidades</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Conversión y formato de cadenas de caracteres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="string-conversion-and-formatting">
+<span id="string-conversion"></span><h1 class="translated">Conversión y formato de cadenas de caracteres<a class="headerlink" href="#string-conversion-and-formatting" title="Link to this heading">¶</a></h1>
+<p class="translated">Funciones para conversión de números y salida de cadena de caracteres formateadas.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_snprintf">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_snprintf</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_snprintf" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Salida de no más de <em>size</em> bytes a <em>str</em> según la cadena de caracteres de formato <em>format</em> y los argumentos adicionales. Consulte la página de manual de Unix <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/snprintf(3)">snprintf(3)</a></em>.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_vsnprintf">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_vsnprintf</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">va</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_vsnprintf" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Salida de no más de <em>size</em> bytes a <em>str</em> según la cadena de caracteres de formato <em>format</em> y la lista de argumentos variables <em>va</em>. Página de manual de Unix <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/vsnprintf(3)">vsnprintf(3)</a></em>.</p>
+</dd></dl>
+
+<p class="translated"><a class="reference internal" href="#c.PyOS_snprintf" title="PyOS_snprintf"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_snprintf()</span></code></a> y <a class="reference internal" href="#c.PyOS_vsnprintf" title="PyOS_vsnprintf"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_vsnprintf()</span></code></a> envuelven las funciones estándar de la biblioteca C <code class="xref c c-func docutils literal notranslate"><span class="pre">snprintf()</span></code> y <code class="xref c c-func docutils literal notranslate"><span class="pre">vsnprintf()</span></code>. Su propósito es garantizar un comportamiento consistente en casos de esquina (<em>corner cases</em>), que las funciones del Estándar C no hacen.</p>
+<p class="translated">Las envolturas aseguran que <code class="docutils literal notranslate"><span class="pre">str[size-1]</span></code> sea siempre <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> al retornar. Nunca se escriben más de <em>size</em> bytes (incluido el <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> del final) en <em>str</em>. Ambas funciones requieren que <code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">!=</span> <span class="pre">NULL</span></code>, <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">format</span> <span class="pre">!=</span> <span class="pre">NULL</span></code> y <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">&lt;</span> <span class="pre">INT_MAX</span></code>. Tenga en cuenta que esto significa que no hay equivalente a la expresión <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">snprintf(NULL,</span> <span class="pre">0,</span> <span class="pre">...)</span></code> de C99, la cual determinaría el tamaño del búfer necesario.</p>
+<p class="translated">El valor de retorno (<em>rv</em>) para estas funciones debe interpretarse de la siguiente manera:</p>
+<ul class="simple">
+<li><p class="translated">Cuando <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">rv</span> <span class="pre">&lt;</span> <span class="pre">size</span></code>, la conversión de salida fue exitosa y los caracteres <em>rv</em> se escribieron en <em>str</em> (excluyendo el byte <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> final en <code class="docutils literal notranslate"><span class="pre">str[rv]</span></code>).</p></li>
+<li><p class="translated">Cuando <code class="docutils literal notranslate"><span class="pre">rv</span> <span class="pre">&gt;=</span> <span class="pre">size</span></code>, la conversión de salida se truncó y se habría necesitado un búfer con <code class="docutils literal notranslate"><span class="pre">rv</span> <span class="pre">+</span> <span class="pre">1</span></code> bytes para tener éxito. <code class="docutils literal notranslate"><span class="pre">str[size-1]</span></code> es <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> en este caso.</p></li>
+<li><p class="translated">Cuando <code class="docutils literal notranslate"><span class="pre">rv</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, «sucedió algo malo». <code class="docutils literal notranslate"><span class="pre">str[size-1]</span></code> es <code class="docutils literal notranslate"><span class="pre">'\0'</span></code> en este caso también, pero el resto de <em>str</em> no está definido. La causa exacta del error depende de la plataforma subyacente.</p></li>
+</ul>
+<p class="translated">Las siguientes funciones proporcionan cadenas de caracteres independientes de la configuración regional para numerar las conversiones.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_strtoul">
+<span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_strtoul</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptr</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_strtoul" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Convierte la parte inicial de la cadena de caracteres en <code class="docutils literal notranslate"><span class="pre">str</span></code> a un valor <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> según la <code class="docutils literal notranslate"><span class="pre">base</span></code> dada, que debe estar entre <code class="docutils literal notranslate"><span class="pre">2</span></code> y <code class="docutils literal notranslate"><span class="pre">36</span></code> inclusive, o ser el valor especial <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p class="translated">Se ignoran los espacios en blanco y las mayúsculas y minúsculas.  Si <code class="docutils literal notranslate"><span class="pre">base</span></code> es cero se busca un prefijo <code class="docutils literal notranslate"><span class="pre">0b</span></code>, <code class="docutils literal notranslate"><span class="pre">0o</span></code> o <code class="docutils literal notranslate"><span class="pre">0x</span></code> para indicar la base.  Si no están, por defecto es <code class="docutils literal notranslate"><span class="pre">10</span></code>.  La base debe ser 0 o entre 2 y 36 (ambos inclusive).  Si <code class="docutils literal notranslate"><span class="pre">ptr</span></code> no es <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, contendrá un puntero al final del escaneo.</p>
+<p class="translated">Si el valor convertido queda fuera del rango del tipo de retorno correspondiente, se produce un error de rango (<code class="xref c c-data docutils literal notranslate"><span class="pre">errno</span></code> se establece en <code class="xref c c-macro docutils literal notranslate"><span class="pre">ERANGE</span></code>) y se devuelve <code class="xref c c-macro docutils literal notranslate"><span class="pre">ULONG_MAX</span></code>.  Si no se puede realizar la conversión, se devuelve <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p class="translated">Vea también el manual Unix de <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/strtoul(3)">strtoul(3)</a></em>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_strtol">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_strtol</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptr</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_strtol" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Convierte la parte inicial de la cadena de caracteres en <code class="docutils literal notranslate"><span class="pre">str</span></code> a un valor <span class="c-expr sig sig-inline c"><span class="kt">long</span></span> según la <code class="docutils literal notranslate"><span class="pre">base</span></code> dada, que debe estar entre <code class="docutils literal notranslate"><span class="pre">2</span></code> y <code class="docutils literal notranslate"><span class="pre">36</span></code> inclusive, o ser el valor especial <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p class="translated">Igual que <a class="reference internal" href="#c.PyOS_strtoul" title="PyOS_strtoul"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_strtoul()</span></code></a>, pero devuelve un valor <span class="c-expr sig sig-inline c"><span class="kt">long</span></span> en su lugar y <code class="xref c c-macro docutils literal notranslate"><span class="pre">LONG_MAX</span></code> en desbordamientos.</p>
+<p class="translated">Vea también el manual Unix de <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/strtol(3)">strtol(3)</a></em>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_string_to_double">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_string_to_double</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">endptr</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">overflow_exception</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_string_to_double" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Convierte una cadena de caracteres <code class="docutils literal notranslate"><span class="pre">s</span></code> a un valor <span class="c-expr sig sig-inline c"><span class="kt">double</span></span>, generando una excepción de Python en caso de fallo. El conjunto de cadenas de caracteres aceptadas corresponde al conjunto de cadenas aceptadas por el constructor de Python <a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-func docutils literal notranslate"><span class="pre">float()</span></code></a>, excepto que <code class="docutils literal notranslate"><span class="pre">s</span></code> no debe tener espacios en blanco iniciales o finales. La conversión es independiente de la configuración regional actual.</p>
+<p class="translated">Si <code class="docutils literal notranslate"><span class="pre">endptr</span></code> es <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, convierte toda la cadena de caracteres. Lanza <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> y retorna <code class="docutils literal notranslate"><span class="pre">-1.0</span></code> si la cadena de caracteres no es una representación válida de un número de punto flotante.</p>
+<p class="translated">Si <em>endptr</em> no es <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, convierte la mayor cantidad posible de la cadena de caracteres y configura <code class="docutils literal notranslate"><span class="pre">*endptr</span></code> para que apunte al primer carácter no convertido. Si ningún segmento inicial de la cadena de caracteres es la representación válida de un número de punto flotante, configura <code class="docutils literal notranslate"><span class="pre">*endptr</span></code> para que apunte al comienzo de la cadena de caracteres, lanza ValueError y retorna <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>.</p>
+<p class="untranslated">If <code class="docutils literal notranslate"><span class="pre">s</span></code> represents a value that is too large to store in a float
+(for example, <code class="docutils literal notranslate"><span class="pre">&quot;1e500&quot;</span></code> is such a string on many platforms) then
+if <code class="docutils literal notranslate"><span class="pre">overflow_exception</span></code> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> return <code class="docutils literal notranslate"><span class="pre">Py_INFINITY</span></code> (with
+an appropriate sign) and don’t set any exception.  Otherwise,
+<code class="docutils literal notranslate"><span class="pre">overflow_exception</span></code> must point to a Python exception object;
+raise that exception and return <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>.  In both cases, set
+<code class="docutils literal notranslate"><span class="pre">*endptr</span></code> to point to the first character after the converted value.</p>
+<p class="translated">Si se produce algún otro error durante la conversión (por ejemplo, un error de falta de memoria), establece la excepción Python adecuada y retorna <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_double_to_string">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_double_to_string</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">format_code</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">precision</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptype</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_double_to_string" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p class="translated">Convierte un <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> <em>val</em>  a una cadena de caracteres usando <em>format_code</em>, <em>precision</em> y <em>flags</em> suministrados.</p>
+<p class="translated"><em>format_code</em>  debe ser uno de <code class="docutils literal notranslate"><span class="pre">'e'</span></code>, <code class="docutils literal notranslate"><span class="pre">'E'</span></code>, <code class="docutils literal notranslate"><span class="pre">'f'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code>, <code class="docutils literal notranslate"><span class="pre">'g'</span></code>, <code class="docutils literal notranslate"><span class="pre">'G'</span></code> or <code class="docutils literal notranslate"><span class="pre">'r'</span></code>.  Para <code class="docutils literal notranslate"><span class="pre">'r'</span></code>, la <em>precision</em> suministrada debe ser 0 y se ignora.  El código de formato <code class="docutils literal notranslate"><span class="pre">'r'</span></code> especifica el formato estándar <a class="reference internal" href="../library/functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a>.</p>
+<p class="translated"><em>flags</em> puede ser cero o más de los valores <code class="docutils literal notranslate"><span class="pre">Py_DTSF_SIGN</span></code>, <code class="docutils literal notranslate"><span class="pre">Py_DTSF_ADD_DOT_0</span></code>, o <code class="docutils literal notranslate"><span class="pre">Py_DTSF_ALT</span></code>, unidos por <em>or</em> (<em>or-ed</em>) juntos:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">Py_DTSF_SIGN</span></code> significa preceder siempre a la cadena de caracteres retornada con un carácter de signo, incluso si <em>val</em> no es negativo.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">Py_DTSF_ADD_DOT_0</span></code> significa asegurarse de que la cadena de caracteres retornada no se verá como un número entero.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">Py_DTSF_ALT</span></code> significa aplicar reglas de formato «alternativas». Consulte la documentación del especificador <a class="reference internal" href="#c.PyOS_snprintf" title="PyOS_snprintf"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_snprintf()</span></code></a> <code class="docutils literal notranslate"><span class="pre">'#'</span></code> para obtener más detalles.</p></li>
+</ul>
+<p class="translated">Si <em>ptype</em> no es <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, el valor al que apunta se establecerá en uno de <code class="docutils literal notranslate"><span class="pre">Py_DTST_FINITE</span></code>, <code class="docutils literal notranslate"><span class="pre">Py_DTST_INFINITE</span></code> o <code class="docutils literal notranslate"><span class="pre">Py_DTST_NAN</span></code>, lo que significa que <em>val</em> es un número finito, un número infinito o no es un número, respectivamente.</p>
+<p class="translated">El valor de retorno es un puntero a <em>buffer</em> con la cadena de caracteres convertida o <code class="docutils literal notranslate"><span class="pre">NULL</span></code> si la conversión falla. La persona que llama es responsable de liberar la cadena de caracteres retornada llamando a <a class="reference internal" href="memory.html#c.PyMem_Free" title="PyMem_Free"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Free()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_stricmp">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_stricmp</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_stricmp" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Comparación no sensible a mayúsculas y minúsculas en cadenas de caracteres. La función se comporta casi de manera idéntica a <code class="xref c c-func docutils literal notranslate"><span class="pre">strcmp()</span></code>, excepto que ignora mayúsculas y minúsculas.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_strnicmp">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_strnicmp</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s2</span></span>, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_strnicmp" title="Link to this definition">¶</a><br /></dt>
+<dd><p class="translated">Comparación no sensible a mayúsculas y minúsculas en cadenas de caracteres. La función se comporta casi de manera idéntica a <code class="xref c c-func docutils literal notranslate"><span class="pre">strncmp()</span></code>, excepto que ignora mayúsculas y minúsculas.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="arg.html"
+                          title="capítulo anterior">Analizando argumentos y construyendo valores</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="hash.html"
+                          title="próximo capítulo">PyHash API</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/conversion.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="hash.html" title="PyHash API"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="arg.html" title="Analizando argumentos y construyendo valores"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referencia de la API en C de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" >Utilidades</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Conversión y formato de cadenas de caracteres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Colas" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/asyncio-queue.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/asyncio/queue.py Las colas asyncio son diseñadas para ser similares a clases del módulo queue. Sin embargo las colas asyncio no son seguras para hilos, son diseñadas para usar es..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_asyncio-queue_821a161f.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/asyncio/queue.py Las colas asyncio son diseñadas para ser similares a clases del módulo queue. Sin embargo las colas asyncio no son seguras para hilos, son diseñadas para usar es..." />
+<meta name="description" content="Código fuente: Lib/asyncio/queue.py Las colas asyncio son diseñadas para ser similares a clases del módulo queue. Sin embargo las colas asyncio no son seguras para hilos, son diseñadas para usar es..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Colas &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="Excepciones" href="asyncio-exceptions.html" />
+    <link rel="prev" title="Sub-procesos" href="asyncio-subprocess.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/asyncio-queue.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Colas</a><ul>
+<li><a class="reference internal" href="#queue">Cola</a></li>
+<li><a class="reference internal" href="#priority-queue">Cola de prioridad</a></li>
+<li><a class="reference internal" href="#lifo-queue">Cola UEPA (o <em>LIFO</em> en inglés)</a></li>
+<li><a class="reference internal" href="#exceptions">Excepciones</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-subprocess.html"
+                          title="capítulo anterior">Sub-procesos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-exceptions.html"
+                          title="próximo capítulo">Excepciones</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-queue.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-exceptions.html" title="Excepciones"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-subprocess.html" title="Sub-procesos"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Colas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="queues">
+<span id="asyncio-queues"></span><h1 class="translated">Colas<a class="headerlink" href="#queues" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/asyncio/queue.py">Lib/asyncio/queue.py</a></p>
+<hr class="docutils" />
+<p class="translated">Las colas asyncio son diseñadas para ser similares a clases del módulo <a class="reference internal" href="queue.html#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a>.  Sin embargo las colas asyncio no son seguras para hilos, son diseñadas para usar específicamente en código async/await.</p>
+<p class="translated">Nota que los métodos de colas de asyncio no tienen un parámetro <em>timeout</em>; usa la función <a class="reference internal" href="asyncio-task.html#asyncio.wait_for" title="asyncio.wait_for"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.wait_for()</span></code></a> para hacer operaciones de cola con un tiempo de espera.</p>
+<p class="translated">Ver también la sección <a class="reference internal" href="#examples">Examples</a> a continuación.</p>
+<section id="queue">
+<h2 class="translated">Cola<a class="headerlink" href="#queue" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Queue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Una cola primero en entrar, primero en salir (PEPS, o <em>FIFO</em> en inglés).</p>
+<p class="translated">Si <em>maxsize</em> es menor que o igual a cero, el tamaño de la cola es infinito.  Si es un entero mayor a <code class="docutils literal notranslate"><span class="pre">0</span></code>, entonces <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">put()</span></code> se bloquea cuando una cola alcanza su <em>maxsize</em> hasta que un elemento es removido por <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a>.</p>
+<p class="translated">Diferente de los subprocesos de la biblioteca estándar <a class="reference internal" href="queue.html#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a>, el tamaño de la cola siempre es conocido y puede ser retornado llamando el método <a class="reference internal" href="#asyncio.Queue.qsize" title="asyncio.Queue.qsize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qsize()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Excluido el parámetro <em>loop</em>.</p>
+</div>
+<p class="translated">Esta clase es <a class="reference internal" href="asyncio-dev.html#asyncio-multithreading"><span class="std std-ref">no segura para hilos</span></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.Queue.maxsize">
+<span class="sig-name descname"><span class="pre">maxsize</span></span><a class="headerlink" href="#asyncio.Queue.maxsize" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Número de ítems permitidos en la cola.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.empty">
+<span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.empty" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si la cola es vacía, o <code class="docutils literal notranslate"><span class="pre">False</span></code> en caso contrario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.full">
+<span class="sig-name descname"><span class="pre">full</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.full" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si hay <a class="reference internal" href="#asyncio.Queue.maxsize" title="asyncio.Queue.maxsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxsize</span></code></a> ítems en la cola.</p>
+<p class="untranslated">If the queue was initialized with <code class="docutils literal notranslate"><span class="pre">maxsize=0</span></code> (the default),
+then <a class="reference internal" href="#asyncio.Queue.full" title="asyncio.Queue.full"><code class="xref py py-meth docutils literal notranslate"><span class="pre">full()</span></code></a> never returns <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.get" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Remueve y retorna un ítem de la cola. Si la cola es vacía, espera hasta que un ítem esté disponible.</p>
+<p class="untranslated">Raises <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a> if the queue has been shut down and
+is empty, or if the queue has been shut down immediately.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.get_nowait">
+<span class="sig-name descname"><span class="pre">get_nowait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.get_nowait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna un ítem si uno está inmediatamente disponible, de otra manera levanta <a class="reference internal" href="#asyncio.QueueEmpty" title="asyncio.QueueEmpty"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueEmpty</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.join">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.join" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Se bloquea hasta que todos los ítems en la cola han sido recibidos y procesados.</p>
+<p class="translated">El conteo de tareas no terminadas sube siempre que un ítem es agregado a la cola. El conteo baja siempre que la ejecución de una corrutina <a class="reference internal" href="#asyncio.Queue.task_done" title="asyncio.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> para indicar que el ítem fue recuperado y todo el trabajo en él está completo.  Cuando el conteo de tareas inacabadas llega a cero, <a class="reference internal" href="#asyncio.Queue.join" title="asyncio.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> se desbloquea.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.put">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.put" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Pone un ítem en la cola. Si la cola está completa, espera hasta que una entrada vacía esté disponible antes de agregar el ítem.</p>
+<p class="untranslated">Raises <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a> if the queue has been shut down.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.put_nowait">
+<span class="sig-name descname"><span class="pre">put_nowait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.put_nowait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Pone un ítem en la cola sin bloquearse.</p>
+<p class="translated">Si no hay inmediatamente disponibles entradas vacías, lanza <a class="reference internal" href="#asyncio.QueueFull" title="asyncio.QueueFull"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueFull</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.qsize">
+<span class="sig-name descname"><span class="pre">qsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.qsize" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna el número de ítems en la cola.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">immediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.shutdown" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Put a <a class="reference internal" href="#asyncio.Queue" title="asyncio.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a> instance into a shutdown mode.</p>
+<p class="untranslated">The queue can no longer grow.
+Future calls to <a class="reference internal" href="#asyncio.Queue.put" title="asyncio.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> raise <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a>.
+Currently blocked callers of <a class="reference internal" href="#asyncio.Queue.put" title="asyncio.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> will be unblocked
+and will raise <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a> in the formerly blocked thread.</p>
+<p class="untranslated">If <em>immediate</em> is false (the default), the queue can be wound
+down normally with <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> calls to extract tasks
+that have already been loaded.</p>
+<p class="untranslated">And if <a class="reference internal" href="#asyncio.Queue.task_done" title="asyncio.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> is called for each remaining task, a
+pending <a class="reference internal" href="#asyncio.Queue.join" title="asyncio.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> will be unblocked normally.</p>
+<p class="untranslated">Once the queue is empty, future calls to <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> will
+raise <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a>.</p>
+<p class="untranslated">If <em>immediate</em> is true, the queue is terminated immediately.
+The queue is drained to be completely empty and the count
+of unfinished tasks is reduced by the number of tasks drained.
+If unfinished tasks is zero, callers of <a class="reference internal" href="#asyncio.Queue.join" title="asyncio.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a>
+are unblocked.  Also, blocked callers of <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a>
+are unblocked and will raise <a class="reference internal" href="#asyncio.QueueShutDown" title="asyncio.QueueShutDown"><code class="xref py py-exc docutils literal notranslate"><span class="pre">QueueShutDown</span></code></a> because the
+queue is empty.</p>
+<p class="untranslated">Use caution when using <a class="reference internal" href="#asyncio.Queue.join" title="asyncio.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> with <em>immediate</em> set
+to true. This unblocks the join even when no work has been done
+on the tasks, violating the usual invariant for joining a queue.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.13.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Queue.task_done">
+<span class="sig-name descname"><span class="pre">task_done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Queue.task_done" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Indicate that a formerly enqueued work item is complete.</p>
+<p class="untranslated">Used by queue consumers. For each <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> used to
+fetch a work item, a subsequent call to <a class="reference internal" href="#asyncio.Queue.task_done" title="asyncio.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> tells the
+queue that the processing on the work item is complete.</p>
+<p class="translated">Si un <a class="reference internal" href="#asyncio.Queue.join" title="asyncio.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> está actualmente bloqueando, éste se resumirá cuando todos los ítems han sido procesados (implicado que un método <a class="reference internal" href="#asyncio.Queue.task_done" title="asyncio.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> fue recibido por cada ítem que ha sido <a class="reference internal" href="#asyncio.Queue.put" title="asyncio.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> en la cola.</p>
+<p class="translated">Lanza <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> si fue llamado más veces que los ítems en la cola.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="priority-queue">
+<h2 class="translated">Cola de prioridad<a class="headerlink" href="#priority-queue" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.PriorityQueue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">PriorityQueue</span></span><a class="headerlink" href="#asyncio.PriorityQueue" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Una variante de <a class="reference internal" href="#asyncio.Queue" title="asyncio.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a>; recupera entradas en su orden de prioridad (el más bajo primero).</p>
+<p class="translated">Las entradas son típicamente tuplas de la forma <code class="docutils literal notranslate"><span class="pre">(priority_number,</span> <span class="pre">data)</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="lifo-queue">
+<h2 class="translated">Cola UEPA (o <em>LIFO</em> en inglés)<a class="headerlink" href="#lifo-queue" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.LifoQueue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">LifoQueue</span></span><a class="headerlink" href="#asyncio.LifoQueue" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Una variante de una <a class="reference internal" href="#asyncio.Queue" title="asyncio.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a> que recupera primero el elemento agregado más reciente (último en entrar, primero en salir).</p>
+</dd></dl>
+
+</section>
+<section id="exceptions">
+<h2 class="translated">Excepciones<a class="headerlink" href="#exceptions" title="Link to this heading">¶</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="asyncio.QueueEmpty">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">QueueEmpty</span></span><a class="headerlink" href="#asyncio.QueueEmpty" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta excepción es lanzada cuando el método <a class="reference internal" href="#asyncio.Queue.get_nowait" title="asyncio.Queue.get_nowait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_nowait()</span></code></a> es ejecutado en una cola vacía.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="asyncio.QueueFull">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">QueueFull</span></span><a class="headerlink" href="#asyncio.QueueFull" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Las excepciones son lanzadas cuando el método <a class="reference internal" href="#asyncio.Queue.put_nowait" title="asyncio.Queue.put_nowait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put_nowait()</span></code></a> es lanzado en una cola que ha alcanzado su <em>maxsize</em>.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="asyncio.QueueShutDown">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">QueueShutDown</span></span><a class="headerlink" href="#asyncio.QueueShutDown" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Exception raised when <a class="reference internal" href="#asyncio.Queue.put" title="asyncio.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> or <a class="reference internal" href="#asyncio.Queue.get" title="asyncio.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> is
+called on a queue which has been shut down.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.13.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2 class="translated">Ejemplos<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p class="translated" id="asyncio-example-queue-dist">Las colas pueden ser usadas para distribuir cargas de trabajo entre múltiples tareas concurrentes:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">worker</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">queue</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Get a &quot;work item&quot; out of the queue.</span>
+        <span class="n">sleep_for</span> <span class="o">=</span> <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="c1"># Sleep for the &quot;sleep_for&quot; seconds.</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_for</span><span class="p">)</span>
+
+        <span class="c1"># Notify the queue that the &quot;work item&quot; has been processed.</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> has slept for </span><span class="si">{</span><span class="n">sleep_for</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Create a queue that we will use to store our &quot;workload&quot;.</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+
+    <span class="c1"># Generate random timings and put them into the queue.</span>
+    <span class="n">total_sleep_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">sleep_for</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">total_sleep_time</span> <span class="o">+=</span> <span class="n">sleep_for</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">sleep_for</span><span class="p">)</span>
+
+    <span class="c1"># Create three worker tasks to process the queue concurrently.</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">worker</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;worker-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">queue</span><span class="p">))</span>
+        <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+
+    <span class="c1"># Wait until the queue is fully processed.</span>
+    <span class="n">started_at</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+    <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">total_slept_for</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="o">-</span> <span class="n">started_at</span>
+
+    <span class="c1"># Cancel our worker tasks.</span>
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+    <span class="c1"># Wait until all worker tasks are cancelled.</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;====&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;3 workers slept in parallel for </span><span class="si">{</span><span class="n">total_slept_for</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;total expected sleep time: </span><span class="si">{</span><span class="n">total_sleep_time</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
+
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Colas</a><ul>
+<li><a class="reference internal" href="#queue">Cola</a></li>
+<li><a class="reference internal" href="#priority-queue">Cola de prioridad</a></li>
+<li><a class="reference internal" href="#lifo-queue">Cola UEPA (o <em>LIFO</em> en inglés)</a></li>
+<li><a class="reference internal" href="#exceptions">Excepciones</a></li>
+<li><a class="reference internal" href="#examples">Ejemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-subprocess.html"
+                          title="capítulo anterior">Sub-procesos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-exceptions.html"
+                          title="próximo capítulo">Excepciones</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-queue.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-exceptions.html" title="Excepciones"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-subprocess.html" title="Sub-procesos"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Colas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="xml.sax.saxutils — SAX Utilities" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/xml.sax.utils.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/xml/sax/saxutils.py El módulo xml.sax.saxutils contiene una serie de clases y funciones que son comúnmente útiles al crear aplicaciones SAX, ya sea como uso directo o como clases..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_xml.sax.utils_292de44a.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/xml/sax/saxutils.py El módulo xml.sax.saxutils contiene una serie de clases y funciones que son comúnmente útiles al crear aplicaciones SAX, ya sea como uso directo o como clases..." />
+<meta name="description" content="Código fuente: Lib/xml/sax/saxutils.py El módulo xml.sax.saxutils contiene una serie de clases y funciones que son comúnmente útiles al crear aplicaciones SAX, ya sea como uso directo o como clases..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>xml.sax.saxutils — SAX Utilities &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="xml.sax.xmlreader — Interface for XML parsers" href="xml.sax.reader.html" />
+    <link rel="prev" title="xml.sax.handler — Base classes for SAX handlers" href="xml.sax.handler.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/xml.sax.utils.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="xml.sax.handler.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.handler</span></code> — Base classes for SAX handlers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="xml.sax.reader.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.xmlreader</span></code> — Interface for XML parsers</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/xml.sax.utils.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.reader.html" title="xml.sax.xmlreader — Interface for XML parsers"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.handler.html" title="xml.sax.handler — Base classes for SAX handlers"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" accesskey="U">Herramientas Para Procesar Formatos de Marcado Estructurado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.saxutils</span></code> — SAX Utilities</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-xml.sax.saxutils">
+<span id="xml-sax-saxutils-sax-utilities"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.saxutils</span></code> — SAX Utilities<a class="headerlink" href="#module-xml.sax.saxutils" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/xml/sax/saxutils.py">Lib/xml/sax/saxutils.py</a></p>
+<hr class="docutils" />
+<p class="translated">El módulo <a class="reference internal" href="#module-xml.sax.saxutils" title="xml.sax.saxutils: Convenience functions and classes for use with SAX."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.saxutils</span></code></a> contiene una serie de clases y funciones que son comúnmente útiles al crear aplicaciones SAX, ya sea como uso directo o como clases base.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.sax.saxutils.escape">
+<span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">escape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.escape" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Escapar <code class="docutils literal notranslate"><span class="pre">'&amp;'</span></code>, <code class="docutils literal notranslate"><span class="pre">'&lt;'</span></code> y <code class="docutils literal notranslate"><span class="pre">'&gt;'</span></code> en una cadena de datos.</p>
+<p class="translated">Puede escapar otras cadenas de datos pasando un diccionario como el parámetro opcional <em>entities</em>. Las claves y los valores deben ser cadenas; cada clave será reemplazada por su valor correspondiente. Los caracteres <code class="docutils literal notranslate"><span class="pre">'&amp;'</span></code>, <code class="docutils literal notranslate"><span class="pre">'&lt;'</span></code> y <code class="docutils literal notranslate"><span class="pre">'&gt;'</span></code> siempre se escapan, incluso si se proporciona <em>entities</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Esta función debería ser usada únicamente para escapar caracteres que no pueden ser usados directamente en XML. No use esta función como una función general de traducción de cadenas de caracteres.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.sax.saxutils.unescape">
+<span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">unescape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.unescape" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Quitar el escape <code class="docutils literal notranslate"><span class="pre">'&amp;amp;'</span></code>, <code class="docutils literal notranslate"><span class="pre">'&amp;lt;'</span></code>, y <code class="docutils literal notranslate"><span class="pre">'&amp;gt;'</span></code> en una cadena de datos.</p>
+<p class="translated">Puede quitar el escape de otras cadenas de datos pasando un diccionario como el parámetro opcional <em>entities</em>. Las claves y los valores deben ser cadenas; cada clave será reemplazada por su valor correspondiente. A <code class="docutils literal notranslate"><span class="pre">'&amp;amp'</span></code>, <code class="docutils literal notranslate"><span class="pre">'&amp;lt;'</span></code> y <code class="docutils literal notranslate"><span class="pre">'&amp;gt;'</span></code> se les quita siempre el escape, incluso si se proporcionan <em>entidades</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.sax.saxutils.quoteattr">
+<span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">quoteattr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.quoteattr" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Similar a <a class="reference internal" href="#xml.sax.saxutils.escape" title="xml.sax.saxutils.escape"><code class="xref py py-func docutils literal notranslate"><span class="pre">escape()</span></code></a>, pero también prepara <em>data</em> para usarse como un valor de atributo. El valor devuelto es una versión entrecomillada de <em>data</em> con los reemplazos adicionales necesarios. <a class="reference internal" href="#xml.sax.saxutils.quoteattr" title="xml.sax.saxutils.quoteattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">quoteattr()</span></code></a> seleccionará un carácter de comillas basado en el contenido de <em>data</em>, intentando evitar codificar los caracteres de comillas en la cadena. Si los caracteres de comillas simples y dobles ya están en <em>data</em>, los caracteres de comillas dobles se codificarán y <em>data</em> se envolverá entre comillas dobles. La cadena resultante se puede utilizar directamente como un valor de atributo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;element attr=</span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="n">quoteattr</span><span class="p">(</span><span class="s2">&quot;ab &#39; cd </span><span class="se">\&quot;</span><span class="s2"> ef&quot;</span><span class="p">))</span>
+<span class="go">&lt;element attr=&quot;ab &#39; cd &amp;quot; ef&quot;&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Esta función es útil al generar valores de atributo para HTML o cualquier SGML utilizando la sintaxis concreta de referencia.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="xml.sax.saxutils.XMLGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">XMLGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'iso-8859-1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_empty_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.XMLGenerator" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase implementa la interfaz <a class="reference internal" href="xml.sax.handler.html#xml.sax.handler.ContentHandler" title="xml.sax.handler.ContentHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContentHandler</span></code></a> escribiendo eventos SAX en un documento XML. En otras palabras, el uso de un <a class="reference internal" href="#xml.sax.saxutils.XMLGenerator" title="xml.sax.saxutils.XMLGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLGenerator</span></code></a> como controlador de contenido reproducirá el documento original que se está analizando. <em>out</em> debe ser un objeto similar a un archivo que por defecto sea <em>sys.stdout</em>. <em>encoding</em> es la codificación de la secuencia de salida que tiene como valor predeterminado <code class="docutils literal notranslate"><span class="pre">'iso-8859-1'</span></code>. <em>short_empty_elements</em> controla el formato de los elementos que no contienen contenido: si <code class="docutils literal notranslate"><span class="pre">False</span></code> (valor predeterminado) se emiten como un par de etiquetas de inicio/fin, si se establece en <code class="docutils literal notranslate"><span class="pre">True</span></code> se emiten como una sola etiqueta autocerrada.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.2: </span>Added the <em>short_empty_elements</em> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="xml.sax.saxutils.XMLFilterBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">XMLFilterBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.XMLFilterBase" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta clase está diseñada para situarse entre un <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.XMLReader" title="xml.sax.xmlreader.XMLReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLReader</span></code></a> y los manejadores de eventos de la aplicación cliente. Por defecto, no hace más que pasar las peticiones al lector y los eventos a los manejadores sin modificar, pero las subclases pueden sobrescribir métodos específicos para modificar el flujo de eventos o las peticiones de configuración a medida que pasan.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.sax.saxutils.prepare_input_source">
+<span class="sig-prename descclassname"><span class="pre">xml.sax.saxutils.</span></span><span class="sig-name descname"><span class="pre">prepare_input_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.sax.saxutils.prepare_input_source" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta función toma una fuente de entrada y, opcionalmente, una URL base y retorna un objeto <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.InputSource" title="xml.sax.xmlreader.InputSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputSource</span></code></a> completamente resuelto y listo para ser leído. La fuente de entrada puede ser proporcionada como una cadena de caracteres, un objeto tipo archivo , o un objeto <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.InputSource" title="xml.sax.xmlreader.InputSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputSource</span></code></a>; los analizadores usarán esta función para implementar el argumento polimórfico <em>source</em> a su método <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.XMLReader.parse" title="xml.sax.xmlreader.XMLReader.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a>.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="xml.sax.handler.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.handler</span></code> — Base classes for SAX handlers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="xml.sax.reader.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.xmlreader</span></code> — Interface for XML parsers</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/xml.sax.utils.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.reader.html" title="xml.sax.xmlreader — Interface for XML parsers"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.handler.html" title="xml.sax.handler — Base classes for SAX handlers"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" >Herramientas Para Procesar Formatos de Marcado Estructurado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax.saxutils</span></code> — SAX Utilities</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

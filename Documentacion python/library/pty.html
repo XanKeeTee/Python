@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="pty — Pseudo-terminal utilities" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/pty.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código Fuente: Lib/pty.py El módulo pty define las operaciones para manejar el concepto de pseudo-terminal: iniciar otro proceso para poder escribir y leer desde su propia terminal mediante program..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_pty_1af8dc86.png" />
+<meta property="og:image:alt" content="Código Fuente: Lib/pty.py El módulo pty define las operaciones para manejar el concepto de pseudo-terminal: iniciar otro proceso para poder escribir y leer desde su propia terminal mediante program..." />
+<meta name="description" content="Código Fuente: Lib/pty.py El módulo pty define las operaciones para manejar el concepto de pseudo-terminal: iniciar otro proceso para poder escribir y leer desde su propia terminal mediante program..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>pty — Pseudo-terminal utilities &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="fcntl — The fcntl and ioctl system calls" href="fcntl.html" />
+    <link rel="prev" title="tty — Terminal control functions" href="tty.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/pty.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Pseudo-terminal utilities</a><ul>
+<li><a class="reference internal" href="#example">Ejemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="tty.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tty</span></code> — Terminal control functions</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="fcntl.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> — The <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> and <code class="docutils literal notranslate"><span class="pre">ioctl</span></code> system calls</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/pty.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="fcntl.html" title="fcntl — The fcntl and ioctl system calls"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="tty.html" title="tty — Terminal control functions"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" accesskey="U">Unix-specific services</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Pseudo-terminal utilities</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-pty">
+<span id="pty-pseudo-terminal-utilities"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Pseudo-terminal utilities<a class="headerlink" href="#module-pty" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código Fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/pty.py">Lib/pty.py</a></p>
+<hr class="docutils" />
+<p class="translated">El módulo <a class="reference internal" href="#module-pty" title="pty: Pseudo-Terminal Handling for Unix. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code></a> define las operaciones para manejar el concepto de pseudo-terminal: iniciar otro proceso para poder escribir y leer desde su propia terminal mediante programación.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: Unix.</p>
+</div>
+<p class="translated">El manejo de pseudo-terminales depende en gran medida de la plataforma. Este código se prueba principalmente en Linux, FreeBSD y macOS (se supone que funciona en otras plataformas POSIX, pero no se ha probado a fondo).</p>
+<p class="translated">El modulo <a class="reference internal" href="#module-pty" title="pty: Pseudo-Terminal Handling for Unix. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code></a> define las siguientes funciones:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pty.fork">
+<span class="sig-prename descclassname"><span class="pre">pty.</span></span><span class="sig-name descname"><span class="pre">fork</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pty.fork" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Bifurcación. Conectar en su propia terminal (terminal hijo) una pseudo-terminal. El valor de retorno es <code class="docutils literal notranslate"><span class="pre">(pid,</span> <span class="pre">fd)</span></code>. Tener en cuenta que la terminal hijo tiene como valor <em>pid</em> 0 y <em>fd</em> es <em>invalid</em>. El valor de retorno del padre es el <em>pid</em> del hijo, y <em>fd</em> es un descriptor de archivo conectado a la terminal hijo (también a la salida y entrada estándar de la terminal hijo)</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p class="untranslated">On macOS the use of this function is unsafe when mixed with using
+higher-level system APIs, and that includes using <a class="reference internal" href="urllib.request.html#module-urllib.request" title="urllib.request: Extensible library for opening URLs."><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib.request</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pty.openpty">
+<span class="sig-prename descclassname"><span class="pre">pty.</span></span><span class="sig-name descname"><span class="pre">openpty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pty.openpty" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Abre un nuevo par de pseudo-terminales, usando <a class="reference internal" href="os.html#os.openpty" title="os.openpty"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.openpty()</span></code></a>, o código de emulación para sistemas genéricos de Unix. Retorna un par de descriptores de archivo <code class="docutils literal notranslate"><span class="pre">(master,</span> <span class="pre">slave)</span></code>, para el <em>master</em> y el <em>slave</em> respectivamente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pty.spawn">
+<span class="sig-prename descclassname"><span class="pre">pty.</span></span><span class="sig-name descname"><span class="pre">spawn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">master_read</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">stdin_read</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pty.spawn" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Genera un proceso conectado a su terminal con el io estándar del proceso actual. Esto se usa a frecuentemente para confundir programas que insisten en leer desde la terminal de control. Se espera que el proceso generado detrás de pty sea finalizado y cuando lo haga <em>spawn</em> se retornará.</p>
+<p class="translated">Un bucle copia STDIN del proceso actual al hijo y los datos recibidos del niño a STDOUT del proceso actual. No se le indica al hijo si STDIN del proceso actual se cierra.</p>
+<p class="translated">A las funciones <em>master_read</em> y <em>stdin_read</em> se les pasa un descriptor de archivo del cual deben leer, y siempre deben retornar una cadena de bytes. Para forzar el retorno de spawn antes de que el proceso hijo salga, se debe retornar un arreglo de bytes vacía para señalar el final del archivo.</p>
+<p class="translated">La implementación predeterminada para ambas funciones retornará hasta 1024 bytes cada vez que se llamen. El dato retornado de <em>master_read</em> se pasa al descriptor de archivo maestro para leer la salida del proceso hijo, y <em>stdin_read</em> pasa el descriptor de archivo 0, para leer desde la entrada del proceso padre.</p>
+<p class="translated">Retornando una cadena de bytes vacía de cualquier llamado es interpretado como una condición de fin de archivo (EOF), y el llamado no se realizará después de eso. Si <em>stdin_read</em> retorna EOF la terminal de control ya no puede comunicarse con el proceso padre o el proceso hijo. A menos que el proceso hijo se cierre sin ninguna entrada <em>spawn</em> se repetirá para siempre. Si <em>master_read</em> retorna EOF se produce el mismo comportamiento (al menos en Linux)</p>
+<p class="translated">Retorna el valor del estado de salida de <a class="reference internal" href="os.html#os.waitpid" title="os.waitpid"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.waitpid()</span></code></a> en el proceso hijo.</p>
+<p class="translated"><a class="reference internal" href="os.html#os.waitstatus_to_exitcode" title="os.waitstatus_to_exitcode"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.waitstatus_to_exitcode()</span></code></a> se puede utilizar para convertir el estado de salida en un código de salida.</p>
+<p class="audit-hook translated">Lanza un <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">pty.spawn</span></code>  con el argumento <code class="docutils literal notranslate"><span class="pre">argv</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span><a class="reference internal" href="#pty.spawn" title="pty.spawn"><code class="xref py py-func docutils literal notranslate"><span class="pre">spawn()</span></code></a> ahora retorna el valor de estado de  <a class="reference internal" href="os.html#os.waitpid" title="os.waitpid"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.waitpid()</span></code></a> para los procesos hijos.</p>
+</div>
+</dd></dl>
+
+<section id="example">
+<h2 class="translated">Ejemplo<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p class="translated">El siguiente programa actúa como el comando de Unix <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/script(1)">script(1)</a></em>, usando una pseudo-terminal para registrar todas las entradas y salidas de una sesión en «typescript».</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pty</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;use_python&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;typescript&#39;</span><span class="p">)</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="n">shell</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span> <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">use_python</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SHELL&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">filename</span>
+<span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;ab&#39;</span> <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">append</span> <span class="k">else</span> <span class="s1">&#39;wb&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">script</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">fd</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+        <span class="n">script</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Script started, file is&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">script</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s1">&#39;Script started on </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">())</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+    <span class="n">pty</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">shell</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
+
+    <span class="n">script</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s1">&#39;Script done on </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">())</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Script done, file is&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Pseudo-terminal utilities</a><ul>
+<li><a class="reference internal" href="#example">Ejemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="tty.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tty</span></code> — Terminal control functions</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="fcntl.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> — The <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> and <code class="docutils literal notranslate"><span class="pre">ioctl</span></code> system calls</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/pty.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="fcntl.html" title="fcntl — The fcntl and ioctl system calls"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="tty.html" title="tty — Terminal control functions"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" >Unix-specific services</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Pseudo-terminal utilities</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

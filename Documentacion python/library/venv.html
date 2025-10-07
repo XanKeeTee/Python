@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="venv — Creation of virtual environments" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/venv.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/venv/ The venv module supports creating lightweight «virtual environments», each with their own independent set of Python packages installed in their site directories. A virtual ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_venv_64058b85.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/venv/ The venv module supports creating lightweight «virtual environments», each with their own independent set of Python packages installed in their site directories. A virtual ..." />
+<meta name="description" content="Código fuente: Lib/venv/ The venv module supports creating lightweight «virtual environments», each with their own independent set of Python packages installed in their site directories. A virtual ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>venv — Creation of virtual environments &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="zipapp — Manage executable Python zip archives" href="zipapp.html" />
+    <link rel="prev" title="ensurepip — Bootstrapping the pip installer" href="ensurepip.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/venv.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Creation of virtual environments</a><ul>
+<li><a class="reference internal" href="#creating-virtual-environments">Creación de entornos virtuales</a></li>
+<li><a class="reference internal" href="#how-venvs-work">Cómo funcionan los venvs</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#an-example-of-extending-envbuilder">Un ejemplo de la extensión de <code class="docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="ensurepip.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> — Bootstrapping the <code class="docutils literal notranslate"><span class="pre">pip</span></code> installer</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="zipapp.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Manage executable Python zip archives</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/venv.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zipapp.html" title="zipapp — Manage executable Python zip archives"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="ensurepip.html" title="ensurepip — Bootstrapping the pip installer"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" accesskey="U">Empaquetado y distribución de software</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Creation of virtual environments</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-venv">
+<span id="venv-creation-of-virtual-environments"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Creation of virtual environments<a class="headerlink" href="#module-venv" title="Link to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/venv/">Lib/venv/</a></p>
+<hr class="docutils" id="index-0" />
+<p class="untranslated" id="venv-intro"><span id="venv-def"></span>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> module supports creating lightweight «virtual environments»,
+each with their own independent set of Python packages installed in
+their <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> directories.
+A virtual environment is created on top of an existing
+Python installation, known as the virtual environment’s «base» Python, and by
+default is isolated from the packages in the base environment,
+so that only those explicitly installed in the virtual environment are
+available. See <a class="reference internal" href="sys_path_init.html#sys-path-init-virtual-environments"><span class="std std-ref">Virtual Environments</span></a> and <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a>’s
+<a class="reference internal" href="site.html#site-virtual-environments-configuration"><span class="std std-ref">virtual environments documentation</span></a>
+for more information.</p>
+<p class="untranslated">When used from within a virtual environment, common installation tools such as
+<a class="extlink-pypi reference external" href="https://pypi.org/project/pip/">pip</a> will install Python packages into a virtual environment
+without needing to be told to do so explicitly.</p>
+<p class="untranslated">A virtual environment is (amongst other things):</p>
+<ul class="simple">
+<li><p class="untranslated">Used to contain a specific Python interpreter and software libraries and
+binaries which are needed to support a project (library or application). These
+are by default isolated from software in other virtual environments and Python
+interpreters and libraries installed in the operating system.</p></li>
+<li><p class="untranslated">Contained in a directory, conventionally named <code class="docutils literal notranslate"><span class="pre">.venv</span></code> or <code class="docutils literal notranslate"><span class="pre">venv</span></code> in
+the project directory, or under a container directory for lots of virtual
+environments, such as <code class="docutils literal notranslate"><span class="pre">~/.virtualenvs</span></code>.</p></li>
+<li><p class="untranslated">Not checked into source control systems such as Git.</p></li>
+<li><p class="untranslated">Considered as disposable – it should be simple to delete and recreate it from
+scratch. You don’t place any project code in the environment.</p></li>
+<li><p class="untranslated">Not considered as movable or copyable – you just recreate the same
+environment in the target location.</p></li>
+</ul>
+<p class="translated">Ver <span class="target" id="index-6"></span><a class="pep reference external" href="https://peps.python.org/pep-0405/"><strong>PEP 405</strong></a> para más información sobre los entornos virtuales de Python.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="untranslated"><a class="reference external" href="https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments">Python Packaging User Guide: Creating and using virtual environments</a></p>
+</div>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Android, not iOS, not WASI.</p>
+<p class="untranslated">This module is not supported on <a class="reference internal" href="intro.html#mobile-availability"><span class="std std-ref">mobile platforms</span></a>
+or <a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a>.</p>
+</div>
+<section id="creating-virtual-environments">
+<h2 class="translated">Creación de entornos virtuales<a class="headerlink" href="#creating-virtual-environments" title="Link to this heading">¶</a></h2>
+<p class="untranslated"><a class="reference internal" href="#venv-def"><span class="std std-ref">Virtual environments</span></a> are created by executing the <code class="docutils literal notranslate"><span class="pre">venv</span></code>
+module:</p>
+<div class="untranslated highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>/path/to/new/virtual/environment
+</pre></div>
+</div>
+<p class="untranslated">This creates the target directory (including parent directories as needed)
+and places a <code class="file docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> file in it with a <code class="docutils literal notranslate"><span class="pre">home</span></code> key
+pointing to the Python installation from which the command was run.
+It also creates a <code class="file docutils literal notranslate"><span class="pre">bin</span></code> (or <code class="file docutils literal notranslate"><span class="pre">Scripts</span></code> on Windows) subdirectory
+containing a copy or symlink of the Python executable
+(as appropriate for the platform or arguments used at environment creation time).
+It also creates a <code class="file docutils literal notranslate"><span class="pre">lib/pythonX.Y/site-packages</span></code> subdirectory
+(on Windows, this is <code class="file docutils literal notranslate"><span class="pre">Lib\site-packages</span></code>).
+If an existing directory is specified, it will be re-used.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>The use of <code class="docutils literal notranslate"><span class="pre">venv</span></code> is now recommended for creating virtual environments.</p>
+</div>
+<div class="deprecated-removed">
+<p><span class="versionmodified removed">Deprecated since version 3.6, removed in version 3.8: </span><strong class="program">pyvenv</strong> was the recommended tool for creating virtual environments
+for Python 3.3 and 3.4, and replaced in 3.5 by executing <code class="docutils literal notranslate"><span class="pre">venv</span></code> directly.</p>
+</div>
+<p class="untranslated">On Windows, invoke the <code class="docutils literal notranslate"><span class="pre">venv</span></code> command as follows:</p>
+<div class="untranslated highlight-ps1con notranslate"><div class="highlight"><pre><span></span><span class="gp">PS&gt; </span><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="n">C</span><span class="p">:\</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">new</span><span class="p">\</span><span class="n">virtual</span><span class="p">\</span><span class="n">environment</span>
+</pre></div>
+</div>
+<p class="untranslated">The command, if run with <code class="docutils literal notranslate"><span class="pre">-h</span></code>, will show the available options:</p>
+<div class="untranslated highlight-none notranslate"><div class="highlight"><pre><span></span>usage: venv [-h] [--system-site-packages] [--symlinks | --copies] [--clear]
+            [--upgrade] [--without-pip] [--prompt PROMPT] [--upgrade-deps]
+            [--without-scm-ignore-files]
+            ENV_DIR [ENV_DIR ...]
+
+Creates virtual Python environments in one or more target directories.
+
+Once an environment has been created, you may wish to activate it, e.g. by
+sourcing an activate script in its bin directory.
+</pre></div>
+</div>
+<dl class="std option" id="venv-cli">
+<dt class="sig sig-object std" id="cmdoption-venv-arg-ENV_DIR">
+<span class="sig-name descname"><span class="pre">ENV_DIR</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-arg-ENV_DIR" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">A required argument specifying the directory to create the environment in.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-system-site-packages">
+<span class="sig-name descname"><span class="pre">--system-site-packages</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-system-site-packages" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Give the virtual environment access to the system site-packages directory.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-symlinks">
+<span class="sig-name descname"><span class="pre">--symlinks</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-symlinks" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Try to use symlinks rather than copies, when symlinks are not the default for the platform.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-copies">
+<span class="sig-name descname"><span class="pre">--copies</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-copies" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Try to use copies rather than symlinks, even when symlinks are the default for the platform.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-clear">
+<span class="sig-name descname"><span class="pre">--clear</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-clear" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Delete the contents of the environment directory if it already exists, before environment creation.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-upgrade">
+<span class="sig-name descname"><span class="pre">--upgrade</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-upgrade" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Upgrade the environment directory to use this version of Python, assuming Python has been upgraded in-place.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-without-pip">
+<span class="sig-name descname"><span class="pre">--without-pip</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-without-pip" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Skips installing or upgrading pip in the virtual environment (pip is bootstrapped by default).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-prompt">
+<span class="sig-name descname"><span class="pre">--prompt</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;PROMPT&gt;</span></span><a class="headerlink" href="#cmdoption-venv-prompt" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Provides an alternative prompt prefix for this environment.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-upgrade-deps">
+<span class="sig-name descname"><span class="pre">--upgrade-deps</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-upgrade-deps" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Upgrade core dependencies (pip) to the latest version in PyPI.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-venv-without-scm-ignore-files">
+<span class="sig-name descname"><span class="pre">--without-scm-ignore-files</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-venv-without-scm-ignore-files" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Skips adding SCM ignore files to the environment directory (Git is supported by default).</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>Installs pip by default, added the <code class="docutils literal notranslate"><span class="pre">--without-pip</span></code>  and <code class="docutils literal notranslate"><span class="pre">--copies</span></code>
+options.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>In earlier versions, if the target directory already existed, an error was
+raised, unless the <code class="docutils literal notranslate"><span class="pre">--clear</span></code> or <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> option was provided.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Add <code class="docutils literal notranslate"><span class="pre">--upgrade-deps</span></code> option to upgrade pip + setuptools to the latest on PyPI.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span><code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is no longer a core venv dependency.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.13: </span>Added the <code class="docutils literal notranslate"><span class="pre">--without-scm-ignore-files</span></code> option.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.13: </span><code class="docutils literal notranslate"><span class="pre">venv</span></code> now creates a <code class="file docutils literal notranslate"><span class="pre">.gitignore</span></code> file for Git by default.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">While symlinks are supported on Windows, they are not recommended. Of
+particular note is that double-clicking <code class="docutils literal notranslate"><span class="pre">python.exe</span></code> in File Explorer
+will resolve the symlink eagerly and ignore the virtual environment.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">On Microsoft Windows, it may be required to enable the <code class="docutils literal notranslate"><span class="pre">Activate.ps1</span></code>
+script by setting the execution policy for the user. You can do this by
+issuing the following PowerShell command:</p>
+<div class="untranslated highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Set-ExecutionPolicy</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
+</pre></div>
+</div>
+<p class="untranslated">See <a class="reference external" href="https://go.microsoft.com/fwlink/?LinkID=135170">About Execution Policies</a>
+for more information.</p>
+</div>
+<p class="untranslated">The created <code class="file docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> file also includes the
+<code class="docutils literal notranslate"><span class="pre">include-system-site-packages</span></code> key, set to <code class="docutils literal notranslate"><span class="pre">true</span></code> if <code class="docutils literal notranslate"><span class="pre">venv</span></code> is
+run with the <code class="docutils literal notranslate"><span class="pre">--system-site-packages</span></code> option, <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.</p>
+<p class="untranslated">Unless the <code class="docutils literal notranslate"><span class="pre">--without-pip</span></code> option is given, <a class="reference internal" href="ensurepip.html#module-ensurepip" title="ensurepip: Bootstrapping the &quot;pip&quot; installer into an existing Python installation or virtual environment."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code></a> will be
+invoked to bootstrap <code class="docutils literal notranslate"><span class="pre">pip</span></code> into the virtual environment.</p>
+<p class="untranslated">Multiple paths can be given to <code class="docutils literal notranslate"><span class="pre">venv</span></code>, in which case an identical virtual
+environment will be created, according to the given options, at each provided
+path.</p>
+</section>
+<section id="how-venvs-work">
+<span id="venv-explanation"></span><h2 class="translated">Cómo funcionan los venvs<a class="headerlink" href="#how-venvs-work" title="Link to this heading">¶</a></h2>
+<p class="untranslated">When a Python interpreter is running from a virtual environment,
+<a class="reference internal" href="sys.html#sys.prefix" title="sys.prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.prefix</span></code></a> and <a class="reference internal" href="sys.html#sys.exec_prefix" title="sys.exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code></a>
+point to the directories of the virtual environment,
+whereas <a class="reference internal" href="sys.html#sys.base_prefix" title="sys.base_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_prefix</span></code></a> and <a class="reference internal" href="sys.html#sys.base_exec_prefix" title="sys.base_exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_exec_prefix</span></code></a>
+point to those of the base Python used to create the environment.
+It is sufficient to check
+<code class="docutils literal notranslate"><span class="pre">sys.prefix</span> <span class="pre">!=</span> <span class="pre">sys.base_prefix</span></code> to determine if the current interpreter is
+running from a virtual environment.</p>
+<p class="untranslated">A virtual environment may be «activated» using a script in its binary directory
+(<code class="docutils literal notranslate"><span class="pre">bin</span></code> on POSIX; <code class="docutils literal notranslate"><span class="pre">Scripts</span></code> on Windows).
+This will prepend that directory to your <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code>, so that running
+<strong class="program">python</strong> will invoke the environment’s Python interpreter
+and you can run installed scripts without having to use their full path.
+The invocation of the activation script is platform-specific
+(<code class="samp docutils literal notranslate"><em><span class="pre">&lt;venv&gt;</span></em></code> must be replaced by the path to the directory
+containing the virtual environment):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Plataforma</p></th>
+<th class="head"><p class="translated">Shell</p></th>
+<th class="head"><p class="translated">Comando para activar el entorno virtual</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td rowspan="4"><p class="translated">POSIX</p></td>
+<td><p class="translated">bash/zsh</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">$</span> <span class="pre">source</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">/bin/activate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">fish</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">$</span> <span class="pre">source</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">/bin/activate.fish</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">csh/tcsh</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">$</span> <span class="pre">source</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">/bin/activate.csh</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="untranslated">pwsh</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">$</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">/bin/Activate.ps1</span></code></p></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p class="translated">Windows</p></td>
+<td><p class="translated">cmd.exe</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">C:\&gt;</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">\Scripts\activate.bat</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">PowerShell</p></td>
+<td><p class="translated"><code class="samp docutils literal notranslate"><span class="pre">PS</span> <span class="pre">C:\&gt;</span> <em><span class="pre">&lt;venv&gt;</span></em><span class="pre">\Scripts\Activate.ps1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4: </span><strong class="program">fish</strong> and <strong class="program">csh</strong> activation scripts.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8: </span>Scripts de activación de PowerShell instalados en POSIX para compatibilidad con PowerShell Core.</p>
+</div>
+<p class="translated">No <em>necesita</em> específicamente activar un entorno virtual, ya que puede solo especificar la ruta completa al intérprete de Python de ese entorno al invocar Python. Además, todos los scripts instalados en el entorno deben poder ejecutarse sin activarlo.</p>
+<p class="untranslated">In order to achieve this, scripts installed into virtual environments have
+a «shebang» line which points to the environment’s Python interpreter,
+<code class="samp docutils literal notranslate"><span class="pre">#!/</span><em><span class="pre">&lt;path-to-venv&gt;</span></em><span class="pre">/bin/python</span></code>.
+This means that the script will run with that interpreter regardless of the
+value of <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code>. On Windows, «shebang» line processing is supported if
+you have the <a class="reference internal" href="../using/windows.html#launcher"><span class="std std-ref">Python Install Manager</span></a> installed. Thus, double-clicking an installed
+script in a Windows Explorer window should run it with the correct interpreter
+without the environment needing to be activated or on the <span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<p class="translated">Cuando se ha activado un entorno virtual, la variable de entorno <code class="xref std std-envvar docutils literal notranslate"><span class="pre">VIRTUAL_ENV</span></code> se establece en la ruta del entorno. Dado que no se requiere activar explícitamente una entorno virtual para usarla, no se puede confiar en <code class="xref std std-envvar docutils literal notranslate"><span class="pre">VIRTUAL_ENV</span></code> para determinar si se está usando un entorno virtual.</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p class="translated">Debido a que los scripts instalados en entornos no deben esperar a que el entorno se active, sus líneas shebang contienen las rutas absolutas a los intérpretes de su entorno. Debido a esto, los entornos son inherentemente no portables, en el caso general. Siempre debe tener un medio simple para recrear un entorno (por ejemplo, si tiene un archivo de requisitos <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, puede invocar <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code> al usar <code class="docutils literal notranslate"><span class="pre">pip</span></code> del entorno para instalar todos los paquetes que necesite el entorno). Si por alguna razón necesita mover el entorno a una nueva ubicación, debe recrearlo en la ubicación deseada y eliminar el de la ubicación anterior. Si mueve un entorno porque movió un directorio principal del mismo, debe recrear el entorno en su nueva ubicación. De lo contrario, el software instalado en el entorno puede no funcionar como se espera.</p>
+</div>
+<p class="translated">Puede desactivar un entorno virtual al escribir <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> en el shell. El mecanismo exacto es específico de la plataforma y es un detalle de implementación interno (se usará normalmente una función de script o shell).</p>
+</section>
+<section id="api">
+<span id="venv-api"></span><h2 class="translated">API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h2>
+<p class="translated">El método de alto nivel descrito anteriormente utiliza una sencilla API que proporciona mecanismos para que les creadores de entornos virtuales de terceras/os puedan personalizar la creación de entornos según sus necesidades, la clase <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="venv.EnvBuilder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">venv.</span></span><span class="sig-name descname"><span class="pre">EnvBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_site_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symlinks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upgrade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_pip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upgrade_deps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">scm_ignore_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La clase <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> acepta los siguientes argumentos de palabras clave en la instanciación:</p>
+<ul class="simple">
+<li><p class="untranslated"><em>system_site_packages</em> – a boolean value indicating that the system Python
+site-packages should be available to the environment (defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p class="untranslated"><em>clear</em> – a boolean value which, if true, will delete the contents of
+any existing target directory, before creating the environment.</p></li>
+<li><p class="untranslated"><em>symlinks</em> – a boolean value indicating whether to attempt to symlink the
+Python binary rather than copying.</p></li>
+<li><p class="untranslated"><em>upgrade</em> – a boolean value which, if true, will upgrade an existing
+environment with the running Python - for use when that Python has been
+upgraded in-place (defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p class="untranslated"><em>with_pip</em> – a boolean value which, if true, ensures pip is
+installed in the virtual environment. This uses <a class="reference internal" href="ensurepip.html#module-ensurepip" title="ensurepip: Bootstrapping the &quot;pip&quot; installer into an existing Python installation or virtual environment."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code></a> with
+the <code class="docutils literal notranslate"><span class="pre">--default-pip</span></code> option.</p></li>
+<li><p class="untranslated"><em>prompt</em> – a string to be used after virtual environment is activated
+(defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code> which means directory name of the environment would
+be used). If the special string <code class="docutils literal notranslate"><span class="pre">&quot;.&quot;</span></code> is provided, the basename of the
+current directory is used as the prompt.</p></li>
+<li><p class="untranslated"><em>upgrade_deps</em> – Update the base venv modules to the latest on PyPI</p></li>
+<li><p class="untranslated"><em>scm_ignore_files</em> – Create ignore files based for the specified source
+control managers (SCM) in the iterable. Support is defined by having a
+method named <code class="docutils literal notranslate"><span class="pre">create_{scm}_ignore_file</span></code>. The only value supported by
+default is <code class="docutils literal notranslate"><span class="pre">&quot;git&quot;</span></code> via <a class="reference internal" href="#venv.EnvBuilder.create_git_ignore_file" title="venv.EnvBuilder.create_git_ignore_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_git_ignore_file()</span></code></a>.</p></li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>Añadido el parámetro <code class="docutils literal notranslate"><span class="pre">with_pip</span></code></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.6: </span>Añadido el parámetro <code class="docutils literal notranslate"><span class="pre">prompt</span></code></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Se agregó el parámetro <code class="docutils literal notranslate"><span class="pre">upgrade_deps</span></code></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.13: </span>Added the <code class="docutils literal notranslate"><span class="pre">scm_ignore_files</span></code> parameter</p>
+</div>
+<p class="untranslated"><a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> may be used as a base class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.create" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crear un entorno virtual especificando el directorio de destino (de forma absoluta o relativa al directorio actual) que ha de contener el entorno virtual. El método <code class="docutils literal notranslate"><span class="pre">create</span></code> creará el entorno en el directorio especificado, o lanzará la correspondiente excepción.</p>
+<p class="translated">El método <code class="docutils literal notranslate"><span class="pre">create</span></code> de la clase <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> ilustra los enlaces disponibles para la personalización de la subclase:</p>
+<div class="untranslated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a virtualized Python environment in a directory.</span>
+<span class="sd">    env_dir is the target directory to create an environment in.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">env_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">env_dir</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensure_directories</span><span class="p">(</span><span class="n">env_dir</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">create_configuration</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">setup_python</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">setup_scripts</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">post_setup</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Cada uno de los métodos <a class="reference internal" href="#venv.EnvBuilder.ensure_directories" title="venv.EnvBuilder.ensure_directories"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ensure_directories()</span></code></a>, <a class="reference internal" href="#venv.EnvBuilder.create_configuration" title="venv.EnvBuilder.create_configuration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_configuration()</span></code></a>, <a class="reference internal" href="#venv.EnvBuilder.setup_python" title="venv.EnvBuilder.setup_python"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_python()</span></code></a>, <a class="reference internal" href="#venv.EnvBuilder.setup_scripts" title="venv.EnvBuilder.setup_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_scripts()</span></code></a> y <a class="reference internal" href="#venv.EnvBuilder.post_setup" title="venv.EnvBuilder.post_setup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">post_setup()</span></code></a> pueden ser anulados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.ensure_directories">
+<span class="sig-name descname"><span class="pre">ensure_directories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.ensure_directories" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crea el directorio del entorno y todos los subdirectorios necesarios que aún no existen, y retorna un objeto de contexto. Este objeto de contexto es solo un contenedor de atributos (como rutas) para que lo usen otros métodos. Si se crea <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> con el argumento <code class="docutils literal notranslate"><span class="pre">clear=True</span></code>, se borrará el contenido del directorio del entorno y luego se recrearán todos los subdirectorios necesarios.</p>
+<p class="translated">El objeto de contexto que retorna es un <a class="reference internal" href="types.html#types.SimpleNamespace" title="types.SimpleNamespace"><code class="xref py py-class docutils literal notranslate"><span class="pre">types.SimpleNamespace</span></code></a> con los siguientes atributos:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">env_dir</span></code> - La ubicación del entorno virtual. Se usa para <code class="docutils literal notranslate"><span class="pre">__VENV_DIR__</span></code> en scripts de activación (ver <a class="reference internal" href="#venv.EnvBuilder.install_scripts" title="venv.EnvBuilder.install_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install_scripts()</span></code></a>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">env_name</span></code> - El nombre del entorno virtual. Se usa para <code class="docutils literal notranslate"><span class="pre">__VENV_NAME__</span></code> en scripts de activación (ver <a class="reference internal" href="#venv.EnvBuilder.install_scripts" title="venv.EnvBuilder.install_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install_scripts()</span></code></a>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">prompt</span></code> - El prompt que utilizarán los scripts de activación. Se usa para <code class="docutils literal notranslate"><span class="pre">__VENV_PROMPT__</span></code> en scripts de activación (ver <a class="reference internal" href="#venv.EnvBuilder.install_scripts" title="venv.EnvBuilder.install_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install_scripts()</span></code></a>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">executable</span></code> - El ejecutable de Python subyacente que se utiliza por el entorno virtual. Esto tiene en cuenta el caso donde se crea un entorno virtual a partir de otro entorno virtual.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">inc_path</span></code> - La ruta de include para el entorno virtual.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">lib_path</span></code> - La ruta de purelib para el entorno virtual.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">bin_path</span></code> - La ruta del script para el entorno virtual.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">bin_name</span></code> - El nombre de la ruta del script en relación con la ubicación del entorno virtual. Se usa para <code class="docutils literal notranslate"><span class="pre">__VENV_BIN_NAME__</span></code> en scripts de activación (ver <a class="reference internal" href="#venv.EnvBuilder.install_scripts" title="venv.EnvBuilder.install_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install_scripts()</span></code></a>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">env_exe</span></code> - El nombre del intérprete de Python en el entorno virtual. Se usa para <code class="docutils literal notranslate"><span class="pre">__VENV_PYTHON__</span></code> en scripts de activación (ver <a class="reference internal" href="#venv.EnvBuilder.install_scripts" title="venv.EnvBuilder.install_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install_scripts()</span></code></a>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">env_exec_cmd</span></code> - El nombre del intérprete de Python, teniendo en cuenta las redirecciones del sistema de archivos. Se puede utilizar para ejecutar Python en el entorno virtual.</p></li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.11: </span>El <a class="reference internal" href="sysconfig.html#installation-paths"><span class="std std-ref">esquema de instalación de sysconfig</span></a> de <em>venv</em> se utiliza para construir las rutas de los directorios creados.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span>Se agregó el atributo <code class="docutils literal notranslate"><span class="pre">lib_path</span></code> al contexto y se documentó el objeto de contexto.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.create_configuration">
+<span class="sig-name descname"><span class="pre">create_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.create_configuration" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crea el archivo de configuración <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> en el entorno.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.setup_python">
+<span class="sig-name descname"><span class="pre">setup_python</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.setup_python" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crea una copia o enlace simbólico al ejecutable Python en el entorno. En los sistemas POSIX, si se usó un ejecutable específico <code class="docutils literal notranslate"><span class="pre">python3.x</span></code>, se crearán enlaces simbólicos a <code class="docutils literal notranslate"><span class="pre">python</span></code> y <code class="docutils literal notranslate"><span class="pre">python3</span></code> apuntando a ese ejecutable, a menos que ya existan archivos con esos nombres.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.setup_scripts">
+<span class="sig-name descname"><span class="pre">setup_scripts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.setup_scripts" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Instala los scripts de activación apropiados para la plataforma en el entorno virtual.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.upgrade_dependencies">
+<span class="sig-name descname"><span class="pre">upgrade_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.upgrade_dependencies" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Upgrades the core venv dependency packages (currently <a class="extlink-pypi reference external" href="https://pypi.org/project/pip/">pip</a>)
+in the environment. This is done by shelling out to the
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> executable in the environment.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.9.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.12: </span><a class="extlink-pypi reference external" href="https://pypi.org/project/setuptools/">setuptools</a> is no longer a core venv dependency.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.post_setup">
+<span class="sig-name descname"><span class="pre">post_setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.post_setup" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un método de marcador de posición que puede ser anulado en implementaciones de terceros/as para previo instalar paquetes en el entorno virtual o realizar otros pasos posteriores a la creación.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.install_scripts">
+<span class="sig-name descname"><span class="pre">install_scripts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.install_scripts" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">This method can be
+called from <a class="reference internal" href="#venv.EnvBuilder.setup_scripts" title="venv.EnvBuilder.setup_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_scripts()</span></code></a> or <a class="reference internal" href="#venv.EnvBuilder.post_setup" title="venv.EnvBuilder.post_setup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">post_setup()</span></code></a> in subclasses to
+assist in installing custom scripts into the virtual environment.</p>
+<p class="untranslated"><em>path</em> is the path to a directory that should contain subdirectories
+<code class="docutils literal notranslate"><span class="pre">common</span></code>, <code class="docutils literal notranslate"><span class="pre">posix</span></code>, <code class="docutils literal notranslate"><span class="pre">nt</span></code>; each containing scripts destined for the
+<code class="docutils literal notranslate"><span class="pre">bin</span></code> directory in the environment.  The contents of <code class="docutils literal notranslate"><span class="pre">common</span></code> and the
+directory corresponding to <a class="reference internal" href="os.html#os.name" title="os.name"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.name</span></code></a> are copied after some text
+replacement of placeholders:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">__VENV_DIR__</span></code> se sustituye por la ruta absoluta del directorio del entorno.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">__VENV_NAME__</span></code> se sustituye por el nombre del entorno (parte final de la ruta del directorio del entorno).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">__VENV_PROMPT__</span></code> se sustituye por el <em>prompt</em> (el nombre del entorno entre paréntesis y con un espacio posterior)</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">__VENV_BIN_NAME__</span></code> se sustituye con el nombre del directorio <em>bin</em> (ya sea <code class="docutils literal notranslate"><span class="pre">bin</span></code> o <code class="docutils literal notranslate"><span class="pre">Scripts</span></code>).</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">__VENV_PYTHON__</span></code> se sustituye con la ruta absoluta del ejecutable del entorno.</p></li>
+</ul>
+<p class="translated">Se permite la existencia de los directorios (para cuando se está actualizando un entorno existente).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="venv.EnvBuilder.create_git_ignore_file">
+<span class="sig-name descname"><span class="pre">create_git_ignore_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.EnvBuilder.create_git_ignore_file" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Creates a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file within the virtual environment that causes
+the entire directory to be ignored by the Git source control manager.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.13.</span></p>
+</div>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7.2: </span>Windows ahora usa scripts de redireccionamiento para <code class="docutils literal notranslate"><span class="pre">python[w].exe</span></code> en lugar de copiar los propios binarios. Para 3.7.2 solamente <a class="reference internal" href="#venv.EnvBuilder.setup_python" title="venv.EnvBuilder.setup_python"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_python()</span></code></a> no hace nada a menos que se ejecute desde una compilación en el árbol de directorios fuente.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7.3: </span>Windows copia los scripts de redireccionamiento como parte de <a class="reference internal" href="#venv.EnvBuilder.setup_python" title="venv.EnvBuilder.setup_python"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_python()</span></code></a> en lugar de <a class="reference internal" href="#venv.EnvBuilder.setup_scripts" title="venv.EnvBuilder.setup_scripts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setup_scripts()</span></code></a>. Este no era el caso para 3.7.2. Cuando se usan enlaces simbólicos, los ejecutables originales se enlazan.</p>
+</div>
+</dd></dl>
+
+<p class="translated">También hay una función de conveniencia a nivel de módulo:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="venv.create">
+<span class="sig-prename descclassname"><span class="pre">venv.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_site_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symlinks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_pip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upgrade_deps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">scm_ignore_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#venv.create" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Crea un <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> con los argumentos de la palabra clave dada, y llama a su método <a class="reference internal" href="#venv.EnvBuilder.create" title="venv.EnvBuilder.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a> con el argumento <em>env_dir</em>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>Added the <em>with_pip</em> parameter</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.6: </span>Added the <em>prompt</em> parameter</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Added the <em>upgrade_deps</em> parameter</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.13: </span>Added the <em>scm_ignore_files</em> parameter</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="an-example-of-extending-envbuilder">
+<h2 class="translated">Un ejemplo de la extensión de <code class="docutils literal notranslate"><span class="pre">EnvBuilder</span></code><a class="headerlink" href="#an-example-of-extending-envbuilder" title="Link to this heading">¶</a></h2>
+<p class="translated">El siguiente script muestra como extender <a class="reference internal" href="#venv.EnvBuilder" title="venv.EnvBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a> implementando una subclase que instala setuptools y pip en un entorno virtual creado:</p>
+<div class="untranslated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Thread</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">venv</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtendedEnvBuilder</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">EnvBuilder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This builder installs setuptools and pip so that you can pip or</span>
+<span class="sd">    easy_install other packages into the created virtual environment.</span>
+
+<span class="sd">    :param nodist: If true, setuptools and pip are not installed into the</span>
+<span class="sd">                   created virtual environment.</span>
+<span class="sd">    :param nopip: If true, pip is not installed into the created</span>
+<span class="sd">                  virtual environment.</span>
+<span class="sd">    :param progress: If setuptools or pip are installed, the progress of the</span>
+<span class="sd">                     installation can be monitored by passing a progress</span>
+<span class="sd">                     callable. If specified, it is called with two</span>
+<span class="sd">                     arguments: a string indicating some progress, and a</span>
+<span class="sd">                     context indicating where the string is coming from.</span>
+<span class="sd">                     The context argument can have one of three values:</span>
+<span class="sd">                     &#39;main&#39;, indicating that it is called from virtualize()</span>
+<span class="sd">                     itself, and &#39;stdout&#39; and &#39;stderr&#39;, which are obtained</span>
+<span class="sd">                     by reading lines from the output streams of a subprocess</span>
+<span class="sd">                     which is used to install the app.</span>
+
+<span class="sd">                     If a callable is not specified, default progress</span>
+<span class="sd">                     information is output to sys.stderr.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodist</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;nodist&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nopip</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;nopip&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;progress&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">post_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set up any packages which need to be pre-installed into the</span>
+<span class="sd">        virtual environment being created.</span>
+
+<span class="sd">        :param context: The information for the virtual environment</span>
+<span class="sd">                        creation request being processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;VIRTUAL_ENV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">env_dir</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">install_setuptools</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="c1"># Can&#39;t install pip without setuptools</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nopip</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">install_pip</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read lines from a subprocess&#39; output stream and either pass to a progress</span>
+<span class="sd">        callable (if specified) or write progress information to sys.stderr.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">progress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">progress</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">install_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">binpath</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">bin_path</span>
+        <span class="n">distpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binpath</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="c1"># Download script into the virtual environment&#39;s binaries folder</span>
+        <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">distpath</span><span class="p">)</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="n">term</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">term</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">progress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">progress</span><span class="p">(</span><span class="s1">&#39;Installing </span><span class="si">%s</span><span class="s1"> ...</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">term</span><span class="p">),</span> <span class="s1">&#39;main&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Installing </span><span class="si">%s</span><span class="s1"> ...</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">term</span><span class="p">))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="c1"># Install in the virtual environment</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">context</span><span class="o">.</span><span class="n">env_exe</span><span class="p">,</span> <span class="n">fn</span><span class="p">]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">binpath</span><span class="p">)</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="s1">&#39;stdout&#39;</span><span class="p">))</span>
+        <span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s1">&#39;stderr&#39;</span><span class="p">))</span>
+        <span class="n">t2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="n">t1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="n">t2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">progress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">progress</span><span class="p">(</span><span class="s1">&#39;done.&#39;</span><span class="p">,</span> <span class="s1">&#39;main&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># Clean up - no longer needed</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">distpath</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">install_setuptools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Install setuptools in the virtual environment.</span>
+
+<span class="sd">        :param context: The information for the virtual environment</span>
+<span class="sd">                        creation request being processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://bootstrap.pypa.io/ez_setup.py&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">install_script</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s1">&#39;setuptools&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="c1"># clear up the setuptools archive which gets downloaded</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;setuptools-&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">bin_path</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">bin_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">install_pip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Install pip in the virtual environment.</span>
+
+<span class="sd">        :param context: The information for the virtual environment</span>
+<span class="sd">                        creation request being processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://bootstrap.pypa.io/get-pip.py&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">install_script</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s1">&#39;pip&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="vm">__name__</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Creates virtual Python &#39;</span>
+                                                 <span class="s1">&#39;environments in one or &#39;</span>
+                                                 <span class="s1">&#39;more target &#39;</span>
+                                                 <span class="s1">&#39;directories.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;dirs&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;ENV_DIR&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A directory in which to create the &#39;</span>
+                             <span class="s1">&#39;virtual environment.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--no-setuptools&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;nodist&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Don&#39;t install setuptools or pip in the &quot;</span>
+                             <span class="s2">&quot;virtual environment.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--no-pip&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;nopip&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Don&#39;t install pip in the virtual &quot;</span>
+                             <span class="s2">&quot;environment.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--system-site-packages&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;system_site&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Give the virtual environment access to the &#39;</span>
+                             <span class="s1">&#39;system site-packages dir.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
+        <span class="n">use_symlinks</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">use_symlinks</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--symlinks&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">use_symlinks</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;symlinks&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Try to use symlinks rather than copies, &#39;</span>
+                             <span class="s1">&#39;when symlinks are not the default for &#39;</span>
+                             <span class="s1">&#39;the platform.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--clear&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;clear&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Delete the contents of the &#39;</span>
+                                           <span class="s1">&#39;virtual environment &#39;</span>
+                                           <span class="s1">&#39;directory if it already &#39;</span>
+                                           <span class="s1">&#39;exists, before virtual &#39;</span>
+                                           <span class="s1">&#39;environment creation.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--upgrade&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;upgrade&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Upgrade the virtual &#39;</span>
+                                             <span class="s1">&#39;environment directory to &#39;</span>
+                                             <span class="s1">&#39;use this version of &#39;</span>
+                                             <span class="s1">&#39;Python, assuming Python &#39;</span>
+                                             <span class="s1">&#39;has been upgraded &#39;</span>
+                                             <span class="s1">&#39;in-place.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--verbose&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Display the output &#39;</span>
+                                             <span class="s1">&#39;from the scripts which &#39;</span>
+                                             <span class="s1">&#39;install setuptools and pip.&#39;</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">upgrade</span> <span class="ow">and</span> <span class="n">options</span><span class="o">.</span><span class="n">clear</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;you cannot supply --upgrade and --clear together.&#39;</span><span class="p">)</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">ExtendedEnvBuilder</span><span class="p">(</span><span class="n">system_site_packages</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">system_site</span><span class="p">,</span>
+                                   <span class="n">clear</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">clear</span><span class="p">,</span>
+                                   <span class="n">symlinks</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">symlinks</span><span class="p">,</span>
+                                   <span class="n">upgrade</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">upgrade</span><span class="p">,</span>
+                                   <span class="n">nodist</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">nodist</span><span class="p">,</span>
+                                   <span class="n">nopip</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">nopip</span><span class="p">,</span>
+                                   <span class="n">verbose</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">dirs</span><span class="p">:</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">rc</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">main</span><span class="p">()</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">rc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Este script está también disponible para su descarga <a class="reference external" href="https://gist.github.com/vsajip/4673395">online</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Creation of virtual environments</a><ul>
+<li><a class="reference internal" href="#creating-virtual-environments">Creación de entornos virtuales</a></li>
+<li><a class="reference internal" href="#how-venvs-work">Cómo funcionan los venvs</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#an-example-of-extending-envbuilder">Un ejemplo de la extensión de <code class="docutils literal notranslate"><span class="pre">EnvBuilder</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="ensurepip.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> — Bootstrapping the <code class="docutils literal notranslate"><span class="pre">pip</span></code> installer</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="zipapp.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Manage executable Python zip archives</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/venv.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zipapp.html" title="zipapp — Manage executable Python zip archives"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="ensurepip.html" title="ensurepip — Bootstrapping the pip installer"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" >Empaquetado y distribución de software</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Creation of virtual environments</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

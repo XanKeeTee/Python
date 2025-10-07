@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="faulthandler — Dump the Python traceback" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/faulthandler.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="This module contains functions to dump Python tracebacks explicitly, on a fault, after a timeout, or on a user signal. Call faulthandler.enable() to install fault handlers for the SIGSEGV, SIGFPE, ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_faulthandler_021a194d.png" />
+<meta property="og:image:alt" content="This module contains functions to dump Python tracebacks explicitly, on a fault, after a timeout, or on a user signal. Call faulthandler.enable() to install fault handlers for the SIGSEGV, SIGFPE, ..." />
+<meta name="description" content="This module contains functions to dump Python tracebacks explicitly, on a fault, after a timeout, or on a user signal. Call faulthandler.enable() to install fault handlers for the SIGSEGV, SIGFPE, ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>faulthandler — Dump the Python traceback &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="pdb — El Depurador de Python" href="pdb.html" />
+    <link rel="prev" title="bdb — Debugger framework" href="bdb.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/faulthandler.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a><ul>
+<li><a class="reference internal" href="#dumping-the-traceback">Volcar el rastreo</a></li>
+<li><a class="reference internal" href="#dumping-the-c-stack">Dumping the C stack</a><ul>
+<li><a class="reference internal" href="#c-stack-compatibility">C Stack Compatibility</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fault-handler-state">Estado del gestor de fallos</a></li>
+<li><a class="reference internal" href="#dumping-the-tracebacks-after-a-timeout">Volcar los rastreos después de un tiempo de espera</a></li>
+<li><a class="reference internal" href="#dumping-the-traceback-on-a-user-signal">Volcar el rastreo en una señal del usuario</a></li>
+<li><a class="reference internal" href="#issue-with-file-descriptors">Problema con descriptores de archivo</a></li>
+<li><a class="reference internal" href="#example">Ejemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="bdb.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> — Debugger framework</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="pdb.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pdb</span></code> — El Depurador de Python</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/faulthandler.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="pdb.html" title="pdb — El Depurador de Python"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="bdb.html" title="bdb — Debugger framework"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" accesskey="U">Depuración y perfilado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-faulthandler">
+<span id="faulthandler-dump-the-python-traceback"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback<a class="headerlink" href="#module-faulthandler" title="Link to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+<hr class="docutils" />
+<p class="untranslated">This module contains functions to dump Python tracebacks explicitly, on a fault,
+after a timeout, or on a user signal. Call <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a> to
+install fault handlers for the <a class="reference internal" href="signal.html#signal.SIGSEGV" title="signal.SIGSEGV"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGSEGV</span></code></a>,
+<a class="reference internal" href="signal.html#signal.SIGFPE" title="signal.SIGFPE"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGFPE</span></code></a>, <a class="reference internal" href="signal.html#signal.SIGABRT" title="signal.SIGABRT"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGABRT</span></code></a>, <a class="reference internal" href="signal.html#signal.SIGBUS" title="signal.SIGBUS"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGBUS</span></code></a>, and
+<a class="reference internal" href="signal.html#signal.SIGILL" title="signal.SIGILL"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGILL</span></code></a> signals. You can also
+enable them at startup by setting the <span class="target" id="index-0"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONFAULTHANDLER"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONFAULTHANDLER</span></code></a> environment
+variable or by using the <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code></a> <code class="docutils literal notranslate"><span class="pre">faulthandler</span></code> command line option.</p>
+<p class="untranslated">The fault handler is compatible with system fault handlers like Apport or the
+Windows fault handler. The module uses an alternative stack for signal handlers
+if the <code class="xref c c-func docutils literal notranslate"><span class="pre">sigaltstack()</span></code> function is available. This allows it to dump the
+traceback even on a stack overflow.</p>
+<p class="translated">El gestor de fallos se llama en casos catastróficos y, por lo tanto, solo puede utilizar funciones seguras en señales (por ejemplo, no puede asignar memoria en el heap). Debido a esta limitación, el volcado del rastreo es mínimo comparado a los rastreos normales de Python:</p>
+<ul class="simple">
+<li><p class="translated">Solo se soporta ASCII. El gestor de errores <code class="docutils literal notranslate"><span class="pre">backslashreplace</span></code> se utiliza en la codificación.</p></li>
+<li><p class="translated">Cada cadena de caracteres está limitada a 500 caracteres.</p></li>
+<li><p class="translated">Solo se muestran el nombre de archivo, el nombre de la función y el número de línea. (sin código fuente)</p></li>
+<li><p class="translated">Está limitado a 100 frames y 100 hilos.</p></li>
+<li><p class="translated">El orden se invierte: la llamada más reciente se muestra primero.</p></li>
+</ul>
+<p class="translated">Por defecto, el rastreo de Python se escribe en <a class="reference internal" href="sys.html#sys.stderr" title="sys.stderr"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>. Para ver los rastreos, las aplicaciones deben ejecutarse en la terminal. Alternativamente se puede pasar un archivo de registro a <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a>.</p>
+<p class="translated">El módulo está implementado en C, así los rastreos se pueden volcar en un fallo o cuando Python está en bloqueo mutuo.</p>
+<p class="translated">El <a class="reference internal" href="devmode.html#devmode"><span class="std std-ref">Modo de Desarrollo Python</span></a> llama a <code class="xref py py-func docutils literal notranslate"><span class="pre">failurehandler.enable()</span></code> al inicio de Python.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="pdb.html#module-pdb" title="pdb: The Python debugger for interactive interpreters."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pdb</span></code></a></dt><dd><p class="translated">Depurador interactivo de código fuente para programas en Python.</p>
+</dd>
+<dt class="translated">Módulo <a class="reference internal" href="traceback.html#module-traceback" title="traceback: Print or retrieve a stack traceback."><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code></a></dt><dd><p class="translated">Interfaz estándar para extraer, formatear e imprimir trazas de pila de programas en Python.</p>
+</dd>
+</dl>
+</div>
+<section id="dumping-the-traceback">
+<h2 class="translated">Volcar el rastreo<a class="headerlink" href="#dumping-the-traceback" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.dump_traceback">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">dump_traceback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.dump_traceback" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Vuelca los rastreos de todos los hilos en el archivo <em>file</em>. Si <em>all_threads</em> es <code class="docutils literal notranslate"><span class="pre">False</span></code>, vuelca solo el hilo actual.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="translated"><a class="reference internal" href="traceback.html#traceback.print_tb" title="traceback.print_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">traceback.print_tb()</span></code></a>, que se puede utilizar para imprimir un objeto de traza de pila.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>Se añadió soporte para pasar el descriptor de archivo a esta función.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="dumping-the-c-stack">
+<h2 class="untranslated">Dumping the C stack<a class="headerlink" href="#dumping-the-c-stack" title="Link to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.dump_c_stack">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">dump_c_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.dump_c_stack" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Dump the C stack trace of the current thread into <em>file</em>.</p>
+<p class="untranslated">If the Python build does not support it or the operating system
+does not provide a stack trace, then this prints an error in place
+of a dumped C stack.</p>
+</dd></dl>
+
+<section id="c-stack-compatibility">
+<span id="id1"></span><h3 class="untranslated">C Stack Compatibility<a class="headerlink" href="#c-stack-compatibility" title="Link to this heading">¶</a></h3>
+<p class="untranslated">If the system does not support the C-level <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/backtrace(3)">backtrace(3)</a></em>
+or <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/dladdr1(3)">dladdr1(3)</a></em>, then C stack dumps will not work.
+An error will be printed instead of the stack.</p>
+<p class="untranslated">Additionally, some compilers do not support <a class="reference internal" href="../glossary.html#term-CPython"><span class="xref std std-term">CPython’s</span></a>
+implementation of C stack dumps. As a result, a different error may be printed
+instead of the stack, even if the operating system supports dumping stacks.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">Dumping C stacks can be arbitrarily slow, depending on the DWARF level
+of the binaries in the call stack.</p>
+</div>
+</section>
+</section>
+<section id="fault-handler-state">
+<h2 class="translated">Estado del gestor de fallos<a class="headerlink" href="#fault-handler-state" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.enable">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_stack</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.enable" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Enable the fault handler: install handlers for the <a class="reference internal" href="signal.html#signal.SIGSEGV" title="signal.SIGSEGV"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGSEGV</span></code></a>,
+<a class="reference internal" href="signal.html#signal.SIGFPE" title="signal.SIGFPE"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGFPE</span></code></a>, <a class="reference internal" href="signal.html#signal.SIGABRT" title="signal.SIGABRT"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGABRT</span></code></a>, <a class="reference internal" href="signal.html#signal.SIGBUS" title="signal.SIGBUS"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGBUS</span></code></a>
+and <a class="reference internal" href="signal.html#signal.SIGILL" title="signal.SIGILL"><code class="xref py py-const docutils literal notranslate"><span class="pre">SIGILL</span></code></a>
+signals to dump the Python traceback. If <em>all_threads</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+produce tracebacks for every running thread. Otherwise, dump only the current
+thread.</p>
+<p class="translated">El archivo <em>file</em> se debe mantener abierto hasta que se desactive el gestor de fallos: ver <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">problema con descriptores de archivo</span></a>.</p>
+<p class="untranslated">If <em>c_stack</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the C stack trace is printed after the Python
+traceback, unless the system does not support it. See <a class="reference internal" href="#faulthandler.dump_c_stack" title="faulthandler.dump_c_stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_c_stack()</span></code></a> for
+more information on compatibility.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>Se añadió soporte para pasar el descriptor de archivo a esta función.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.6: </span>En Windows, también se instaló un gestor para la excepción de Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Ahora el volcado menciona si se está ejecutando una colección de recolectores de basura si <em>all_threads</em> es verdadero.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.14: </span>Only the current thread is dumped if the <a class="reference internal" href="../glossary.html#term-GIL"><span class="xref std std-term">GIL</span></a> is disabled to
+prevent the risk of data races.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.14: </span>The dump now displays the C stack trace if <em>c_stack</em> is true.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.disable">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.disable" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Desactiva el gestor de fallos: desinstala los gestores de señales instalados por <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">enable()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.is_enabled">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">is_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.is_enabled" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Comprueba si el gestor de fallos está activado.</p>
+</dd></dl>
+
+</section>
+<section id="dumping-the-tracebacks-after-a-timeout">
+<h2 class="translated">Volcar los rastreos después de un tiempo de espera<a class="headerlink" href="#dumping-the-tracebacks-after-a-timeout" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.dump_traceback_later">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">dump_traceback_later</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.dump_traceback_later" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Dump the tracebacks of all threads, after a timeout of <em>timeout</em> seconds, or
+every <em>timeout</em> seconds if <em>repeat</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.  If <em>exit</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, call
+<code class="xref c c-func docutils literal notranslate"><span class="pre">_exit()</span></code> with status=1 after dumping the tracebacks.  (Note
+<code class="xref c c-func docutils literal notranslate"><span class="pre">_exit()</span></code> exits the process immediately, which means it doesn’t do any
+cleanup like flushing file buffers.) If the function is called twice, the new
+call replaces previous parameters and resets the timeout. The timer has a
+sub-second resolution.</p>
+<p class="translated">El archivo <em>file</em> se debe mantener abierto hasta que se vuelque el rastreo o se llame a <a class="reference internal" href="#faulthandler.cancel_dump_traceback_later" title="faulthandler.cancel_dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">cancel_dump_traceback_later()</span></code></a>: ver <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">problema con descriptores de archivo</span></a>.</p>
+<p class="translated">Esta función está implementada utilizando un hilo vigilante.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>Se añadió soporte para pasar el descriptor de archivo a esta función.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span>Ahora esta función está siempre disponible.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.cancel_dump_traceback_later">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">cancel_dump_traceback_later</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.cancel_dump_traceback_later" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Cancela la última llamada a <a class="reference internal" href="#faulthandler.dump_traceback_later" title="faulthandler.dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_traceback_later()</span></code></a>.</p>
+</dd></dl>
+
+</section>
+<section id="dumping-the-traceback-on-a-user-signal">
+<h2 class="translated">Volcar el rastreo en una señal del usuario<a class="headerlink" href="#dumping-the-traceback-on-a-user-signal" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.register">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.register" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Registra una señal del usuario: instala un gestor para la señal <em>signum</em> para volcar el rastreo de todos los hilos, o del hilo actual si <em>all_threads</em> es <code class="docutils literal notranslate"><span class="pre">False</span></code>, en el archivo file. Llama al gestor previo si chain es <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p class="translated">El archivo <em>file</em> se debe mantener abierto hasta que la señal sea anulada por <a class="reference internal" href="#faulthandler.unregister" title="faulthandler.unregister"><code class="xref py py-func docutils literal notranslate"><span class="pre">unregister()</span></code></a>: ver <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">problema con descriptores de archivo</span></a>.</p>
+<p class="translated">No está disponible en Windows.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.5: </span>Se añadió soporte para pasar el descriptor de archivo a esta función.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.unregister">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">unregister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.unregister" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Anula una señal del usuario: desinstala el gestor de la señal <em>signum</em> instalada por <a class="reference internal" href="#faulthandler.register" title="faulthandler.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a>. Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si la señal fue registrada, <code class="docutils literal notranslate"><span class="pre">False</span></code> en otro caso.</p>
+<p class="translated">No está disponible en Windows.</p>
+</dd></dl>
+
+</section>
+<section id="issue-with-file-descriptors">
+<span id="faulthandler-fd"></span><h2 class="translated">Problema con descriptores de archivo<a class="headerlink" href="#issue-with-file-descriptors" title="Link to this heading">¶</a></h2>
+<p class="translated"><a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">enable()</span></code></a>, <a class="reference internal" href="#faulthandler.dump_traceback_later" title="faulthandler.dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_traceback_later()</span></code></a> y <a class="reference internal" href="#faulthandler.register" title="faulthandler.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> guardan el descriptor de archivo de su argumento <em>file</em>. Si se cierra el archivo y su descriptor de archivo es reutilizado por un nuevo archivo, o si se usa <a class="reference internal" href="os.html#os.dup2" title="os.dup2"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.dup2()</span></code></a> para reemplazar el descriptor de archivo, el rastreo se escribirá en un archivo diferente. Llame a estas funciones nuevamente cada vez que se reemplace el archivo.</p>
+</section>
+<section id="example">
+<h2 class="translated">Ejemplo<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p class="translated">Ejemplo de un fallo de segmentación en Linux con y sin activar el gestor de fallos:</p>
+<div class="untranslated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import ctypes; ctypes.string_at(0)&quot;</span>
+<span class="go">Segmentation fault</span>
+
+<span class="gp">$ </span>python<span class="w"> </span>-q<span class="w"> </span>-X<span class="w"> </span>faulthandler
+<span class="go">&gt;&gt;&gt; import ctypes</span>
+<span class="go">&gt;&gt;&gt; ctypes.string_at(0)</span>
+<span class="go">Fatal Python error: Segmentation fault</span>
+
+<span class="go">Current thread 0x00007fb899f39700 (most recent call first):</span>
+<span class="go">  File &quot;/opt/python/Lib/ctypes/__init__.py&quot;, line 486 in string_at</span>
+<span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1 in &lt;module&gt;</span>
+
+<span class="go">Current thread&#39;s C stack trace (most recent call first):</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at _Py_DumpStack+0x42 [0x5b27f7d7147e]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x32dcbd [0x5b27f7d85cbd]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x32df8a [0x5b27f7d85f8a]</span>
+<span class="go">  Binary file &quot;/usr/lib/libc.so.6&quot;, at +0x3def0 [0x77b73226bef0]</span>
+<span class="go">  Binary file &quot;/usr/lib/libc.so.6&quot;, at +0x17ef9c [0x77b7323acf9c]</span>
+<span class="go">  Binary file &quot;/opt/python/build/lib.linux-x86_64-3.15/_ctypes.cpython-315d-x86_64-linux-gnu.so&quot;, at +0xcdf6 [0x77b7315dddf6]</span>
+<span class="go">  Binary file &quot;/usr/lib/libffi.so.8&quot;, at +0x7976 [0x77b73158f976]</span>
+<span class="go">  Binary file &quot;/usr/lib/libffi.so.8&quot;, at +0x413c [0x77b73158c13c]</span>
+<span class="go">  Binary file &quot;/usr/lib/libffi.so.8&quot;, at ffi_call+0x12e [0x77b73158ef0e]</span>
+<span class="go">  Binary file &quot;/opt/python/build/lib.linux-x86_64-3.15/_ctypes.cpython-315d-x86_64-linux-gnu.so&quot;, at +0x15a33 [0x77b7315e6a33]</span>
+<span class="go">  Binary file &quot;/opt/python/build/lib.linux-x86_64-3.15/_ctypes.cpython-315d-x86_64-linux-gnu.so&quot;, at +0x164fa [0x77b7315e74fa]</span>
+<span class="go">  Binary file &quot;/opt/python/build/lib.linux-x86_64-3.15/_ctypes.cpython-315d-x86_64-linux-gnu.so&quot;, at +0xc624 [0x77b7315dd624]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at _PyObject_MakeTpCall+0xce [0x5b27f7b73883]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x11bab6 [0x5b27f7b73ab6]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at PyObject_Vectorcall+0x23 [0x5b27f7b73b04]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at _PyEval_EvalFrameDefault+0x490c [0x5b27f7cbb302]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x2818e6 [0x5b27f7cd98e6]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x281aab [0x5b27f7cd9aab]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at PyEval_EvalCode+0xc5 [0x5b27f7cd9ba3]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x255957 [0x5b27f7cad957]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x255ab4 [0x5b27f7cadab4]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at _PyEval_EvalFrameDefault+0x6c3e [0x5b27f7cbd634]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x2818e6 [0x5b27f7cd98e6]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x281aab [0x5b27f7cd9aab]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x11b6e1 [0x5b27f7b736e1]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x11d348 [0x5b27f7b75348]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x11d626 [0x5b27f7b75626]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at PyObject_Call+0x20 [0x5b27f7b7565e]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x32a67a [0x5b27f7d8267a]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x32a7f8 [0x5b27f7d827f8]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at +0x32ac1b [0x5b27f7d82c1b]</span>
+<span class="go">  Binary file &quot;/opt/python/python&quot;, at Py_RunMain+0x31 [0x5b27f7d82ebe]</span>
+<span class="go">  &lt;truncated rest of calls&gt;</span>
+<span class="go">Segmentation fault</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a><ul>
+<li><a class="reference internal" href="#dumping-the-traceback">Volcar el rastreo</a></li>
+<li><a class="reference internal" href="#dumping-the-c-stack">Dumping the C stack</a><ul>
+<li><a class="reference internal" href="#c-stack-compatibility">C Stack Compatibility</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fault-handler-state">Estado del gestor de fallos</a></li>
+<li><a class="reference internal" href="#dumping-the-tracebacks-after-a-timeout">Volcar los rastreos después de un tiempo de espera</a></li>
+<li><a class="reference internal" href="#dumping-the-traceback-on-a-user-signal">Volcar el rastreo en una señal del usuario</a></li>
+<li><a class="reference internal" href="#issue-with-file-descriptors">Problema con descriptores de archivo</a></li>
+<li><a class="reference internal" href="#example">Ejemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="bdb.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> — Debugger framework</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="pdb.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pdb</span></code> — El Depurador de Python</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/faulthandler.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="pdb.html" title="pdb — El Depurador de Python"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="bdb.html" title="bdb — Debugger framework"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" >Depuración y perfilado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

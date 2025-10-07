@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="string — Common string operations" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/string.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Source code: Lib/string.py Constantes de cadenas: Las constantes definidas en este módulo son: Formato de cadena de caracteres personalizado: La clase cadena es una clase incorporada ( built-in) qu..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_string_0cfd86d5.png" />
+<meta property="og:image:alt" content="Source code: Lib/string.py Constantes de cadenas: Las constantes definidas en este módulo son: Formato de cadena de caracteres personalizado: La clase cadena es una clase incorporada ( built-in) qu..." />
+<meta name="description" content="Source code: Lib/string.py Constantes de cadenas: Las constantes definidas en este módulo son: Formato de cadena de caracteres personalizado: La clase cadena es una clase incorporada ( built-in) qu..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>string — Common string operations &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="string.templatelib — Support for template string literals" href="string.templatelib.html" />
+    <link rel="prev" title="Servicios de procesamiento de texto" href="text.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/string.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Common string operations</a><ul>
+<li><a class="reference internal" href="#string-constants">Constantes de cadenas</a></li>
+<li><a class="reference internal" href="#custom-string-formatting">Formato de cadena de caracteres personalizado</a></li>
+<li><a class="reference internal" href="#format-string-syntax">Sintaxis de formateo de cadena</a><ul>
+<li><a class="reference internal" href="#format-specification-mini-language">Especificación de formato Mini-Lenguaje</a></li>
+<li><a class="reference internal" href="#format-examples">Ejemplos de formateo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#template-strings-strings">Template strings ($-strings)</a></li>
+<li><a class="reference internal" href="#helper-functions">Funciones de ayuda</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="text.html"
+                          title="capítulo anterior">Servicios de procesamiento de texto</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="string.templatelib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Support for template string literals</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/string.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="string.templatelib.html" title="string.templatelib — Support for template string literals"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="text.html" title="Servicios de procesamiento de texto"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">Servicios de procesamiento de texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Common string operations</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-string">
+<span id="string-common-string-operations"></span><h1 class="untranslated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Common string operations<a class="headerlink" href="#module-string" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Source code:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/string.py">Lib/string.py</a></p>
+<hr class="docutils" />
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<p class="translated"><a class="reference internal" href="stdtypes.html#textseq"><span class="std std-ref">Cadenas de caracteres — str</span></a></p>
+<p class="translated"><a class="reference internal" href="stdtypes.html#string-methods"><span class="std std-ref">Métodos de las cadenas de caracteres</span></a></p>
+</div>
+<section id="string-constants">
+<h2 class="translated">Constantes de cadenas<a class="headerlink" href="#string-constants" title="Link to this heading">¶</a></h2>
+<p class="translated">Las constantes definidas en este módulo son:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="string.ascii_letters">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">ascii_letters</span></span><a class="headerlink" href="#string.ascii_letters" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La concatenación de las constantes abajo descriptas <a class="reference internal" href="#string.ascii_lowercase" title="string.ascii_lowercase"><code class="xref py py-const docutils literal notranslate"><span class="pre">ascii_lowercase</span></code></a> y <a class="reference internal" href="#string.ascii_uppercase" title="string.ascii_uppercase"><code class="xref py py-const docutils literal notranslate"><span class="pre">ascii_uppercase</span></code></a>.  Este valor es independiente de la configuración regional.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.ascii_lowercase">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">ascii_lowercase</span></span><a class="headerlink" href="#string.ascii_lowercase" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Las letras minúsculas <code class="docutils literal notranslate"><span class="pre">'abcdefghijklmnopqrstuvwxyz'</span></code>.  Este valor es independiente de la configuración regional y no cambiará.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.ascii_uppercase">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">ascii_uppercase</span></span><a class="headerlink" href="#string.ascii_uppercase" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Las letras mayúsculas <code class="docutils literal notranslate"><span class="pre">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span></code>.  Este valor es independiente de la configuración regional y no cambiará.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.digits">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">digits</span></span><a class="headerlink" href="#string.digits" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La cadena <code class="docutils literal notranslate"><span class="pre">'0123456789'</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.hexdigits">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">hexdigits</span></span><a class="headerlink" href="#string.hexdigits" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La cadena <code class="docutils literal notranslate"><span class="pre">'0123456789abcdefABCDEF'</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.octdigits">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">octdigits</span></span><a class="headerlink" href="#string.octdigits" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La cadena de caracteres <code class="docutils literal notranslate"><span class="pre">'01234567'</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.punctuation">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">punctuation</span></span><a class="headerlink" href="#string.punctuation" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Cadena de caracteres ASCII que se consideran caracteres de puntuación en la configuración regional <code class="docutils literal notranslate"><span class="pre">C</span></code>: <code class="docutils literal notranslate"><span class="pre">!&quot;</span> <span class="pre">#$%&amp;'()*+,-./:;&lt;=&gt;?&#64;[\]^_`{|}</span> <span class="pre">~</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.printable">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">printable</span></span><a class="headerlink" href="#string.printable" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">String of ASCII characters which are considered printable by Python.
+This is a combination of <a class="reference internal" href="#string.digits" title="string.digits"><code class="xref py py-const docutils literal notranslate"><span class="pre">digits</span></code></a>, <a class="reference internal" href="#string.ascii_letters" title="string.ascii_letters"><code class="xref py py-const docutils literal notranslate"><span class="pre">ascii_letters</span></code></a>,
+<a class="reference internal" href="#string.punctuation" title="string.punctuation"><code class="xref py py-const docutils literal notranslate"><span class="pre">punctuation</span></code></a>, and <a class="reference internal" href="#string.whitespace" title="string.whitespace"><code class="xref py py-const docutils literal notranslate"><span class="pre">whitespace</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">By design, <a class="reference internal" href="stdtypes.html#str.isprintable" title="str.isprintable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">string.printable.isprintable()</span></code></a>
+returns <a class="reference internal" href="constants.html#False" title="False"><code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code></a>. In particular, <code class="docutils literal notranslate"><span class="pre">string.printable</span></code> is not
+printable in the POSIX sense (see <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/locale(5)">LC_CTYPE</a></em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="string.whitespace">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">whitespace</span></span><a class="headerlink" href="#string.whitespace" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Una cadena cuyos caracteres ASCII se consideran todos espacios en blanco. Esto incluye los caracteres espacio, tabulador, salto de línea, retorno, salto de página y tabulador vertical.</p>
+</dd></dl>
+
+</section>
+<section id="custom-string-formatting">
+<span id="string-formatting"></span><h2 class="translated">Formato de cadena de caracteres personalizado<a class="headerlink" href="#custom-string-formatting" title="Link to this heading">¶</a></h2>
+<p class="translated">La clase cadena es una clase incorporada (<em>built-in</em>) que proporciona la capacidad de realizar sustituciones complejas de variables y formateo de valor a través del método <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a> descrito en <span class="target" id="index-18"></span><a class="pep reference external" href="https://peps.python.org/pep-3101/"><strong>PEP 3101</strong></a>.  La clase <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a> del módulo <a class="reference internal" href="#module-string" title="string: Common string operations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code></a> permite crear y personalizar sus propios comportamientos de formateo de cadena utilizando la misma implementación que el método integrado <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="string.Formatter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">Formatter</span></span><a class="headerlink" href="#string.Formatter" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">La clase <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a> tiene los siguientes métodos públicos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.format" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Método principal de la API.  Recibe una cadena de formato y argumentos posicionales y de palabra clave arbitrarios. Es sólo un envoltorio que llama a <a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span>Un argumento de cadena de formato ahora es <a class="reference internal" href="../glossary.html#positional-only-parameter"><span class="std std-ref">solo posicional</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.vformat">
+<span class="sig-name descname"><span class="pre">vformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.vformat" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta función realiza es la que realmente hace el trabajo de formateo.  Se expone como una función independiente para los casos en los que desea pasar un diccionario predefinido de argumentos, en lugar de desempaquetar y volver a empaquetar el diccionario como argumentos individuales mediante la sintaxis <code class="docutils literal notranslate"><span class="pre">*args</span></code> y <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.  <a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a> hace el trabajo de dividir la cadena de formato en datos de caracteres y campos de reemplazo.  Llama a los diversos métodos descritos a continuación.</p>
+</dd></dl>
+
+<p class="translated">Además de eso, la clase <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a> define varios métodos que se espera sean reemplazados por las subclases:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.parse" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Itera sobre <em>format_string</em> y retorna un iterable de tuplas (<em>literal_text</em>, <em>field_name</em>, <em>format_spec</em>, <em>conversion</em>). Es usado por <a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a> para dividir la cadena de caracteres en texto literal o en campos de reemplazo.</p>
+<p class="untranslated">The values in the tuple conceptually represent a span of literal text
+followed by a single replacement field.  If there is no literal text
+(which can happen if two replacement fields occur consecutively), then
+<em>literal_text</em> will be a zero-length string.  If there is no replacement
+field, then the values of <em>field_name</em>, <em>format_spec</em> and <em>conversion</em>
+will be <code class="docutils literal notranslate"><span class="pre">None</span></code>. The value of <em>field_name</em> is unmodified and
+auto-numbering of non-numbered positional fields is done by <a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.get_field">
+<span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.get_field" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Given <em>field_name</em>, convert it to an object to be formatted.
+Auto-numbering of <em>field_name</em> returned from <a class="reference internal" href="#string.Formatter.parse" title="string.Formatter.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> is done by
+<a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a> before calling this method.  Returns a tuple (obj, used_key).
+The default version takes strings of the form defined in <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-3101/"><strong>PEP 3101</strong></a>,
+such as «0[name]» or «label.title». <em>args</em> and <em>kwargs</em> are as passed in to
+<a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a>. The return value <em>used_key</em> has the same meaning
+as the <em>key</em> parameter to <a class="reference internal" href="#string.Formatter.get_value" title="string.Formatter.get_value"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_value()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.get_value" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Recuperar un valor de campo determinado.  El argumento <em>key</em> será un entero o una cadena de caracteres.  Si es un entero, representa el índice del argumento posicional en <em>args</em>; si es una cadena, representa un argumento definido en <em>kwargs</em>.</p>
+<p class="translated">El parámetro <em>args</em> se establece como lista de argumentos posicionales en <a class="reference internal" href="#string.Formatter.vformat" title="string.Formatter.vformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vformat()</span></code></a>, y el parámetro <em>kwargs</em> se establece como diccionario de argumentos de palabra clave.</p>
+<p class="translated">Para nombres de campo compuesto, estas funciones son únicamente llamadas para el primer componente del campo. Los componentes que le siguen son tratados a través de operaciones normales de atributo e indexación.</p>
+<p class="translated">Por ejemplo, la expresión de campo “0.name” haría que <a class="reference internal" href="#string.Formatter.get_value" title="string.Formatter.get_value"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_value()</span></code></a> se llame con un argumento <em>key</em> igual a 0.  El atributo “”name”” se buscará después del retorno de <a class="reference internal" href="#string.Formatter.get_value" title="string.Formatter.get_value"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_value()</span></code></a> llamando a la función incorporada <a class="reference internal" href="functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a>.</p>
+<p class="translated">Si el índice o la palabra clave hace referencia a un elemento que no existe, se debe generar un <a class="reference internal" href="exceptions.html#IndexError" title="IndexError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IndexError</span></code></a> o un <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.check_unused_args">
+<span class="sig-name descname"><span class="pre">check_unused_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">used_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.check_unused_args" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Implementa el chequeo de argumentos no utilizados si así se desea.  Los argumentos de esta función son el conjunto de todas las claves de argumento a las que se hizo referencia en la cadena de formato (enteros para argumentos posicionales y cadenas de caracteres para argumentos con nombre) y una referencia a los <em>args</em> y <em>kwargs</em> que se pasaron a <em>vformat</em>.  El conjunto de <em>args</em> no utilizados se puede calcular a partir de estos parámetros. se asume que <a class="reference internal" href="#string.Formatter.check_unused_args" title="string.Formatter.check_unused_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">check_unused_args()</span></code></a> genera una excepción si se produce un error en el chequeo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.format_field">
+<span class="sig-name descname"><span class="pre">format_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_spec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.format_field" title="Link to this definition">¶</a></dt>
+<dd><p class="translated"><a class="reference internal" href="#string.Formatter.format_field" title="string.Formatter.format_field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format_field()</span></code></a> simplemente llama a la función incorporada <a class="reference internal" href="functions.html#format" title="format"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a>.  El método se proporciona para que las subclases puedan sobrescribirlo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Formatter.convert_field">
+<span class="sig-name descname"><span class="pre">convert_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Formatter.convert_field" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Convierte el valor (retornado por <a class="reference internal" href="#string.Formatter.get_field" title="string.Formatter.get_field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_field()</span></code></a>) dado un tipo de conversión (tal como la tupla retornada por el método <a class="reference internal" href="#string.Formatter.parse" title="string.Formatter.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a>). La versión por defecto entiende los tipos de conversión “s” (str), “r” (repr) y “a” (ascii).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="format-string-syntax">
+<span id="formatstrings"></span><h2 class="translated">Sintaxis de formateo de cadena<a class="headerlink" href="#format-string-syntax" title="Link to this heading">¶</a></h2>
+<p class="untranslated">The <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a> method and the <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a> class share the same
+syntax for format strings (although in the case of <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a>,
+subclasses can define their own format string syntax).  The syntax is
+related to that of <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">formatted string literals</span></a> and
+<a class="reference internal" href="../reference/lexical_analysis.html#t-strings"><span class="std std-ref">template string literals</span></a>, but it is less sophisticated
+and, in particular, does not support arbitrary expressions in interpolations.</p>
+<p class="translated" id="index-2">Las cadenas de caracteres de formato contienen «campos de reemplazo» rodeados de llaves <code class="docutils literal notranslate"><span class="pre">{}</span></code>. Todo lo que no está contenido entre llaves se considera texto literal, que se copia sin cambios en la salida.  Si se necesita incluir un carácter de llave en el texto literal, se puede escapar duplicando: <code class="docutils literal notranslate"><span class="pre">{{</span></code> <em>and</em> <code class="docutils literal notranslate"><span class="pre">}}</span></code>.</p>
+<p class="translated">La gramática para un campo de reemplazo es la siguiente:</p>
+<pre class="highlight">
+<strong id="grammar-token-format-string-replacement_field">replacement_field</strong>: <span class="sx">&quot;{&quot;</span> [<a class="reference internal" href="#grammar-token-format-string-field_name"><code class="xref docutils literal notranslate"><span class="pre">field_name</span></code></a>] [<span class="sx">&quot;!&quot;</span> <a class="reference internal" href="#grammar-token-format-string-conversion"><code class="xref docutils literal notranslate"><span class="pre">conversion</span></code></a>] [<span class="sx">&quot;:&quot;</span> <a class="reference internal" href="#grammar-token-format-string-format_spec"><code class="xref docutils literal notranslate"><span class="pre">format_spec</span></code></a>] <span class="sx">&quot;}&quot;</span>
+<strong id="grammar-token-format-string-field_name">field_name</strong>:        <a class="reference internal" href="#grammar-token-format-string-arg_name"><code class="xref docutils literal notranslate"><span class="pre">arg_name</span></code></a> (<span class="sx">&quot;.&quot;</span> <a class="reference internal" href="#grammar-token-format-string-attribute_name"><code class="xref docutils literal notranslate"><span class="pre">attribute_name</span></code></a> | <span class="sx">&quot;[&quot;</span> <a class="reference internal" href="#grammar-token-format-string-element_index"><code class="xref docutils literal notranslate"><span class="pre">element_index</span></code></a> <span class="sx">&quot;]&quot;</span>)*
+<strong id="grammar-token-format-string-arg_name">arg_name</strong>:          [<a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a> | <a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-digit"><code class="xref docutils literal notranslate"><span class="pre">digit</span></code></a>+]
+<strong id="grammar-token-format-string-attribute_name">attribute_name</strong>:    <a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a>
+<strong id="grammar-token-format-string-element_index">element_index</strong>:     <a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-digit"><code class="xref docutils literal notranslate"><span class="pre">digit</span></code></a>+ | <a class="reference internal" href="#grammar-token-format-string-index_string"><code class="xref docutils literal notranslate"><span class="pre">index_string</span></code></a>
+<strong id="grammar-token-format-string-index_string">index_string</strong>:      &lt;any source character except <span class="sx">&quot;]&quot;</span>&gt; +
+<strong id="grammar-token-format-string-conversion">conversion</strong>:        <span class="sx">&quot;r&quot;</span> | <span class="sx">&quot;s&quot;</span> | <span class="sx">&quot;a&quot;</span>
+<strong id="grammar-token-format-string-format_spec">format_spec</strong>:       <a class="reference internal" href="#grammar-token-format-spec-format_spec"><code class="xref docutils literal notranslate"><span class="pre">format-spec:format_spec</span></code></a>
+</pre>
+<p class="translated">En términos menos formales, el campo de reemplazo puede comenzar con un <em>field_name</em> (nombre de campo) que especifica el objeto cuyo valor se va a formatear e insertar en la salida en lugar del campo de reemplazo. El nombre de campo (<em>field_name</em>) va seguido opcionalmente de un campo <em>conversion</em> (conversión), que va precedido de un signo de exclamación <code class="docutils literal notranslate"><span class="pre">'!'</span></code>, y un <em>format_spec</em>, que va precedido de dos puntos <code class="docutils literal notranslate"><span class="pre">':'</span></code>.  Estos especifican un formato no predeterminado para el valor de reemplazo.</p>
+<p class="translated">Véase también la sección <a class="reference internal" href="#formatspec"><span class="std std-ref">Especificación de formato Mini-Lenguaje</span></a>.</p>
+<p class="translated">El <em>field_name</em> (nombre de campo) comienza con un <em>arg_name</em> que es un número o una palabra clave.  Si es un número, hace referencia a un argumento posicional y, si es una palabra clave, hace referencia a un argumento de palabra clave. Un <em>arg_name</em> se trata como un número si una llamada a <a class="reference internal" href="stdtypes.html#str.isdecimal" title="str.isdecimal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.isdecimal()</span></code></a> sobre la cadena retorna verdadero. Si los <em>arg_names</em> numéricos en una cadena de caracteres de formato son una secuencia como 0, 1, 2, …, todos pueden ser omitidos (no sólo algunos) y los números 0, 1, 2, … se insertarán automáticamente en ese orden. Dado que <em>arg_name</em> no está delimitado por comillas, no es posible especificar claves de diccionario arbitrarias (por ejemplo, las cadenas <code class="docutils literal notranslate"><span class="pre">'10'</span></code> or <code class="docutils literal notranslate"><span class="pre">':-]'</span></code>) dentro de una cadena de caracteres de formato. El <em>arg_name</em> puede ir seguido de cualquier número de expresiones de índice o atributo. Una expresión con forma <code class="docutils literal notranslate"><span class="pre">'.name'</span></code> selecciona el atributo con nombre mediante <a class="reference internal" href="functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a>, mientras que una expresión con forma <code class="docutils literal notranslate"><span class="pre">'[index]'</span></code> realiza una búsqueda de índice mediante <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.1: </span>Los especificadores de argumentos posicionales pueden ser omitidos en <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a>, así <code class="docutils literal notranslate"><span class="pre">'{}</span> <span class="pre">{}'.format(a,</span> <span class="pre">b)</span></code> es equivalente a <code class="docutils literal notranslate"><span class="pre">'{0}</span> <span class="pre">{1}'.format(a,</span> <span class="pre">b)</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.4: </span>Para la clase <a class="reference internal" href="#string.Formatter" title="string.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a>, los especificadores de argumento posicional pueden ser omitidos.</p>
+</div>
+<p class="translated">Algunos ejemplos simples de cadena de formato:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;First, thou shalt count to </span><span class="si">{0}</span><span class="s2">&quot;</span>  <span class="c1"># References first positional argument</span>
+<span class="s2">&quot;Bring me a </span><span class="si">{}</span><span class="s2">&quot;</span>                   <span class="c1"># Implicitly references the first positional argument</span>
+<span class="s2">&quot;From </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span>                   <span class="c1"># Same as &quot;From {0} to {1}&quot;</span>
+<span class="s2">&quot;My quest is </span><span class="si">{name}</span><span class="s2">&quot;</span>              <span class="c1"># References keyword argument &#39;name&#39;</span>
+<span class="s2">&quot;Weight in tons </span><span class="si">{0.weight}</span><span class="s2">&quot;</span>       <span class="c1"># &#39;weight&#39; attribute of first positional arg</span>
+<span class="s2">&quot;Units destroyed: </span><span class="si">{players[0]}</span><span class="s2">&quot;</span>   <span class="c1"># First element of keyword argument &#39;players&#39;.</span>
+</pre></div>
+</div>
+<p class="translated" id="formatstrings-conversion">El campo <em>conversion</em> causa una coerción de tipo antes del formateo. Normalmente, el formateo es hecho el método <a class="reference internal" href="../reference/datamodel.html#object.__format__" title="object.__format__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__format__()</span></code></a> del valor mismo. Sin embargo, en algunos es deseable forzar el tipo a ser formateado como una cadena de caracteres, sobrescribiendo su propia definición de formateo. Cuando se convierte el valor a una cadena de caracteres antes de llamar al método <a class="reference internal" href="../reference/datamodel.html#object.__format__" title="object.__format__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__format__()</span></code></a>, la lógica normal de formateo es evitada.</p>
+<p class="translated">Tres banderas de conversión son admitidas actualmente: <code class="docutils literal notranslate"><span class="pre">'!s'</span></code>, que llama a <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> con el valor; <code class="docutils literal notranslate"><span class="pre">'!r'</span></code>, que llama a <a class="reference internal" href="functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a>; y <code class="docutils literal notranslate"><span class="pre">'!a'</span></code> que llama a <a class="reference internal" href="functions.html#ascii" title="ascii"><code class="xref py py-func docutils literal notranslate"><span class="pre">ascii()</span></code></a>.</p>
+<p class="translated">Algunos ejemplos:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Harold&#39;s a clever </span><span class="si">{0!s}</span><span class="s2">&quot;</span>        <span class="c1"># Calls str() on the argument first</span>
+<span class="s2">&quot;Bring out the holy </span><span class="si">{name!r}</span><span class="s2">&quot;</span>    <span class="c1"># Calls repr() on the argument first</span>
+<span class="s2">&quot;More </span><span class="si">{!a}</span><span class="s2">&quot;</span>                      <span class="c1"># Calls ascii() on the argument first</span>
+</pre></div>
+</div>
+<p class="translated">El campo <em>format_spec</em> contiene la especificación de cómo presentar el valor, incluyendo detalles como ancho del campo, alineación, relleno, precisión decimal, etc. Cada tipo de valor puede definir su propio «mini lenguaje de formateo» o interpretación de <em>format_spec</em>.</p>
+<p class="translated">La mayoría de los tipos integrados admiten un formateo común de mini-idioma descrito en la siguiente sección.</p>
+<p class="translated">Un campo <em>format_spec</em> también puede incluir campos de reemplazo anidados dentro de él. Estos campos de reemplazo anidados pueden contener un nombre de campo, una bandera de conversión y una especificación de formato, pero no se permite anidamiento más profundo.  Los campos de reemplazo dentro de <em>format_spec</em> se sustituyen antes de que la cadena <em>format_spec</em> se interprete. Esto permite especificar dinámicamente el formato de un valor.</p>
+<p class="translated">Para más ejemplos, véase la sección <a class="reference internal" href="#formatexamples"><span class="std std-ref">Ejemplos de formateo</span></a>.</p>
+<section id="format-specification-mini-language">
+<span id="formatspec"></span><h3 class="translated">Especificación de formato Mini-Lenguaje<a class="headerlink" href="#format-specification-mini-language" title="Link to this heading">¶</a></h3>
+<p class="untranslated">«Format specifications» are used within replacement fields contained within a
+format string to define how individual values are presented (see
+<a class="reference internal" href="#formatstrings"><span class="std std-ref">Sintaxis de formateo de cadena</span></a>, <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">f-strings</span></a>, and <a class="reference internal" href="../reference/lexical_analysis.html#t-strings"><span class="std std-ref">t-strings</span></a>).
+They can also be passed directly to the built-in
+<a class="reference internal" href="functions.html#format" title="format"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a> function.  Each formattable type may define how the format
+specification is to be interpreted.</p>
+<p class="translated">La mayoría de los tipos integrados implementan las siguientes opciones para especificaciones de formato, aunque algunas de las opciones de formateo sólo son posibles con los tipos numéricos.</p>
+<p class="translated">Una convención general es que una especificación de formato vacía produce el mismo resultado que llamar a la función <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> con el valor. Una especificación no vacía típicamente modifica el resultado.</p>
+<p class="translated">La forma general de un <em>especificador estándar de formato</em> es:</p>
+<pre class="highlight">
+<strong id="grammar-token-format-spec-format_spec">format_spec</strong>:             [<a class="reference internal" href="#grammar-token-format-spec-options"><code class="xref docutils literal notranslate"><span class="pre">options</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-width_and_precision"><code class="xref docutils literal notranslate"><span class="pre">width_and_precision</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-type"><code class="xref docutils literal notranslate"><span class="pre">type</span></code></a>]
+<strong id="grammar-token-format-spec-options">options</strong>:                 [[<a class="reference internal" href="#grammar-token-format-spec-fill"><code class="xref docutils literal notranslate"><span class="pre">fill</span></code></a>]<a class="reference internal" href="#grammar-token-format-spec-align"><code class="xref docutils literal notranslate"><span class="pre">align</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-sign"><code class="xref docutils literal notranslate"><span class="pre">sign</span></code></a>][<span class="sx">&quot;z&quot;</span>][<span class="sx">&quot;#&quot;</span>][<span class="sx">&quot;0&quot;</span>]
+<strong id="grammar-token-format-spec-fill">fill</strong>:                    &lt;any character&gt;
+<strong id="grammar-token-format-spec-align">align</strong>:                   <span class="sx">&quot;&lt;&quot;</span> | <span class="sx">&quot;&gt;&quot;</span> | <span class="sx">&quot;=&quot;</span> | <span class="sx">&quot;^&quot;</span>
+<strong id="grammar-token-format-spec-sign">sign</strong>:                    <span class="sx">&quot;+&quot;</span> | <span class="sx">&quot;-&quot;</span> | <span class="sx">&quot; &quot;</span>
+<strong id="grammar-token-format-spec-width_and_precision">width_and_precision</strong>:     [<a class="reference internal" href="#grammar-token-format-spec-width_with_grouping"><code class="xref docutils literal notranslate"><span class="pre">width_with_grouping</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-precision_with_grouping"><code class="xref docutils literal notranslate"><span class="pre">precision_with_grouping</span></code></a>]
+<strong id="grammar-token-format-spec-width_with_grouping">width_with_grouping</strong>:     [<a class="reference internal" href="#grammar-token-format-spec-width"><code class="xref docutils literal notranslate"><span class="pre">width</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-grouping"><code class="xref docutils literal notranslate"><span class="pre">grouping</span></code></a>]
+<strong id="grammar-token-format-spec-precision_with_grouping">precision_with_grouping</strong>: <span class="sx">&quot;.&quot;</span> [<a class="reference internal" href="#grammar-token-format-spec-precision"><code class="xref docutils literal notranslate"><span class="pre">precision</span></code></a>][<a class="reference internal" href="#grammar-token-format-spec-grouping"><code class="xref docutils literal notranslate"><span class="pre">grouping</span></code></a>] | <span class="sx">&quot;.&quot;</span> <a class="reference internal" href="#grammar-token-format-spec-grouping"><code class="xref docutils literal notranslate"><span class="pre">grouping</span></code></a>
+<strong id="grammar-token-format-spec-width">width</strong>:                   <a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-digit"><code class="xref docutils literal notranslate"><span class="pre">digit</span></code></a>+
+<strong id="grammar-token-format-spec-precision">precision</strong>:               <a class="reference internal" href="../reference/lexical_analysis.html#grammar-token-python-grammar-digit"><code class="xref docutils literal notranslate"><span class="pre">digit</span></code></a>+
+<strong id="grammar-token-format-spec-grouping">grouping</strong>:                <span class="sx">&quot;,&quot;</span> | <span class="sx">&quot;_&quot;</span>
+<strong id="grammar-token-format-spec-type">type</strong>:                    <span class="sx">&quot;b&quot;</span> | <span class="sx">&quot;c&quot;</span> | <span class="sx">&quot;d&quot;</span> | <span class="sx">&quot;e&quot;</span> | <span class="sx">&quot;E&quot;</span> | <span class="sx">&quot;f&quot;</span> | <span class="sx">&quot;F&quot;</span> | <span class="sx">&quot;g&quot;</span>
+                         | <span class="sx">&quot;G&quot;</span> | <span class="sx">&quot;n&quot;</span> | <span class="sx">&quot;o&quot;</span> | <span class="sx">&quot;s&quot;</span> | <span class="sx">&quot;x&quot;</span> | <span class="sx">&quot;X&quot;</span> | <span class="sx">&quot;%&quot;</span>
+</pre>
+<p class="translated">Si se especifica un valor <em>align</em> válido, puede ir precedido por un carácter <em>fill</em>, que puede ser cualquier carácter y cuyo valor predeterminado es un espacio si se omite. No es posible utilizar una llave literal (»<code class="docutils literal notranslate"><span class="pre">{</span></code>» or «<code class="docutils literal notranslate"><span class="pre">}</span></code>») como el carácter <em>fill</em> en un <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">formato literal de cadena</span></a> o cuando se utiliza el método <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a>.  Sin embargo, es posible insertar una llave con un campo de reemplazo anidado.  Esta limitación no afecta a la función <a class="reference internal" href="functions.html#format" title="format"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a>.</p>
+<p class="translated">El significado de las distintas opciones de alineación es el siguiente:</p>
+<table class="docutils align-default" id="index-3">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Opción</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'&lt;'</span></code></p></td>
+<td><p class="translated">Fuerza el campo a ser alineado a la izquierda dentro del espacio disponible (éste es el comportamiento por defecto para la mayoría de los objetos).</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'&gt;'</span></code></p></td>
+<td><p class="translated">Fuerza el campo a ser alineado a la derecha dentro del espacio disponible (éste es el comportamiento por defecto para números).</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'='</span></code></p></td>
+<td><p class="untranslated">Forces the padding to be placed after the sign (if any)
+but before the digits.  This is used for printing fields
+in the form “+000000120”. This alignment option is only
+valid for numeric types, excluding <a class="reference internal" href="functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>.
+It becomes the default for numbers when “0” immediately
+precedes the field width.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'^'</span></code></p></td>
+<td><p class="translated">Fuerza el centrado del campo dentro del espacio disponible.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Notar que, a menos que se defina un ancho de campo mínimo, el ancho del campo siempre tendrá el mismo tamaño que los datos para rellenarlo, de modo que la opción de alineación no tiene ningún significado en este caso.</p>
+<p class="translated">La opción <em>sign</em> (signo) sólo es válida para los tipos numéricos y puede ser una de las siguientes:</p>
+<table class="docutils align-default" id="index-4">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Opción</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'+'</span></code></p></td>
+<td><p class="untranslated">Indicates that a sign should be used for both
+positive as well as negative numbers.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'-'</span></code></p></td>
+<td><p class="untranslated">Indicates that a sign should be used only for negative
+numbers (this is the default behavior).</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">espacio</p></td>
+<td><p class="untranslated">Indicates that a leading space should be used on
+positive numbers, and a minus sign on negative numbers.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated" id="index-5">La opción <code class="docutils literal notranslate"><span class="pre">'z'</span></code> convierte los valores de coma flotante de cero negativos en cero positivos después de redondear al formato de precisión. Esta opción solo es válida para los tipos de presentación de coma flotante.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.11: </span>Se agregó la opción <code class="docutils literal notranslate"><span class="pre">'z'</span></code> (véase también <span class="target" id="index-19"></span><a class="pep reference external" href="https://peps.python.org/pep-0682/"><strong>PEP 682</strong></a>).</p>
+</div>
+<p class="translated" id="index-7">La opción <code class="docutils literal notranslate"><span class="pre">'#'</span></code> hace que la «forma alternativa» se utilice para la conversión.  La forma alternativa se define de forma diferente para diferentes tipos.  Esta opción solo es válida para los tipos entero, flotante y complejo. Para los enteros, cuando se utiliza la salida binaria, octal o hexadecimal, esta opción agrega el respectivo prefijo <code class="docutils literal notranslate"><span class="pre">'0b'</span></code>, <code class="docutils literal notranslate"><span class="pre">'0o'</span></code> o <code class="docutils literal notranslate"><span class="pre">'0x'</span></code> al valor de salida. Para los flotantes y complejos, la forma alternativa hace que el resultado de la conversión siempre contenga un carácter de punto decimal, incluso si no hay dígitos que lo sigan. Normalmente, un carácter de punto decimal aparece en el resultado de estas conversiones sólo si un dígito lo sigue. Además, para las conversiones <code class="docutils literal notranslate"><span class="pre">'g'</span></code> y <code class="docutils literal notranslate"><span class="pre">'G'</span></code>, los ceros finales no se eliminan del resultado.</p>
+<p class="untranslated">The <em>width</em> is a decimal integer defining the minimum total field width,
+including any prefixes, separators, and other formatting characters.
+If not specified, then the field width will be determined by the content.</p>
+<p class="untranslated">When no explicit alignment is given, preceding the <em>width</em> field by a zero
+(<code class="docutils literal notranslate"><span class="pre">'0'</span></code>) character enables sign-aware zero-padding for numeric types,
+excluding <a class="reference internal" href="functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>.  This is equivalent to a <em>fill</em> character of
+<code class="docutils literal notranslate"><span class="pre">'0'</span></code> with an <em>alignment</em> type of <code class="docutils literal notranslate"><span class="pre">'='</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Anteponer el campo <em>width</em> por <code class="docutils literal notranslate"><span class="pre">'0'</span></code> ya no afecta el alineamiento por defecto para cadenas de caracteres.</p>
+</div>
+<p class="translated">La <em>precisión</em> es un entero decimal que indica cuántos dígitos deben mostrarse después del punto decimal para los tipos de presentación <code class="docutils literal notranslate"><span class="pre">'f'</span></code> y <code class="docutils literal notranslate"><span class="pre">'F'</span></code>, o antes y después del punto decimal para los tipos de presentación <code class="docutils literal notranslate"><span class="pre">'g'</span></code> o <code class="docutils literal notranslate"><span class="pre">'G'</span></code>. Para los tipos de presentación de cadena, el campo indica el tamaño máximo del campo; en otras palabras, cuántos caracteres se utilizarán del contenido del campo. La <em>precisión</em> no está permitida para los tipos de presentación de enteros.</p>
+<p class="untranslated">The <em>grouping</em> option after <em>width</em> and <em>precision</em> fields specifies
+a digit group separator for the integral and fractional parts
+of a number respectively. It can be one of the following:</p>
+<table class="docutils align-default" id="index-8">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Opción</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="untranslated"><code class="docutils literal notranslate"><span class="pre">','</span></code></p></td>
+<td><p class="untranslated">Inserts a comma every 3 digits for
+integer presentation type <code class="docutils literal notranslate"><span class="pre">'d'</span></code> and
+floating-point presentation types, excluding <code class="docutils literal notranslate"><span class="pre">'n'</span></code>.
+For other presentation types,
+this option is not supported.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="untranslated"><code class="docutils literal notranslate"><span class="pre">'_'</span></code></p></td>
+<td><p class="untranslated">Inserts an underscore every 3 digits for
+integer presentation type <code class="docutils literal notranslate"><span class="pre">'d'</span></code> and
+floating-point presentation types, excluding <code class="docutils literal notranslate"><span class="pre">'n'</span></code>.
+For integer presentation types
+<code class="docutils literal notranslate"><span class="pre">'b'</span></code>, <code class="docutils literal notranslate"><span class="pre">'o'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'X'</span></code>,
+underscores are inserted every 4 digits.
+For other presentation types,
+this option is not supported.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="untranslated">For a locale aware separator, use the <code class="docutils literal notranslate"><span class="pre">'n'</span></code> presentation type instead.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.1: </span>Se agregó la opción <code class="docutils literal notranslate"><span class="pre">','</span></code> (véase también <span class="target" id="index-20"></span><a class="pep reference external" href="https://peps.python.org/pep-0378/"><strong>PEP 378</strong></a>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.6: </span>Se agregó la opción <code class="docutils literal notranslate"><span class="pre">'_'</span></code> (véase también <span class="target" id="index-21"></span><a class="pep reference external" href="https://peps.python.org/pep-0515/"><strong>PEP 515</strong></a>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.14: </span>Support the <em>grouping</em> option for the fractional part.</p>
+</div>
+<p class="translated">Finalmente, <em>type</em> (el tipo) determina como presentar los datos.</p>
+<p class="translated">Los tipos de presentación cadena disponibles son:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Tipo</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'s'</span></code></p></td>
+<td><p class="translated">Formato de cadena de caracteres. Éste es el tipo por defecto y puede ser omitido.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">None</p></td>
+<td><p class="translated">Lo mismo que <code class="docutils literal notranslate"><span class="pre">'s'</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p class="translated">Los tipos disponibles para la presentación de enteros son:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Tipo</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'b'</span></code></p></td>
+<td><p class="translated">Formato binario. retorna el número en base 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p class="translated">Carácter. Convierte el entero en el carácter unicode correspondiente antes de imprimirlo.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'d'</span></code></p></td>
+<td><p class="translated">Decimal entero. retorna el número en base 10.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'o'</span></code></p></td>
+<td><p class="translated">Formato octal. retorna el número en base 8.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'x'</span></code></p></td>
+<td><p class="translated">Formato hexadecimal. retorna el número en base 16, utilizando letras minúsculas para los dígitos superiores a 9.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'X'</span></code></p></td>
+<td><p class="translated">Formato hexadecimal. retorna el número en base 16, utilizando letras mayúsculas para los dígitos superiores a 9. En caso de que <code class="docutils literal notranslate"><span class="pre">'#'</span></code> se especifique, el prefijo <code class="docutils literal notranslate"><span class="pre">'0x'</span></code> convertirá en <code class="docutils literal notranslate"><span class="pre">'0X'</span></code> también.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p class="untranslated">Number. This is the same as <code class="docutils literal notranslate"><span class="pre">'d'</span></code>, except that it uses
+the current locale setting to insert the appropriate
+digit group separators.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">None</p></td>
+<td><p class="translated">Lo mismo que <code class="docutils literal notranslate"><span class="pre">'d'</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p class="untranslated">In addition to the above presentation types, integers can be formatted
+with the floating-point presentation types listed below (except
+<code class="docutils literal notranslate"><span class="pre">'n'</span></code> and <code class="docutils literal notranslate"><span class="pre">None</span></code>). When doing so, <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-func docutils literal notranslate"><span class="pre">float()</span></code></a> is used to convert the
+integer to a floating-point number before formatting.</p>
+<p class="translated">Los tipos de presentación disponibles para valores  <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> y <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a> son:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Tipo</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'e'</span></code></p></td>
+<td><p class="untranslated">Scientific notation. For a given precision <code class="docutils literal notranslate"><span class="pre">p</span></code>,
+formats the number in scientific notation with the
+letter “e” separating the coefficient from the exponent.
+The coefficient has one digit before and <code class="docutils literal notranslate"><span class="pre">p</span></code> digits
+after the decimal point, for a total of <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">+</span> <span class="pre">1</span></code>
+significant digits. With no precision given, uses a
+precision of <code class="docutils literal notranslate"><span class="pre">6</span></code> digits after the decimal point for
+<a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, and shows all coefficient digits
+for <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a>.  If <code class="docutils literal notranslate"><span class="pre">p=0</span></code>, the decimal
+point is omitted unless the <code class="docutils literal notranslate"><span class="pre">#</span></code> option is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'E'</span></code></p></td>
+<td><p class="translated">Notación científica. Igual que <code class="docutils literal notranslate"><span class="pre">'e'</span></code> excepto que utiliza una “E” mayúscula como carácter separador.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'f'</span></code></p></td>
+<td><p class="untranslated">Fixed-point notation. For a given precision <code class="docutils literal notranslate"><span class="pre">p</span></code>,
+formats the number as a decimal number with exactly
+<code class="docutils literal notranslate"><span class="pre">p</span></code> digits following the decimal point. With no
+precision given, uses a precision of <code class="docutils literal notranslate"><span class="pre">6</span></code> digits after
+the decimal point for <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, and uses a
+precision large enough to show all coefficient digits
+for <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a>.  If <code class="docutils literal notranslate"><span class="pre">p=0</span></code>, the decimal
+point is omitted unless the <code class="docutils literal notranslate"><span class="pre">#</span></code> option is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'F'</span></code></p></td>
+<td><p class="translated">Notación de punto fijo. Igual que <code class="docutils literal notranslate"><span class="pre">'f'</span></code>, pero convierte (nulos) <code class="docutils literal notranslate"><span class="pre">nan</span></code> a <code class="docutils literal notranslate"><span class="pre">NAN</span></code> e <code class="docutils literal notranslate"><span class="pre">inf</span></code> a <code class="docutils literal notranslate"><span class="pre">INF</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'g'</span></code></p></td>
+<td><p class="translated">Formato general. Para una precisión dada <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">&gt;=</span> <span class="pre">1</span></code>, redondea el número a <code class="docutils literal notranslate"><span class="pre">p</span></code> dígitos significativos y luego formatea el resultado como formato de punto fijo o en notación científica, dependiendo de su magnitud. Una precisión de <code class="docutils literal notranslate"><span class="pre">0</span></code> es tratada como equivalente a una precisión de <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p class="translated">Las reglas precisas son las siguientes: supongamos que el resultado formateado con el tipo de presentación <code class="docutils literal notranslate"><span class="pre">'e'</span></code> y la precisión <code class="docutils literal notranslate"><span class="pre">p-1</span></code> tiene exponente <code class="docutils literal notranslate"><span class="pre">exp</span></code>.  Entonces, si <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">&lt;=</span> <span class="pre">exp</span> <span class="pre">&lt;</span> <span class="pre">p</span></code>, donde <code class="docutils literal notranslate"><span class="pre">m</span></code> es -4 para <em>floats</em> y -6 para <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimals</span></code></a>, el número se formatea con el tipo de presentación <code class="docutils literal notranslate"><span class="pre">'f'</span></code> y la precisión <code class="docutils literal notranslate"><span class="pre">p-1-exp</span></code>.  De lo contrario, el número se formatea con el tipo de presentación <code class="docutils literal notranslate"><span class="pre">'e'</span></code> y precisión <code class="docutils literal notranslate"><span class="pre">p-1</span></code>. En ambos casos, los ceros finales insignificantes se eliminan del significado, y el punto decimal también se elimina si no hay dígitos restantes que lo sigan, a menos que se utilice la opción <code class="docutils literal notranslate"><span class="pre">'#'</span></code>.</p>
+<p class="translated">Si no se da una precisión, usa una precisión de <code class="docutils literal notranslate"><span class="pre">6</span></code> dígitos significativos para <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>. Para <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a> el coeficiente del resultado se construye usando los dígitos del coeficiente del valor; se usa notación científica para valores menores a <code class="docutils literal notranslate"><span class="pre">1e-6</span></code> en valor absoluto y valores donde el valor posicional del dígito menos significativo es mayor a 1, de otra forma se usa notación de punto fijo.</p>
+<p class="translated">Infinito positivo y negativo, cero positivo y negativo, y nulos (<em>nans</em>) son respectivamente formateados como <code class="docutils literal notranslate"><span class="pre">inf</span></code>, <code class="docutils literal notranslate"><span class="pre">-inf</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">-0</span></code> y <code class="docutils literal notranslate"><span class="pre">nan</span></code>, independientemente de la precisión.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'G'</span></code></p></td>
+<td><p class="translated">Formato general. Igual que <code class="docutils literal notranslate"><span class="pre">'g'</span></code> excepto que cambia a <code class="docutils literal notranslate"><span class="pre">'E'</span></code> si el número se vuelve muy grande. Las representaciones de infinito y NaN también se convierten a mayúsculas.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p class="untranslated">Number. This is the same as <code class="docutils literal notranslate"><span class="pre">'g'</span></code>, except that it uses
+the current locale setting to insert the appropriate
+digit group separators
+for the integral part of a number.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'%'</span></code></p></td>
+<td><p class="translated">Porcentaje. Multiplica el número por 100 y lo muestra en formato fijo (<code class="docutils literal notranslate"><span class="pre">'f'</span></code>) seguido del signo porcentaje.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">None</p></td>
+<td><p class="untranslated">For <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> this is like the <code class="docutils literal notranslate"><span class="pre">'g'</span></code> type, except
+that when fixed-point notation is used to format the
+result, it always includes at least one digit past the
+decimal point, and switches to the scientific notation
+when <code class="docutils literal notranslate"><span class="pre">exp</span> <span class="pre">&gt;=</span> <span class="pre">p</span> <span class="pre">-</span> <span class="pre">1</span></code>.  When the precision is not
+specified, the latter will be as large as needed to
+represent the given value faithfully.</p>
+<p class="translated">Para <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a>, esto es lo mismo que <code class="docutils literal notranslate"><span class="pre">'g'</span></code> o <code class="docutils literal notranslate"><span class="pre">'G'</span></code> dependiendo del valor de <code class="docutils literal notranslate"><span class="pre">context.capitals</span></code> para el contexto decimal actual.</p>
+<p class="translated">El efecto general es el de igualar la salida de <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> al ser alterada  por los otros modificadores de formato.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p class="untranslated">The result should be correctly rounded to a given precision <code class="docutils literal notranslate"><span class="pre">p</span></code> of digits
+after the decimal point.  The rounding mode for <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> matches that
+of the <a class="reference internal" href="functions.html#round" title="round"><code class="xref py py-func docutils literal notranslate"><span class="pre">round()</span></code></a> builtin.  For <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decimal</span></code></a>, the rounding
+mode of the current <a class="reference internal" href="decimal.html#decimal-context"><span class="std std-ref">context</span></a> will be used.</p>
+<p class="untranslated">The available presentation types for <a class="reference internal" href="functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a> are the same as those for
+<a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> (<code class="docutils literal notranslate"><span class="pre">'%'</span></code> is not allowed).  Both the real and imaginary components
+of a complex number are formatted as floating-point numbers, according to the
+specified presentation type.  They are separated by the mandatory sign of the
+imaginary part, the latter being terminated by a <code class="docutils literal notranslate"><span class="pre">j</span></code> suffix.  If the presentation
+type is missing, the result will match the output of <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> (complex numbers with
+a non-zero real part are also surrounded by parentheses), possibly altered by
+other format modifiers.</p>
+</section>
+<section id="format-examples">
+<span id="formatexamples"></span><h3 class="translated">Ejemplos de formateo<a class="headerlink" href="#format-examples" title="Link to this heading">¶</a></h3>
+<p class="translated">Esta sección contiene ejemplos de la sintaxis <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a> y comparaciones con el antiguo método de formateo usando <code class="docutils literal notranslate"><span class="pre">%</span></code>.</p>
+<p class="translated">En la mayoría de los casos, la sintaxis es similar al antiguo formato <code class="docutils literal notranslate"><span class="pre">%</span></code>, con la adición de <code class="docutils literal notranslate"><span class="pre">{}</span></code> y con <code class="docutils literal notranslate"><span class="pre">:</span></code> utilizado en lugar de <code class="docutils literal notranslate"><span class="pre">%</span></code>. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">'%03.2f'</span></code> puede ser traducido como <code class="docutils literal notranslate"><span class="pre">'{:03.2f}'</span></code>.</p>
+<p class="translated">La nueva sintaxis de formato también soporta opciones diferentes y nuevas que se muestran en los ejemplos siguientes.</p>
+<p class="translated">Accediendo argumentos por posición:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="go">&#39;a, b, c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>  <span class="c1"># 3.1+ only</span>
+<span class="go">&#39;a, b, c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{2}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="go">&#39;c, b, a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{2}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>      <span class="c1"># unpacking argument sequence</span>
+<span class="go">&#39;c, b, a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{0}{1}{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;abra&#39;</span><span class="p">,</span> <span class="s1">&#39;cad&#39;</span><span class="p">)</span>   <span class="c1"># arguments&#39; indices can be repeated</span>
+<span class="go">&#39;abracadabra&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Accediendo argumentos por nombre:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;Coordinates: </span><span class="si">{latitude}</span><span class="s1">, </span><span class="si">{longitude}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="s1">&#39;37.24N&#39;</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="s1">&#39;-115.81W&#39;</span><span class="p">)</span>
+<span class="go">&#39;Coordinates: 37.24N, -115.81W&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="s1">&#39;37.24N&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;-115.81W&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;Coordinates: </span><span class="si">{latitude}</span><span class="s1">, </span><span class="si">{longitude}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">coord</span><span class="p">)</span>
+<span class="go">&#39;Coordinates: 37.24N, -115.81W&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Accediendo los atributos de los argumentos:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="o">-</span><span class="mi">5</span><span class="n">j</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="s1">&#39;The complex number </span><span class="si">{0}</span><span class="s1"> is formed from the real part </span><span class="si">{0.real}</span><span class="s1"> &#39;</span>
+<span class="gp">... </span> <span class="s1">&#39;and the imaginary part </span><span class="si">{0.imag}</span><span class="s1">.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">&#39;The complex number (3-5j) is formed from the real part 3.0 and the imaginary part -5.0.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s1">&#39;Point(</span><span class="si">{self.x}</span><span class="s1">, </span><span class="si">{self.y}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&#39;Point(4, 2)&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Accediendo ítems de los argumentos:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;X: </span><span class="si">{0[0]}</span><span class="s1">;  Y: </span><span class="si">{0[1]}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+<span class="go">&#39;X: 3;  Y: 5&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Reemplazar <code class="docutils literal notranslate"><span class="pre">%s</span></code> y <code class="docutils literal notranslate"><span class="pre">%r</span></code>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;repr() shows quotes: </span><span class="si">{!r}</span><span class="s2">; str() doesn&#39;t: </span><span class="si">{!s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">,</span> <span class="s1">&#39;test2&#39;</span><span class="p">)</span>
+<span class="go">&quot;repr() shows quotes: &#39;test1&#39;; str() doesn&#39;t: test2&quot;</span>
+</pre></div>
+</div>
+<p class="translated">Alinear el texto y especificar el ancho:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:&lt;30}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;left aligned&#39;</span><span class="p">)</span>
+<span class="go">&#39;left aligned                  &#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:&gt;30}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;right aligned&#39;</span><span class="p">)</span>
+<span class="go">&#39;                 right aligned&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:^30}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;centered&#39;</span><span class="p">)</span>
+<span class="go">&#39;           centered           &#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:*^30}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;centered&#39;</span><span class="p">)</span>  <span class="c1"># use &#39;*&#39; as a fill char</span>
+<span class="go">&#39;***********centered***********&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Reemplazar <code class="docutils literal notranslate"><span class="pre">%+f</span></code>, <code class="docutils literal notranslate"><span class="pre">%-f</span></code>, y <code class="docutils literal notranslate"><span class="pre">%</span> <span class="pre">f</span></code> y especificar el signo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:+f}</span><span class="s1">; </span><span class="si">{:+f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14</span><span class="p">)</span>  <span class="c1"># show it always</span>
+<span class="go">&#39;+3.140000; -3.140000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{: f}</span><span class="s1">; </span><span class="si">{: f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14</span><span class="p">)</span>  <span class="c1"># show a space for positive numbers</span>
+<span class="go">&#39; 3.140000; -3.140000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:-f}</span><span class="s1">; </span><span class="si">{:-f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14</span><span class="p">)</span>  <span class="c1"># show only the minus -- same as &#39;{:f}; {:f}&#39;</span>
+<span class="go">&#39;3.140000; -3.140000&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Reemplazando <code class="docutils literal notranslate"><span class="pre">%x</span></code> y <code class="docutils literal notranslate"><span class="pre">%o</span></code> y convirtiendo el valor a diferentes bases:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># format also supports binary numbers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;int: </span><span class="si">{0:d}</span><span class="s2">;  hex: </span><span class="si">{0:x}</span><span class="s2">;  oct: </span><span class="si">{0:o}</span><span class="s2">;  bin: </span><span class="si">{0:b}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">&#39;int: 42;  hex: 2a;  oct: 52;  bin: 101010&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># with 0x, 0o, or 0b as prefix:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;int: </span><span class="si">{0:d}</span><span class="s2">;  hex: </span><span class="si">{0:#x}</span><span class="s2">;  oct: </span><span class="si">{0:#o}</span><span class="s2">;  bin: </span><span class="si">{0:#b}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">&#39;int: 42;  hex: 0x2a;  oct: 0o52;  bin: 0b101010&#39;</span>
+</pre></div>
+</div>
+<p class="untranslated">Using the comma or the underscore as a digit group separator:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:,}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1234567890</span><span class="p">)</span>
+<span class="go">&#39;1,234,567,890&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:_}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1234567890</span><span class="p">)</span>
+<span class="go">&#39;1_234_567_890&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:_b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1234567890</span><span class="p">)</span>
+<span class="go">&#39;100_1001_1001_0110_0000_0010_1101_0010&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:_x}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1234567890</span><span class="p">)</span>
+<span class="go">&#39;4996_02d2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:_}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">123456789.123456789</span><span class="p">)</span>
+<span class="go">&#39;123_456_789.12345679&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:.,}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">123456789.123456789</span><span class="p">)</span>
+<span class="go">&#39;123456789.123,456,79&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:,._}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">123456789.123456789</span><span class="p">)</span>
+<span class="go">&#39;123,456,789.123_456_79&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Expresar un porcentaje:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="mi">19</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;Correct answers: </span><span class="si">{:.2%}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">points</span><span class="o">/</span><span class="n">total</span><span class="p">)</span>
+<span class="go">&#39;Correct answers: 86.36%&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Uso del formateo específico de tipo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">58</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">&#39;2010-07-04 12:15:58&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Anidando argumentos y ejemplos más complejos:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">align</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="s1">&#39;&lt;^&gt;&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;{0:</span><span class="si">{fill}{align}</span><span class="s1">16}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">align</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="n">align</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&#39;left&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&#39;</span>
+<span class="go">&#39;^^^^^center^^^^^&#39;</span>
+<span class="go">&#39;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;right&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">octets</span> <span class="o">=</span> <span class="p">[</span><span class="mi">192</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:02X}{:02X}{:02X}{:02X}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">octets</span><span class="p">)</span>
+<span class="go">&#39;C0A80001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="go">3232235521</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="s1">&#39;dXob&#39;</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;{0:</span><span class="si">{width}{base}</span><span class="s1">}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="go">    5     5     5   101</span>
+<span class="go">    6     6     6   110</span>
+<span class="go">    7     7     7   111</span>
+<span class="go">    8     8    10  1000</span>
+<span class="go">    9     9    11  1001</span>
+<span class="go">   10     A    12  1010</span>
+<span class="go">   11     B    13  1011</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="template-strings-strings">
+<span id="template-strings-pep292"></span><h2 class="untranslated">Template strings ($-strings)<a class="headerlink" href="#template-strings-strings" title="Link to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">The feature described here was introduced in Python 2.4;
+a simple templating method based upon regular expressions.
+It predates <a class="reference internal" href="stdtypes.html#str.format" title="str.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a>, <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">formatted string literals</span></a>,
+and <a class="reference internal" href="string.templatelib.html#template-strings"><span class="std std-ref">template string literals</span></a>.</p>
+<p class="untranslated">It is unrelated to template string literals (t-strings),
+which were introduced in Python 3.14.
+These evaluate to  <a class="reference internal" href="string.templatelib.html#string.templatelib.Template" title="string.templatelib.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">string.templatelib.Template</span></code></a> objects,
+found in the <a class="reference internal" href="string.templatelib.html#module-string.templatelib" title="string.templatelib: Support for template string literals."><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code></a> module.</p>
+</div>
+<p class="translated">Las cadenas de plantilla proporcionan sustituciones de cadenas de caracteres más sencillas como se describe en <span class="target" id="index-22"></span><a class="pep reference external" href="https://peps.python.org/pep-0292/"><strong>PEP 292</strong></a>.  Un caso de uso principal para las cadenas de plantilla es la internacionalización (i18n) ya que en ese contexto, la sintaxis y la funcionalidad más sencillas hacen la traducción más fácil que otras instalaciones de formato de cadena de caracteres integradas en Python.  Como ejemplo de una biblioteca creada sobre cadenas de plantilla para i18n, véase el paquete <a class="reference external" href="http://flufli18n.readthedocs.io/en/latest/">flufl.i18n</a>.</p>
+<p class="translated" id="index-12">Las cadenas de caracteres de plantilla admiten sustituciones basadas en <code class="docutils literal notranslate"><span class="pre">$</span></code> de acuerdo a las siguientes reglas:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">$$</span></code> es un escape. Es reemplazado con un único <code class="docutils literal notranslate"><span class="pre">$</span></code>.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">$identifier</span></code> (identificador) nombra un comodín de sustitución que coincide con una clave de asignación de <code class="docutils literal notranslate"><span class="pre">&quot;identifier&quot;</span></code> (identificador).  De forma predeterminada, <code class="docutils literal notranslate"><span class="pre">&quot;identifier&quot;</span></code> está restringido a cualquier cadena alfanumérica ASCII (insensible a mayúsculas/minúsculas e incluyendo los guiones bajos) que comience con un guión bajo o una letra ASCII.  El primer carácter no identificador después del carácter <code class="docutils literal notranslate"><span class="pre">$</span></code> termina esta especificación de comodín.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">${identifier}</span></code> es equivalente a <code class="docutils literal notranslate"><span class="pre">$identifier</span></code>. Es requerido cuando caracteres identificadores válidos siguen al comodín pero no son parte de él, por ejemplo <code class="docutils literal notranslate"><span class="pre">&quot;${noun}ification&quot;</span></code>.</p></li>
+</ul>
+<p class="translated">Cualquier otra aparición de <code class="docutils literal notranslate"><span class="pre">$</span></code> en la cadena de caracteres resultará en una excepción <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<p class="translated">El módulo <a class="reference internal" href="#module-string" title="string: Common string operations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code></a> provee una clase <a class="reference internal" href="#string.Template" title="string.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> que implementa esas reglas. Los métodos de <a class="reference internal" href="#string.Template" title="string.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> son:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="string.Template">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">Template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Template" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">El constructor sólo lleva un argumento, la cadena plantilla.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Template.substitute">
+<span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Template.substitute" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Realiza la sustitución de plantilla y retorna una nueva cadena de caracteres. <em>mapping</em> (mapeo) es un objeto tipo diccionario con claves (<em>keys</em>) que coinciden con los <em>placeholders</em> (comodines) de la plantilla. Como alternativa, es posible pasar argumentos de palabra clave cuyas palabras clave son los <em>placeholders</em> (comodines). Cuando <em>mapping</em> y <em>kwds</em> son dados y hay elementos duplicados, los <em>placeholders</em> (comodines) de <em>kwds</em> tienen prioridad.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Template.safe_substitute">
+<span class="sig-name descname"><span class="pre">safe_substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.Template.safe_substitute" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Igual que <a class="reference internal" href="#string.Template.substitute" title="string.Template.substitute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">substitute()</span></code></a>, excepto que si faltan comodines de <em>mapping</em> y <em>kwds</em>, en lugar de generar una excepción <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>, el comodín original aparecerá en la cadena de caracteres resultante intacta.  Además, a diferencia de <a class="reference internal" href="#string.Template.substitute" title="string.Template.substitute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">substitute()</span></code></a>, cualquier otra aparición de <code class="docutils literal notranslate"><span class="pre">$</span></code> simplemente retornará <code class="docutils literal notranslate"><span class="pre">$</span></code> en lugar de generar <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<p class="translated">Mientras que otras excepciones aún pueden ocurrir, este método es llamado «seguro» (<em>safe</em>) porque siempre intenta retornar una cadena de caracteres que pueda ser usada en lugar de levantar una excepción. Desde otro punto de vista, el método <a class="reference internal" href="#string.Template.safe_substitute" title="string.Template.safe_substitute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">safe_substitute()</span></code></a> es en realidad para nada seguro, dado que ignorará plantillas defectuosas con delimitadores colgados, llaves sin cerrar, o comodines que no son identificadores válidos en Python.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Template.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#string.Template.is_valid" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> if the template has invalid placeholders that will cause
+<a class="reference internal" href="#string.Template.substitute" title="string.Template.substitute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">substitute()</span></code></a> to raise <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="string.Template.get_identifiers">
+<span class="sig-name descname"><span class="pre">get_identifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#string.Template.get_identifiers" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna una lista de los identificadores válidos en la plantilla, en el orden en que aparecen por primera vez, ignorando cualquier identificador no válido.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">Las instancias de <a class="reference internal" href="#string.Template" title="string.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> también proporcionan un atributo de datos públicos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.Template.template">
+<span class="sig-name descname"><span class="pre">template</span></span><a class="headerlink" href="#string.Template.template" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Éste es el objeto que se le pasa como argumento <em>template</em> al constructor. En general, no debería ser modificado, pero el acceso de sólo lectura (<em>read-only</em>) no es impuesto.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">Aquí un ejemplo de cómo usar una plantilla (<em>Template</em>):</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s1">&#39;$who likes $what&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">who</span><span class="o">=</span><span class="s1">&#39;tim&#39;</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">&#39;kung pao&#39;</span><span class="p">)</span>
+<span class="go">&#39;tim likes kung pao&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">who</span><span class="o">=</span><span class="s1">&#39;tim&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Template</span><span class="p">(</span><span class="s1">&#39;Give $who $100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid placeholder in string: line 1, col 11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Template</span><span class="p">(</span><span class="s1">&#39;$who likes $what&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;what&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Template</span><span class="p">(</span><span class="s1">&#39;$who likes $what&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">&#39;tim likes $what&#39;</span>
+</pre></div>
+</div>
+<p class="translated">Uso avanzado: es posible derivar subclases de <a class="reference internal" href="#string.Template" title="string.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> para personalizar la sintaxis de <em>placeholder</em>, caracteres de delimitación, o bien la expresión regular entera usada para procesar cadenas de plantillas. Para ello, es posible sobrescribir los siguientes atributos de clase:</p>
+<ul>
+<li><p class="translated"><em>delimiter</em>: es la cadena de caracteres literal que describe al delimitador que introduce un comodín.  El valor predeterminado es <code class="docutils literal notranslate"><span class="pre">$</span></code>.  Notar que esto <em>no debe</em> ser una expresión regular, ya que la implementación llamará a <a class="reference internal" href="re.html#re.escape" title="re.escape"><code class="xref py py-meth docutils literal notranslate"><span class="pre">re.escape()</span></code></a> en esta cadena de caracteres según sea necesario.  Tener en cuenta además, que se no puede cambiar el delimitador después haber creado la clase (es decir, se debe establecer un delimitador diferente en el espacio de nombres de la subclase).</p></li>
+<li><p class="translated"><em>idpattern</em> – Esta es la expresión regular que describe el patrón para comodines fuera de las llaves.  El valor predeterminado es la expresión regular <code class="docutils literal notranslate"><span class="pre">(?a:[_a-z][_a-z0-9]*)</span></code>.  Si se proporciona este argumento y <em>braceidpattern</em> es <code class="docutils literal notranslate"><span class="pre">None</span></code> este patrón también se aplicará a los comodines entre llaves.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Dado que el valor predeterminado de <em>flags</em> es <code class="docutils literal notranslate"><span class="pre">re.IGNORECASE</span></code>, el patrón <code class="docutils literal notranslate"><span class="pre">[a-z]</span></code> puede coincidir con algunos caracteres que no son ASCII. Por ello se utiliza aquí la bandera local <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.7: </span><em>braceidpattern</em> puede ser usado para definir patrones separados, usados dentro y fuera de los corchetes.</p>
+</div>
+</li>
+<li><p class="translated"><em>braceidpattern</em> – Es como <em>idpattern</em> pero describe el patrón para comodines entre llaves.  El valor por defecto es <code class="docutils literal notranslate"><span class="pre">None</span></code>, lo que significa volver a <em>idpattern</em> (es decir, el mismo patrón se utiliza tanto dentro como fuera de las llaves). Si se proporciona, esto le permite definir diferentes patrones para comodines dentro y fuera de las llaves.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
+</div>
+</li>
+<li><p class="translated"><em>flags</em> – Banderas de expresión regular que se aplicarán al compilar la expresión regular utilizada para reconocer sustituciones.  El valor por defecto es <code class="docutils literal notranslate"><span class="pre">re.IGNORECASE</span></code>.  Téngase en cuenta que <code class="docutils literal notranslate"><span class="pre">re.VERBOSE</span></code> siempre se agregará a las banderas, por lo que <em>idpattern</em> (s) personalizado(s) debe(n) seguir las convenciones de expresiones regulares detalladas.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</li>
+</ul>
+<p class="translated">Como alternativa, se puede proporcionar el patrón de expresión regular completo, reemplazando así el atributo de clase <em>pattern</em>.  Si eso ocurre, el valor debe ser un objeto de expresión regular con cuatro grupos de captura con nombre.  Los grupos de captura corresponden a las reglas indicadas anteriormente, junto con la regla de marcador de posición no válida:</p>
+<ul class="simple">
+<li><p class="translated"><em>escaped</em> – Este grupo coincide con la secuencia de escape en el patrón predeterminado, por ejemplo, <code class="docutils literal notranslate"><span class="pre">$$</span></code>.</p></li>
+<li><p class="translated"><em>named</em> – Este grupo coincide con el nombre comodín fuera de las llaves. No debe incluir el delimitador del grupo de captura.</p></li>
+<li><p class="translated"><em>braced</em> – Este grupo coincide con el nombre del comodín adjunto; no debe incluir ni el delimitador ni las llaves en el grupo de captura.</p></li>
+<li><p class="translated"><em>invalid</em> – Este grupo se empareja con cualquier otro patrón de delimitación (usualmente un único carácter) y debe ser lo último en aparecer en la expresión regular.</p></li>
+</ul>
+<p class="translated">Los métodos de esta clase generarán <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> si el patrón coincide con la plantilla sin que coincida uno de estos grupos nombrados.</p>
+</section>
+<section id="helper-functions">
+<h2 class="translated">Funciones de ayuda<a class="headerlink" href="#helper-functions" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="string.capwords">
+<span class="sig-prename descclassname"><span class="pre">string.</span></span><span class="sig-name descname"><span class="pre">capwords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.capwords" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Separa el argumento en dos palabras utilizando el método <a class="reference internal" href="stdtypes.html#str.split" title="str.split"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.split()</span></code></a>, convierte a mayúsculas vía <a class="reference internal" href="stdtypes.html#str.capitalize" title="str.capitalize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.capitalize()</span></code></a> y une las palabras en mayúscula con el método <a class="reference internal" href="stdtypes.html#str.join" title="str.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.join()</span></code></a>. Si el segundo argumento opcional <em>sep</em> está ausente o es <code class="docutils literal notranslate"><span class="pre">None</span></code>, los espacios en blanco se reemplazarán con un único espacio y los espacios en blanco iniciales y finales se eliminarán; caso contrario, <em>sep</em> se usa para separar y unir las palabras.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Common string operations</a><ul>
+<li><a class="reference internal" href="#string-constants">Constantes de cadenas</a></li>
+<li><a class="reference internal" href="#custom-string-formatting">Formato de cadena de caracteres personalizado</a></li>
+<li><a class="reference internal" href="#format-string-syntax">Sintaxis de formateo de cadena</a><ul>
+<li><a class="reference internal" href="#format-specification-mini-language">Especificación de formato Mini-Lenguaje</a></li>
+<li><a class="reference internal" href="#format-examples">Ejemplos de formateo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#template-strings-strings">Template strings ($-strings)</a></li>
+<li><a class="reference internal" href="#helper-functions">Funciones de ayuda</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="text.html"
+                          title="capítulo anterior">Servicios de procesamiento de texto</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="string.templatelib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Support for template string literals</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/string.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="string.templatelib.html" title="string.templatelib — Support for template string literals"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="text.html" title="Servicios de procesamiento de texto"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >Servicios de procesamiento de texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Common string operations</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>

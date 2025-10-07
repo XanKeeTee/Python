@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Primitivas de sincronización" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/asyncio-sync.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código fuente: Lib/asyncio/locks.py las primitivas de sincronización de asyncio están diseñadas para ser similares a las del módulo threading, con dos importantes advertencias: las primitivas de as..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/es/_images/social_previews/summary_library_asyncio-sync_6659945a.png" />
+<meta property="og:image:alt" content="Código fuente: Lib/asyncio/locks.py las primitivas de sincronización de asyncio están diseñadas para ser similares a las del módulo threading, con dos importantes advertencias: las primitivas de as..." />
+<meta name="description" content="Código fuente: Lib/asyncio/locks.py las primitivas de sincronización de asyncio están diseñadas para ser similares a las del módulo threading, con dos importantes advertencias: las primitivas de as..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Primitivas de sincronización &#8212; documentación de Python - 3.15.0a0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=8cd84f99" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../_static/documentation_options.js?v=bf1f176d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Buscar en documentación de Python - 3.15.0a0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre este documento" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="copyright" title="Derechos de autor" href="../copyright.html" />
+    <link rel="next" title="Sub-procesos" href="asyncio-subprocess.html" />
+    <link rel="prev" title="Streams" href="asyncio-stream.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/asyncio-sync.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menú">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Primitivas de sincronización</a><ul>
+<li><a class="reference internal" href="#lock">Lock</a></li>
+<li><a class="reference internal" href="#event">Event</a></li>
+<li><a class="reference internal" href="#condition">Condition</a></li>
+<li><a class="reference internal" href="#semaphore">Semaphore</a></li>
+<li><a class="reference internal" href="#boundedsemaphore">BoundedSemaphore</a></li>
+<li><a class="reference internal" href="#barrier">Barrera</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-stream.html"
+                          title="capítulo anterior">Streams</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-subprocess.html"
+                          title="próximo capítulo">Sub-procesos</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-sync.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-subprocess.html" title="Sub-procesos"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-stream.html" title="Streams"
+             accesskey="P">anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Primitivas de sincronización</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="synchronization-primitives">
+<span id="asyncio-sync"></span><h1 class="translated">Primitivas de sincronización<a class="headerlink" href="#synchronization-primitives" title="Link to this heading">¶</a></h1>
+<p class="translated"><strong>Código fuente:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/main/Lib/asyncio/locks.py">Lib/asyncio/locks.py</a></p>
+<hr class="docutils" />
+<p class="translated">las primitivas de sincronización de asyncio están diseñadas para ser similares a las del módulo <a class="reference internal" href="threading.html#module-threading" title="threading: Thread-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a>, con dos importantes advertencias:</p>
+<ul class="simple">
+<li><p class="translated">las primitivas de asyncio no son seguras en hilos, por lo tanto, no deben ser usadas para la sincronización de hilos del sistema operativo (usa <a class="reference internal" href="threading.html#module-threading" title="threading: Thread-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> para esto);</p></li>
+<li><p class="translated">los métodos de estas primitivas de sincronización no aceptan el argumento <em>timeout</em>. Usa la función <a class="reference internal" href="asyncio-task.html#asyncio.wait_for" title="asyncio.wait_for"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.wait_for()</span></code></a> para realizar operaciones que involucren tiempos de espera.</p></li>
+</ul>
+<p class="translated">asyncio tiene las siguientes primitivas de sincronización básicas:</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="#asyncio.Lock" title="asyncio.Lock"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lock</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="#asyncio.Event" title="asyncio.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="#asyncio.Condition" title="asyncio.Condition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Condition</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="#asyncio.Semaphore" title="asyncio.Semaphore"><code class="xref py py-class docutils literal notranslate"><span class="pre">Semaphore</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="#asyncio.BoundedSemaphore" title="asyncio.BoundedSemaphore"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundedSemaphore</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="#asyncio.Barrier" title="asyncio.Barrier"><code class="xref py py-class docutils literal notranslate"><span class="pre">Barrier</span></code></a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="lock">
+<h2 class="translated">Lock<a class="headerlink" href="#lock" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Lock">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Lock</span></span><a class="headerlink" href="#asyncio.Lock" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Implementa un cierre de exclusión mutua para tareas asyncio. No es seguro en hilos.</p>
+<p class="translated">Un cierre asyncio puede usarse para garantizar el acceso en exclusiva a un recurso compartido.</p>
+<p class="translated">La forma preferida de usar un Lock es mediante una declaración <a class="reference internal" href="../reference/compound_stmts.html#async-with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code></a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+<span class="c1"># ... later</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+    <span class="c1"># access shared state</span>
+</pre></div>
+</div>
+<p class="translated">lo que es equivalente a:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+<span class="c1"># ... later</span>
+<span class="k">await</span> <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># access shared state</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Eliminado el parámetro <em>loop</em>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Lock.acquire">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acquire</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Lock.acquire" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Adquiere el cierre.</p>
+<p class="translated">Este método espera hasta que el cierre está <em>abierto</em>, lo establece como <em>cerrado</em> y retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p class="translated">Cuando más de una corrutina está bloqueada en <a class="reference internal" href="#asyncio.Lock.acquire" title="asyncio.Lock.acquire"><code class="xref py py-meth docutils literal notranslate"><span class="pre">acquire()</span></code></a>, esperando a que el cierre se abra, solo una de las corrutinas proseguirá finalmente.</p>
+<p class="translated">Adquirir un cierre es <em>justo</em>: la corrutina que prosigue será la primera corrutina que comenzó a esperarlo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Lock.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Lock.release" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Libera el cierre.</p>
+<p class="translated">Cuando el cierre está <em>cerrado</em>, lo restablece al estado <em>abierto</em> y retorna.</p>
+<p class="translated">Si el cierre está <em>abierto</em>, se lanza una excepción <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Lock.locked">
+<span class="sig-name descname"><span class="pre">locked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Lock.locked" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si el cierre está <em>cerrado</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="event">
+<h2 class="translated">Event<a class="headerlink" href="#event" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Event">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><a class="headerlink" href="#asyncio.Event" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto de eventos. No es seguro en hilos.</p>
+<p class="translated">Un evento asyncio puede usarse para notificar a múltiples tareas asyncio que ha ocurrido algún evento.</p>
+<p class="translated">Un objeto Event administra una bandera interna que se puede establecer en <em>true</em> con el método <a class="reference internal" href="#asyncio.Event.set" title="asyncio.Event.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set()</span></code></a> y se restablece en <em>false</em> con el método <a class="reference internal" href="#asyncio.Event.clear" title="asyncio.Event.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a>. El método <a class="reference internal" href="#asyncio.Event.wait" title="asyncio.Event.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> se bloquea hasta que la bandera se establece en <em>true</em>. El flag se establece en <em>false</em> inicialmente.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Eliminado el parámetro <em>loop</em>.</p>
+</div>
+<p class="translated" id="asyncio-example-sync-event">Ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">waiter</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;waiting for it ...&#39;</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;... got it!&#39;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Create an Event object.</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+
+    <span class="c1"># Spawn a Task to wait until &#39;event&#39; is set.</span>
+    <span class="n">waiter_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">waiter</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+
+    <span class="c1"># Sleep for 1 second and set the event.</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="c1"># Wait until the waiter task is finished.</span>
+    <span class="k">await</span> <span class="n">waiter_task</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Event.wait">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Event.wait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Espera hasta que se establezca el evento.</p>
+<p class="translated">Si el evento está configurado, retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> inmediatamente. De lo contrario, bloquea hasta que otra tarea llame a <a class="reference internal" href="#asyncio.Event.set" title="asyncio.Event.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Event.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Event.set" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Establece el evento.</p>
+<p class="translated">Todas las tareas esperando a que el evento se establezca serán activadas inmediatamente.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Event.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Event.clear" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Borra (restablece) el evento.</p>
+<p class="untranslated">Subsequent tasks awaiting on <a class="reference internal" href="#asyncio.Event.wait" title="asyncio.Event.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> will now block until the
+<a class="reference internal" href="#asyncio.Event.set" title="asyncio.Event.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set()</span></code></a> method is called again.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Event.is_set">
+<span class="sig-name descname"><span class="pre">is_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Event.is_set" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si el evento está establecido.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="condition">
+<h2 class="translated">Condition<a class="headerlink" href="#condition" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Condition">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto Condition. No seguro en hilos.</p>
+<p class="translated">Una tarea puede usar una condición primitiva de asyncio para esperar a que suceda algún evento y luego obtener acceso exclusivo a un recurso compartido.</p>
+<p class="translated">En esencia, un objeto Condition combina la funcionalidad de un objeto <a class="reference internal" href="#asyncio.Event" title="asyncio.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a> y un objeto <a class="reference internal" href="#asyncio.Lock" title="asyncio.Lock"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lock</span></code></a>. Es posible tener múltiples objetos Condition que compartan un mismo Lock, lo que permite coordinar el acceso exclusivo a un recurso compartido entre diferentes tareas interesadas en estados particulares de ese recurso compartido.</p>
+<p class="translated">El argumento opcional <em>lock</em> debe ser un objeto <a class="reference internal" href="#asyncio.Lock" title="asyncio.Lock"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lock</span></code></a> o <code class="docutils literal notranslate"><span class="pre">None</span></code>. En este último caso, se crea automáticamente un nuevo objeto Lock.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Eliminado el parámetro <em>loop</em>.</p>
+</div>
+<p class="translated">La forma preferida de usar una condición es mediante una declaración <a class="reference internal" href="../reference/compound_stmts.html#async-with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code></a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">cond</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Condition</span><span class="p">()</span>
+
+<span class="c1"># ... later</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">cond</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">lo que es equivalente a:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">cond</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Condition</span><span class="p">()</span>
+
+<span class="c1"># ... later</span>
+<span class="k">await</span> <span class="n">cond</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">cond</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.acquire">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acquire</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.acquire" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Adquiere el cierre (lock) subyacente.</p>
+<p class="translated">Este método espera hasta que el cierre subyacente esté <em>abierto</em>, lo establece en <em>cerrado</em> y retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.notify">
+<span class="sig-name descname"><span class="pre">notify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.notify" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Wake up <em>n</em> tasks (1 by default) waiting on this
+condition.  If fewer than <em>n</em> tasks are waiting they are all awakened.</p>
+<p class="translated">El cierre debe adquirirse antes de llamar a este método y liberarse poco después. Si se llama con un cierre <em>abierto</em>, se lanza una excepción <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.locked">
+<span class="sig-name descname"><span class="pre">locked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.locked" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si el cierre subyacente está adquirido.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.notify_all">
+<span class="sig-name descname"><span class="pre">notify_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.notify_all" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Despierta todas las tareas que esperan a esta condición.</p>
+<p class="translated">Este método actúa como <a class="reference internal" href="#asyncio.Condition.notify" title="asyncio.Condition.notify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">notify()</span></code></a>, pero despierta todas las tareas en espera.</p>
+<p class="translated">El cierre debe adquirirse antes de llamar a este método y liberarse poco después. Si se llama con un cierre <em>abierto</em>, se lanza una excepción <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.release" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Libera el cierre subyacente.</p>
+<p class="translated">Cuando se invoca en un cierre abierto, se lanza una excepción <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.wait">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.wait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Espera hasta que se le notifique.</p>
+<p class="translated">Si la tarea que llama no ha adquirido el cierre cuando se llama a este método, se lanza una excepción <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+<p class="translated">Este método libera el cierre subyacente y luego se bloquea hasta que lo despierte una llamada <a class="reference internal" href="#asyncio.Condition.notify" title="asyncio.Condition.notify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">notify()</span></code></a> o <a class="reference internal" href="#asyncio.Condition.notify_all" title="asyncio.Condition.notify_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">notify_all()</span></code></a>. Una vez despertado, la condición vuelve a adquirir su cierre y este método retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p class="untranslated">Note that a task <em>may</em> return from this call spuriously,
+which is why the caller should always re-check the state
+and be prepared to <a class="reference internal" href="#asyncio.Condition.wait" title="asyncio.Condition.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> again. For this reason, you may
+prefer to use <a class="reference internal" href="#asyncio.Condition.wait_for" title="asyncio.Condition.wait_for"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait_for()</span></code></a> instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Condition.wait_for">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Condition.wait_for" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Espera hasta que un predicado se vuelva <em>verdadero</em>.</p>
+<p class="untranslated">The predicate must be a callable which result will be
+interpreted as a boolean value.  The method will repeatedly
+<a class="reference internal" href="#asyncio.Condition.wait" title="asyncio.Condition.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> until the predicate evaluates to <em>true</em>. The final value is the
+return value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="semaphore">
+<h2 class="translated">Semaphore<a class="headerlink" href="#semaphore" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Semaphore">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Semaphore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Semaphore" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto Semaphore. No es seguro en hilos.</p>
+<p class="translated">Un semáforo gestiona un contador interno que se reduce en cada llamada al método <a class="reference internal" href="#asyncio.Semaphore.acquire" title="asyncio.Semaphore.acquire"><code class="xref py py-meth docutils literal notranslate"><span class="pre">acquire()</span></code></a> y se incrementa en cada llamada al método <a class="reference internal" href="#asyncio.Semaphore.release" title="asyncio.Semaphore.release"><code class="xref py py-meth docutils literal notranslate"><span class="pre">release()</span></code></a>. El contador nunca puede bajar de cero, cuando <a class="reference internal" href="#asyncio.Semaphore.acquire" title="asyncio.Semaphore.acquire"><code class="xref py py-meth docutils literal notranslate"><span class="pre">acquire()</span></code></a> encuentra que es cero, se bloquea, esperando hasta que alguna tarea llame a <a class="reference internal" href="#asyncio.Semaphore.release" title="asyncio.Semaphore.release"><code class="xref py py-meth docutils literal notranslate"><span class="pre">release()</span></code></a>.</p>
+<p class="translated">El argumento opcional <em>value</em> proporciona el valor inicial para el contador interno (<code class="docutils literal notranslate"><span class="pre">1</span></code> por defecto). Si el valor dado es menor que <code class="docutils literal notranslate"><span class="pre">0</span></code> se lanza una excepción <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Eliminado el parámetro <em>loop</em>.</p>
+</div>
+<p class="translated">La forma preferida de utilizar un semáforo es mediante una declaración <a class="reference internal" href="../reference/compound_stmts.html#async-with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code></a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">sem</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># ... later</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">sem</span><span class="p">:</span>
+    <span class="c1"># work with shared resource</span>
+</pre></div>
+</div>
+<p class="translated">lo que es equivalente a:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">sem</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># ... later</span>
+<span class="k">await</span> <span class="n">sem</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># work with shared resource</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">sem</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Semaphore.acquire">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acquire</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Semaphore.acquire" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Adquiere un semáforo.</p>
+<p class="translated">Si el contador interno es mayor que cero, lo reduce en uno y retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> inmediatamente. Si es cero, espera hasta que se llame al método <a class="reference internal" href="#asyncio.Semaphore.release" title="asyncio.Semaphore.release"><code class="xref py py-meth docutils literal notranslate"><span class="pre">release()</span></code></a> y retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Semaphore.locked">
+<span class="sig-name descname"><span class="pre">locked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Semaphore.locked" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> si el semáforo no se puede adquirir de inmediato.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Semaphore.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Semaphore.release" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Libera un semáforo, incrementando el contador interno en uno. Puede despertar una tarea que esté a la espera para adquirir el semáforo.</p>
+<p class="translated">A diferencia de <a class="reference internal" href="#asyncio.BoundedSemaphore" title="asyncio.BoundedSemaphore"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundedSemaphore</span></code></a>, <a class="reference internal" href="#asyncio.Semaphore" title="asyncio.Semaphore"><code class="xref py py-class docutils literal notranslate"><span class="pre">Semaphore</span></code></a> permite hacer más llamadas <code class="docutils literal notranslate"><span class="pre">release()</span></code> que llamadas <code class="docutils literal notranslate"><span class="pre">acquire()</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="boundedsemaphore">
+<h2 class="translated">BoundedSemaphore<a class="headerlink" href="#boundedsemaphore" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.BoundedSemaphore">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">BoundedSemaphore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.BoundedSemaphore" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto semáforo delimitado. No es seguro en hilos.</p>
+<p class="translated">BoundedSemaphore es una versión de la clase <a class="reference internal" href="#asyncio.Semaphore" title="asyncio.Semaphore"><code class="xref py py-class docutils literal notranslate"><span class="pre">Semaphore</span></code></a> que lanza una excepción <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> en <a class="reference internal" href="#asyncio.Semaphore.release" title="asyncio.Semaphore.release"><code class="xref py py-meth docutils literal notranslate"><span class="pre">release()</span></code></a> si aumenta el contador interno por encima del <em>valor</em> inicial.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.10: </span>Eliminado el parámetro <em>loop</em>.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="barrier">
+<h2 class="translated">Barrera<a class="headerlink" href="#barrier" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="asyncio.Barrier">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">Barrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parties</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Barrier" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un objeto barrera. No es seguro en hilos.</p>
+<p class="translated">Una barrera es una primitiva de sincronización simple que permite bloquear hasta que un número <em>parties</em> de tareas estén esperando en ella. Las tareas pueden esperar en el método <a class="reference internal" href="#asyncio.Barrier.wait" title="asyncio.Barrier.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> y se bloquearán hasta que el número especificado de tareas termine esperando en <a class="reference internal" href="#asyncio.Barrier.wait" title="asyncio.Barrier.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a>. En ese momento, todas las tareas en espera se desbloquearán simultáneamente.</p>
+<p class="translated"><a class="reference internal" href="../reference/compound_stmts.html#async-with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code></a> puede utilizarse como alternativa a esperar en <a class="reference internal" href="#asyncio.Barrier.wait" title="asyncio.Barrier.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a>.</p>
+<p class="translated">La barrera puede reutilizarse tantas veces como se desee.</p>
+<p class="translated" id="asyncio-example-barrier">Ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">example_barrier</span><span class="p">():</span>
+   <span class="c1"># barrier with 3 parties</span>
+   <span class="n">b</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Barrier</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+   <span class="c1"># create 2 new waiting tasks</span>
+   <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">wait</span><span class="p">())</span>
+   <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">wait</span><span class="p">())</span>
+
+   <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+   <span class="c1"># The third .wait() call passes the barrier</span>
+   <span class="k">await</span> <span class="n">b</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;barrier passed&quot;</span><span class="p">)</span>
+
+   <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">example_barrier</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated">El resultado de este ejemplo es:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">asyncio</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">Barrier</span> <span class="nb">object</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...</span> <span class="p">[</span><span class="n">filling</span><span class="p">,</span> <span class="n">waiters</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">asyncio</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">Barrier</span> <span class="nb">object</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...</span> <span class="p">[</span><span class="n">draining</span><span class="p">,</span> <span class="n">waiters</span><span class="p">:</span><span class="mi">0</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="n">barrier</span> <span class="n">passed</span>
+<span class="o">&lt;</span><span class="n">asyncio</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">Barrier</span> <span class="nb">object</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...</span> <span class="p">[</span><span class="n">filling</span><span class="p">,</span> <span class="n">waiters</span><span class="p">:</span><span class="mi">0</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Barrier.wait">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Barrier.wait" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Pasa la barrera. Cuando todas las tareas que forman parte de la barrera han llamado a esta función, todas se desbloquean simultáneamente.</p>
+<p class="translated">Cuando se cancela una tarea en espera o bloqueada en la barrera, esta tarea sale de la barrera que permanece en el mismo estado. Si el estado de la barrera es «filling», el número de tareas en espera disminuye en 1.</p>
+<p class="translated">El valor de retorno es un entero en el rango de 0 a <code class="docutils literal notranslate"><span class="pre">parties-1</span></code>, diferente para cada tarea. Esto se puede utilizar para seleccionar una tarea para hacer algún mantenimiento especial, por ejemplo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">barrier</span> <span class="k">as</span> <span class="n">position</span><span class="p">:</span>
+   <span class="k">if</span> <span class="n">position</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="c1"># Only one task prints this</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;End of *draining phase*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Este método puede lanzar una excepción <a class="reference internal" href="#asyncio.BrokenBarrierError" title="asyncio.BrokenBarrierError"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrokenBarrierError</span></code></a> si la barrera se rompe o se restablece mientras una tarea está en espera. Podría lanzar una excepción <a class="reference internal" href="asyncio-exceptions.html#asyncio.CancelledError" title="asyncio.CancelledError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">CancelledError</span></code></a> si se cancela una tarea.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Barrier.reset">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Barrier.reset" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Devuelve la barrera al estado vacío por defecto.  Cualquier tarea que espere en ella recibirá la excepción <a class="reference internal" href="#asyncio.BrokenBarrierError" title="asyncio.BrokenBarrierError"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrokenBarrierError</span></code></a>.</p>
+<p class="translated">Si se rompe una barrera, puede ser mejor dejarla y crear una nueva.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Barrier.abort">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Barrier.abort" title="Link to this definition">¶</a></dt>
+<dd><p class="untranslated">Put the barrier into a broken state.  This causes any active or future
+calls to <a class="reference internal" href="#asyncio.Barrier.wait" title="asyncio.Barrier.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a> to fail with the <a class="reference internal" href="#asyncio.BrokenBarrierError" title="asyncio.BrokenBarrierError"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrokenBarrierError</span></code></a>.
+Use this for example if one of the tasks needs to abort, to avoid infinite
+waiting tasks.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.Barrier.parties">
+<span class="sig-name descname"><span class="pre">parties</span></span><a class="headerlink" href="#asyncio.Barrier.parties" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">El número de tareas necesarias para pasar la barrera.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.Barrier.n_waiting">
+<span class="sig-name descname"><span class="pre">n_waiting</span></span><a class="headerlink" href="#asyncio.Barrier.n_waiting" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">El número de tareas que esperan actualmente en la barrera mientras se llena.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="asyncio.Barrier.broken">
+<span class="sig-name descname"><span class="pre">broken</span></span><a class="headerlink" href="#asyncio.Barrier.broken" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Un booleano que es <code class="docutils literal notranslate"><span class="pre">True</span></code> si la barrera está en estado roto.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="asyncio.BrokenBarrierError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">BrokenBarrierError</span></span><a class="headerlink" href="#asyncio.BrokenBarrierError" title="Link to this definition">¶</a></dt>
+<dd><p class="translated">Esta excepción, una subclase de <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>, se lanza cuando el objeto <a class="reference internal" href="#asyncio.Barrier" title="asyncio.Barrier"><code class="xref py py-class docutils literal notranslate"><span class="pre">Barrier</span></code></a> se reinicia o se rompe.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<div class="versionchanged">
+<p><span class="versionmodified changed">Distinto en la versión 3.9: </span>Adquirir un bloqueo usando <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">lock</span></code> o <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span> <span class="pre">lock</span></code> o una declaración <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> (<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">await</span> <span class="pre">lock</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">(yield</span> <span class="pre">from</span> <span class="pre">lock)</span></code>) se eliminó . En su lugar, use <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span> <span class="pre">lock</span></code>.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Primitivas de sincronización</a><ul>
+<li><a class="reference internal" href="#lock">Lock</a></li>
+<li><a class="reference internal" href="#event">Event</a></li>
+<li><a class="reference internal" href="#condition">Condition</a></li>
+<li><a class="reference internal" href="#semaphore">Semaphore</a></li>
+<li><a class="reference internal" href="#boundedsemaphore">BoundedSemaphore</a></li>
+<li><a class="reference internal" href="#barrier">Barrera</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="asyncio-stream.html"
+                          title="capítulo anterior">Streams</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="asyncio-subprocess.html"
+                          title="próximo capítulo">Sub-procesos</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/asyncio-sync.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Contraer barra lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice general"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-subprocess.html" title="Sub-procesos"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="asyncio-stream.html" title="Streams"
+             >anterior</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0a0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >La biblioteca estándar de Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicación en redes y entre procesos</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Primitivas de sincronización</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Búsqueda rápida" aria-label="Búsqueda rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Derechos de autor</a> 2001 Python Software Foundation.
+    <br>
+    Ésta página tiene la licencia Python Software Foundation Versión 2.
+    <br>
+    Ejemplos, guías, y otro código en la documentación están bajo la licencia adicional Zero Clause BSD.
+    <br>
+    
+      Ver <a href="/license.html">Historia y Licencia</a> para más información.<br>
+    
+    
+    <br>
+
+    La Python Software Foundation es una corporación sin fines de lucro.
+<a href="https://www.python.org/psf/donations/">Por favor dona.</a>
+<br>
+    <br>
+      Última actualización en oct 06, 2025 (04:51 UTC).
+    
+      <a href="/bugs.html">Encontraste un bug</a>?
+    
+    <br>
+
+    Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a>8.2.3.
+    </div>
+
+  </body>
+</html>
