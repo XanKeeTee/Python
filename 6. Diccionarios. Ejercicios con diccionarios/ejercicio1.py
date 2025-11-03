@@ -31,7 +31,7 @@ def modificarTelefono(contactos):
 
 def buscarContacto(contactos):
     telefonoInput = input("Introduzca un numero de telefono: ")
-    e   ncontrado = False
+    encontrado = False
 
     for nombre,telefono in contactos.items():
         if telefono == telefonoInput:
